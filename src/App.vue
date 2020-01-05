@@ -1,19 +1,47 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
+    <global-header/>
     <router-view/>
+    <global-account :account="user"/>
+    <global-footer/>
   </div>
 </template>
 
-<style lang="stylus">
-#app
-  font-family 'Avenir', Helvetica, Arial, sans-serif
-  -webkit-font-smoothing antialiased
-  -moz-osx-font-smoothing grayscale
-  text-align center
-  color #2c3e50
-  margin-top 60px
-</style>
+<script>
+import firebase from 'firebase'
+import GlobalHeader from '@/components/GlobalHeader.vue'
+import GlobalAccount from '@/components/GlobalAccount.vue'
+import GlobalFooter from '@/components/GlobalFooter.vue'
+
+export default {
+  name: 'home',
+  components: {
+    GlobalHeader,
+    GlobalAccount,
+    GlobalFooter
+  },
+  data() {
+    return {
+      user: false
+    }
+  },
+  created() {
+    firebase.auth().onAuthStateChanged(user => {
+      if(user) {
+        const dbUser = firebase.firestore().collection('users').doc(user.uid)
+        dbUser.get().then(docSnapshot => {
+          let data = {
+            uid: user.uid,
+            displayName: user.displayName,
+            photoURL: user.photoURL.replace("_normal", ""),
+            twid: docSnapshot.get('twid')
+          }
+          this.user = data
+        })
+      }else {
+        this.user = false //ログアウト判定で必要
+      }
+    })
+  }
+}
+</script>
