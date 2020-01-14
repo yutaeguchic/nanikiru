@@ -1,6 +1,6 @@
 <template>
   <div class="post">
-    <h2>NANIKIRU POST (問題作成)</h2>
+    <h2 class="m-ttl">NANIKIRU POST (問題作成)</h2>
     <form>
       <div v-show="state===1">
         <h3>局を選択してください</h3>
@@ -51,6 +51,7 @@
         <h3>ドラ表示牌を選択してください</h3>
         <div class="post__set">
           <div>※ドラが<i class="m-card m1"></i>の場合は<i class="m-card m9"></i>を、ドラが<i class="m-card dw"></i>の場合は<i class="m-card dr"></i>を選択</div>
+          <div>※手牌と合わせ同種の牌は最大４枚、赤ドラは最大１枚です<br>(ページ遷移時に判定されます)</div>
           <div class="post__set__cardWrap">
             <div class="m-cards">
               <i class="m1" :class="{active: post.f === 'm1'}" value="m1" @click="dora($event)"></i>
@@ -138,35 +139,71 @@
           </div>
         </div>
       </div>
-      <div>{{post}}</div>
-      <div class="pagination">
-        <button :class="prevAble()?'pagi__prev':'pagi__prev--disabled'" :disabled="!prevAble()" @click="prev()">Prev</button>
-        <button :class="nextAble()?'pagi__next':'pagi__next--disabled'" :disabled="!nextAble()" @click="next()">Next</button>
+      <div>
+        <button type="button" :class="isPrev()?'m-btn--able':'m-btn--disabled'" :disabled="!isPrev()" @click="prev()">Prev</button>
+        <button type="button" :class="isNext()?'m-btn--able':'m-btn--disabled'" :disabled="!isNext()" @click="next()">Next</button>
       </div>
     </form>
     <div class="post__display">
       <div>
         <ul class="post__display__status">
+          <li class="post__display__ttl">プレビュー</li>
           <li v-show="post.a && post.b">{{post.a}}{{post.b}}</li>
           <li v-show="post.c">{{post.c}}本場</li>
           <li v-show="post.d">{{post.d}}家</li>
           <li v-show="post.e">{{post.e}}巡目</li>
           <li class="post__display__status__dora" v-show="post.f">ドラ表示牌 <i class="m-card" :class="post.f"></i></li>
         </ul>
+        <div class="post__display__cards">
+          <i v-show=post.cards[0] :class=post.cards[0] data-index="0" @click="removeCard($event)"></i>
+          <i v-show=post.cards[1] :class=post.cards[1] data-index="1" @click="removeCard($event)"></i>
+          <i v-show=post.cards[2] :class=post.cards[2] data-index="2" @click="removeCard($event)"></i>
+          <i v-show=post.cards[3] :class=post.cards[3] data-index="3" @click="removeCard($event)"></i>
+          <i v-show=post.cards[4] :class=post.cards[4] data-index="4" @click="removeCard($event)"></i>
+          <i v-show=post.cards[5] :class=post.cards[5] data-index="5" @click="removeCard($event)"></i>
+          <i v-show=post.cards[6] :class=post.cards[6] data-index="6" @click="removeCard($event)"></i>
+          <i v-show=post.cards[7] :class=post.cards[7] data-index="7" @click="removeCard($event)"></i>
+          <i v-show=post.cards[8] :class=post.cards[8] data-index="8" @click="removeCard($event)"></i>
+          <i v-show=post.cards[9] :class=post.cards[9] data-index="9" @click="removeCard($event)"></i>
+          <i v-show=post.cards[10] :class=post.cards[10] data-index="10" @click="removeCard($event)"></i>
+          <i v-show=post.cards[11] :class=post.cards[11] data-index="11" @click="removeCard($event)"></i>
+          <i v-show=post.cards[12] :class=post.cards[12] data-index="12" @click="removeCard($event)"></i>
+          <i v-show=post.cards[13] :class=post.cards[13] data-index="13" @click="removeCard($event)"></i>
+        </div>
       </div>
     </div>
+    <transition name="fadeDown">
+      <modal v-if="modal.show" @close="modal.show = false" v-transition="fadeIn">
+        <template v-slot:header>
+          <h1 class="m-ttl">{{modal.ttl}}</h1>
+        </template>
+        <template v-slot:content>
+          <div v-html="modal.content"></div>
+        </template>
+      </modal>
+    </transition>
   </div>
 </template>
 
 <script>
+import Modal from '@/components/Modal.vue'
 export default {
   name: 'post',
+  components: {
+    Modal
+  },
   data() {
     return {
-      state: 2,
-      sortCard: ["m1", "m2", "m3", "m4", "m5", "m6", "m7", "m8", "m9", "m5r", "p1", "p2", "p3", "p4", "p5", "p6", "p7", "p8", "p9", "p5r", "s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8", "s9", "s5r", "we", "ws", "ww", "wn", "dw", "db", "dr"],
+      state: 1,
+      modal: {
+        show: false,
+        ttl: '',
+        content: ''
+      },
+      sortCardItems: ["m1", "m2", "m3", "m4", "m5", "m5r", "m6", "m7", "m8", "m9", "p1", "p2", "p3", "p4", "p5", "p5r", "p6", "p7", "p8", "p9", "s1", "s2", "s3", "s4", "s5", "s5r", "s6", "s7", "s8", "s9", "we", "ws", "ww", "wn", "dw", "db", "dr", null],
+      cardFull: false,
       post: {
-        cards: new Array(13).fill(false),
+        cards: new Array(14).fill(null),
         a: false,
         b: false,
         c: '0',
@@ -198,31 +235,60 @@ export default {
       this.post.e = this.toFullwidth(String(s))
     },
     dora(event) {
-      this.post.f = event.target.classList.value
+      this.post.f = event.target.classList[0]
     },
     addCard(event) {
-      console.log(event)
+      const val = event.target.classList[0]
+      if(!this.cardValidate(val) && !this.cardFull) {
+        this.$set(this.post.cards, this.post.cards.indexOf(null), val)
+        this.cardFull = (!this.post.cards.some(e => e === null))
+        this.sortCard()
+      }
     },
-    prevAble() {
+    removeCard(event) {
+      let index = event.toElement.attributes['data-index'].value
+      this.post.cards[index] = null
+      this.sortCard()
+      this.cardFull = false
+    },
+    sortCard() {
+      this.post.cards.sort((x, y) => {
+        return this.sortCardItems.indexOf(x) - this.sortCardItems.indexOf(y)
+      })
+    },
+    cardValidate(val) { //trueにて弾く
+      return ((val === 'm5r' || val === 'p5r' || val === 's5r') && (this.post.cards.some(e => e === val)) || this.post.cards.filter(function(e){return e === val || e === val.replace('r', '')}).length >= 4) || (this.post.cards.filter(function(e){return e === val || e === val+'r'}).length >= 4)
+    },
+    isPrev() {
       return (this.state != 1)
     },
-    nextAble() {
-      return (this.state === 1 && this.post.a && this.post.b && this.post.c && this.post.d && this.post.e)
+    isNext() {
+      if(this.state === 1) {
+        return this.post.a && this.post.b && this.post.c && this.post.d && this.post.e
+      }else if(this.state === 2) {
+        return this.post.f && this.cardFull
+      }
     },
     prev() {
       this.state -= 1
       this.$SmoothScroll(document.body, 400)
+      return false
     },
     next() {
-      if(this.state === 1) {
+      if((this.state === 2) && this.cardValidate(this.post.f)) {
+        const title = 'ドラ表示牌/手配を変更してください'
+        const content = '<p>ドラ表示牌を手配で使い切っています</p>'
+        this.showModal(title, content)
+      }else {
         this.state += 1
         this.$SmoothScroll(document.body, 400)
-      }else {
-        console.log('gole')
       }
+      return false
     },
-    scrollTop() {
-
+    showModal(ttl, content) {
+      this.modal.ttl = ttl
+      this.modal.content = content
+      this.modal.show = true
     }
   }
 }

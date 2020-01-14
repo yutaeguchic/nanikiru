@@ -16,14 +16,14 @@ body
 */
 .header
   background-color $blue01
-  box-shadow 0px 3px 5px $blue01
-  font-family: 'Roboto', sans-serif
+  box-shadow 0 3px 5px $blue01
+  font-family: "Roboto", sans-serif
   min-height 66px
   position fixed
   top 0
   width 100%
   z-index $indexLevel1
-  &::after
+  &:after
     background $blue02
     content ""
     display block
@@ -42,23 +42,11 @@ body
 .header + div
   margin 0 auto
   max-width 640px
-  padding 86px 0 150px
+  padding 86px 1% 100px
 
-h2
-  font-family: 'Roboto', sans-serif
-  border-bottom: 2px dashed $blue01;
-  font-size 18px
-  font-weight bold
-  letter-spacing 0.02em
-  padding-bottom: 3px;
-  &:before
-    @extend .icomoon
-    content "\e903"
-    font-size 20px
-    font-weight bold
-    padding-right 2px
-    position relative
-    top 2px
+.header + .post
+  padding-bottom 250px
+
 h3
   font-size 16px
   font-weight bold
@@ -71,7 +59,7 @@ h3
   background-color lighten($blue01, 6)
   border-radius 10px
   margin-bottom 30px
-  padding 20px 30px 10px
+  padding 20px 2% 10px
 
   .m-cards
     margin 20px 0
@@ -135,32 +123,62 @@ h3
   color #fff
   left 0
   position fixed
+  -webkit-overflow-scrolling touch
+  overflow-x auto
+  white-space nowrap
   width 100%
   z-index $indexLevel5
   > div
-    max-width 640px
-    margin 10px auto
+    width 640px
+    margin 0 auto
 
 .post__display__status
-  align-items center
+  align-items flex-end
   font-weight bold
-  font-size 18px
+  font-size 16px
   display flex
-  padding 0 10px
+  flex-wrap wrap
+  margin-top 10px
+  padding 0 1%
   li
     border 1px solid #fff
     border-radius 4px
-    margin-right 8px
-    padding 2px 8px
-  .post__display__status__dora
+    margin 0 8px 5px 0
+    padding 1px 6px
+  .post__display__ttl
     border none
-    font-size 16px
+  .post__display__status__dora
+    align-items flex-end
+    border none
+    display flex
     .m-card
-      margin-top 12px
-      position relative
-      top 5px
-      height 64px
-      width 42px
+      display block
+      height 48px
+      margin-left 10px
+      width 31.5px
+
+.post__display__cards
+  margin-top 10px
+  padding 0 1%
+  width 640px
+  & > i
+    @extends .m-cards > i
+    position relative
+    &:hover
+      &:before
+        align-items center
+        background-color rgba(#000, .5)
+        content "\f00d"
+        font-family "icomoon" !important
+        font-size 18px
+        display flex
+        justify-content center
+        line-height 1
+        height 100%
+        left 0
+        position absolute
+        top 0
+        width 100%
 
 /*
   account
@@ -173,6 +191,7 @@ h3
 .account__btn,
 .account__display
   @extends .m-iconBtn
+  box-shadow -1px 1px 5px darken($blue01, 20)
   font-size 40px
   height 100px
   width 100px
@@ -215,7 +234,7 @@ h3
 
 .footer__copy
   bottom 143px
-  font-family 'Roboto', sans-serif
+  font-family "Roboto", sans-serif
   font-size 16px
   font-weight bold
   right -56px
