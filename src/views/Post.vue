@@ -7,32 +7,32 @@
         <h3>局を選択してください</h3>
         <div class="post__set">
           <div class="post__set__radioWrap">
-            <input id="a1" class="m-radio" type="radio" name="a" value="東" v-model="post.a"><label for="a1">東</label>
-            <input id="a2" class="m-radio" type="radio" name="a" value="南" v-model="post.a"><label for="a2">南</label>
+            <input id="a1" class="m-radio" type="radio" value="東" v-model="post.a"><label for="a1">東</label>
+            <input id="a2" class="m-radio" type="radio" value="南" v-model="post.a"><label for="a2">南</label>
           </div>
           <ul class="post__set__radioWrap">
-            <li v-for="i of 4" :key="i"><input :id="'b'+i" class="m-radio" type="radio" name="b" :value="numLabel[i]+'局'" v-model="post.b"><label :for="'b'+i">{{numLabel[i]}}局</label></li>
+            <li v-for="i of 4" :key="i"><input :id="'b'+i" class="m-radio" type="radio" :value="numLabel[i]+'局'" v-model="post.b"><label :for="'b'+i">{{numLabel[i]}}局</label></li>
           </ul>
         </div>
 
         <h3>本場数を選択してください</h3>
         <div class="post__set">
           <ul class="post__set__radioWrap">
-            <li v-for="i of 9" :key="i"><input :id="'c'+(i-1)" class="m-radio" type="radio" name="c" :value="numLabel[i-1]" v-model="post.c"><label :for="'c'+(i-1)">{{numLabel[i-1]}}</label></li>
+            <li v-for="i of 9" :key="i"><input :id="'c'+(i-1)" class="m-radio" type="radio" :value="numLabel[i-1]" v-model="post.c"><label :for="'c'+(i-1)">{{numLabel[i-1]}}</label></li>
           </ul>
         </div>
 
         <h3>自風を選択してください</h3>
         <div class="post__set">
           <ul class="post__set__radioWrap">
-            <li v-for="(direction, i) of directions" :key="direction"><input :id="'d'+(i+1)" class="m-radio" type="radio" name="d" :value="direction" v-model="post.d"><label :for="'d'+(i+1)">{{direction}}</label></li>
+            <li v-for="(direction, i) of directions" :key="direction"><input :id="'d'+(i+1)" class="m-radio" type="radio" :value="direction" v-model="post.d"><label :for="'d'+(i+1)">{{direction}}</label></li>
           </ul>
         </div>
 
         <h3>巡目を入力してください</h3>
         <div class="post__set">
           <div class="post__set__rangeWrap">
-            <input id="e" class="m-range" type="range" min="1" max="21" step="1" value="１" @change="post.e = toFullwidth($event.target.value)">
+            <input id="e" class="m-range" type="range" :min="numTour.min" :max="numTour.max" step="1" value="0" v-model="numTour.val" @change="post.e = toFullwidth($event.target.value)">
             <label>{{post.e}}巡目<i class="icon-up" @click="countUp()"></i><i class="icon-down" @click="countDown()"></i></label>
           </div>
         </div>
@@ -58,10 +58,20 @@
             <i v-for="i of 37" :key="i" :class="sortCardItems[i-1]" :value="sortCardItems[i-1]" @click="addCard($event)"></i>
           </div>
         </div>
+
+        <h3>状況を入力してください(空白可)</h3>
+        <div class="post__set">
+        <textarea class="m-textarea" v-model="post.condition"></textarea>
+        </div>
       </div><!-- /.state2 -->
 
       <div v-show="state===3">
-
+        <h3>タイトルを入力してください</h3>
+        <div class="post__set">
+          <div>※無記入の場合は『無題』となります</div>
+          <div>※最大{{postTitle.max}}文字です</div>
+          <input class="m-text" type="text" v-model="post.title">
+        </div>
       </div>
 
       <div>
@@ -80,8 +90,11 @@
           <li v-show="post.e">{{post.e}}巡目</li>
           <li class="post__display__status__dora" v-show="post.f">ドラ表示牌 <i class="m-card" :class="post.f"></i></li>
         </ul>
-        <div class="post__display__cards">
+        <div v-show="state===2" class="post__display__cards">
           <i v-for="i of 13" :key="i" v-show="post.cards[i-1]" :class="post.cards[i-1]" :data-index="i-1" @click="removeCard($event)"></i>
+        </div>
+        <div v-show="state!=2" class="post__display__cards--fix">
+          <i v-for="i of 13" :key="i" v-show="post.cards[i-1]" :class="post.cards[i-1]" :data-index="i-1"></i>
         </div>
       </div>
     </div>
@@ -107,24 +120,33 @@ export default {
   },
   data() {
     return {
-      state: 3,
-      modal: {
-        show: false,
+      state: 2,
+      modal: {        show: false,
         ttl: '',
         content: ''
       },
       directions: ['東', '南', '西', '北'],
       numLabel: Array.from({length:31}, (_, i) => this.toFullwidth(String(i))),
       sortCardItems: ['m1', 'm2', 'm3', 'm4', 'm5', 'm5r', 'm6', 'm7', 'm8', 'm9', 'p1', 'p2', 'p3', 'p4', 'p5', 'p5r', 'p6', 'p7', 'p8', 'p9', 's1', 's2', 's3', 's4', 's5', 's5r', 's6', 's7', 's8', 's9', 'we', 'ws', 'ww', 'wn', 'dw', 'db', 'dr', null],
+      numTour: { //巡目
+        val: 1,
+        min: 0,
+        max: 21
+      },
+      postTitle: {
+        max: 32
+      },
       cardFull: false,
       post: {
-        cards: new Array(14).fill(null),
-        a: false, //風
+        title: '', //タイトル
+        cards: new Array(14).fill(null), //手牌
+        condition: '', //状況
+        a: false, //局風
         b: false, //局数
         c: false, //本場
-        d: false,
-        e: '１',
-        f: false,
+        d: false, //自風
+        e: '１', //巡目
+        f: false, //ドラ
       }
     }
   },
@@ -140,13 +162,15 @@ export default {
       })
     },
     countUp() {
-      if(this.post.e === '２１') return false
+      if(this.numTour.val === this.numTour.max) return false
       const s = Number(this.toHalfwidth(this.post.e)) + 1
+      this.numTour.val = s
       this.post.e = this.toFullwidth(String(s))
     },
     countDown() {
-      if(this.post.e === '０') return false
+      if(this.numTour.val === this.numTour.min) return false
       const s = Number(this.toHalfwidth(this.post.e)) - 1
+      this.numTour.val = s
       this.post.e = this.toFullwidth(String(s))
     },
     dora(event) {

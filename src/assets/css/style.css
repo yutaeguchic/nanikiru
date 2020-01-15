@@ -325,6 +325,18 @@ textarea {
 .footer__btn > i {
   opacity: 0.8;
 }
+.m-text,
+.m-textarea {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: #fff;
+  border: 1px solid #d6e6f2;
+  border-radius: 8px;
+  font-size: 16px;
+  outline: none;
+  padding: 4px 5px;
+}
 .m-radio {
   display: none;
 }
@@ -378,7 +390,8 @@ textarea {
 }
 .m-cards > i,
 .m-card,
-.post__display__cards > i {
+.post__display__cards > i,
+.post__display__cards--fix > i {
   background-image: url("../img/cards.png");
   background-size: 1000% 400%;
   display: inline-block;
@@ -391,194 +404,232 @@ textarea {
 }
 .m-cards > i:after,
 .m-card:after,
-.post__display__cards > i:after {
+.post__display__cards > i:after,
+.post__display__cards--fix > i:after {
   content: "";
   display: block;
   padding-top: 152.380952381%;
 }
 .m-cards > i.m1,
 .m-card.m1,
-.post__display__cards > i.m1 {
+.post__display__cards > i.m1,
+.post__display__cards--fix > i.m1 {
   background-position: 0% 0;
 }
 .m-cards > i.s1,
 .m-card.s1,
-.post__display__cards > i.s1 {
+.post__display__cards > i.s1,
+.post__display__cards--fix > i.s1 {
   background-position: 0% 33.3333333333%;
 }
 .m-cards > i.p1,
 .m-card.p1,
-.post__display__cards > i.p1 {
+.post__display__cards > i.p1,
+.post__display__cards--fix > i.p1 {
   background-position: 0% 66.6666666666%;
 }
 .m-cards > i.m2,
 .m-card.m2,
-.post__display__cards > i.m2 {
+.post__display__cards > i.m2,
+.post__display__cards--fix > i.m2 {
   background-position: 11.11111111111111% 0;
 }
 .m-cards > i.s2,
 .m-card.s2,
-.post__display__cards > i.s2 {
+.post__display__cards > i.s2,
+.post__display__cards--fix > i.s2 {
   background-position: 11.11111111111111% 33.3333333333%;
 }
 .m-cards > i.p2,
 .m-card.p2,
-.post__display__cards > i.p2 {
+.post__display__cards > i.p2,
+.post__display__cards--fix > i.p2 {
   background-position: 11.11111111111111% 66.6666666666%;
 }
 .m-cards > i.m3,
 .m-card.m3,
-.post__display__cards > i.m3 {
+.post__display__cards > i.m3,
+.post__display__cards--fix > i.m3 {
   background-position: 22.22222222222222% 0;
 }
 .m-cards > i.s3,
 .m-card.s3,
-.post__display__cards > i.s3 {
+.post__display__cards > i.s3,
+.post__display__cards--fix > i.s3 {
   background-position: 22.22222222222222% 33.3333333333%;
 }
 .m-cards > i.p3,
 .m-card.p3,
-.post__display__cards > i.p3 {
+.post__display__cards > i.p3,
+.post__display__cards--fix > i.p3 {
   background-position: 22.22222222222222% 66.6666666666%;
 }
 .m-cards > i.m4,
 .m-card.m4,
-.post__display__cards > i.m4 {
+.post__display__cards > i.m4,
+.post__display__cards--fix > i.m4 {
   background-position: 33.333333333333336% 0;
 }
 .m-cards > i.s4,
 .m-card.s4,
-.post__display__cards > i.s4 {
+.post__display__cards > i.s4,
+.post__display__cards--fix > i.s4 {
   background-position: 33.333333333333336% 33.3333333333%;
 }
 .m-cards > i.p4,
 .m-card.p4,
-.post__display__cards > i.p4 {
+.post__display__cards > i.p4,
+.post__display__cards--fix > i.p4 {
   background-position: 33.333333333333336% 66.6666666666%;
 }
 .m-cards > i.m5,
 .m-card.m5,
-.post__display__cards > i.m5 {
+.post__display__cards > i.m5,
+.post__display__cards--fix > i.m5 {
   background-position: 44.44444444444444% 0;
 }
 .m-cards > i.s5,
 .m-card.s5,
-.post__display__cards > i.s5 {
+.post__display__cards > i.s5,
+.post__display__cards--fix > i.s5 {
   background-position: 44.44444444444444% 33.3333333333%;
 }
 .m-cards > i.p5,
 .m-card.p5,
-.post__display__cards > i.p5 {
+.post__display__cards > i.p5,
+.post__display__cards--fix > i.p5 {
   background-position: 44.44444444444444% 66.6666666666%;
 }
 .m-cards > i.m6,
 .m-card.m6,
-.post__display__cards > i.m6 {
+.post__display__cards > i.m6,
+.post__display__cards--fix > i.m6 {
   background-position: 55.55555555555556% 0;
 }
 .m-cards > i.s6,
 .m-card.s6,
-.post__display__cards > i.s6 {
+.post__display__cards > i.s6,
+.post__display__cards--fix > i.s6 {
   background-position: 55.55555555555556% 33.3333333333%;
 }
 .m-cards > i.p6,
 .m-card.p6,
-.post__display__cards > i.p6 {
+.post__display__cards > i.p6,
+.post__display__cards--fix > i.p6 {
   background-position: 55.55555555555556% 66.6666666666%;
 }
 .m-cards > i.m7,
 .m-card.m7,
-.post__display__cards > i.m7 {
+.post__display__cards > i.m7,
+.post__display__cards--fix > i.m7 {
   background-position: 66.66666666666667% 0;
 }
 .m-cards > i.s7,
 .m-card.s7,
-.post__display__cards > i.s7 {
+.post__display__cards > i.s7,
+.post__display__cards--fix > i.s7 {
   background-position: 66.66666666666667% 33.3333333333%;
 }
 .m-cards > i.p7,
 .m-card.p7,
-.post__display__cards > i.p7 {
+.post__display__cards > i.p7,
+.post__display__cards--fix > i.p7 {
   background-position: 66.66666666666667% 66.6666666666%;
 }
 .m-cards > i.m8,
 .m-card.m8,
-.post__display__cards > i.m8 {
+.post__display__cards > i.m8,
+.post__display__cards--fix > i.m8 {
   background-position: 77.77777777777777% 0;
 }
 .m-cards > i.s8,
 .m-card.s8,
-.post__display__cards > i.s8 {
+.post__display__cards > i.s8,
+.post__display__cards--fix > i.s8 {
   background-position: 77.77777777777777% 33.3333333333%;
 }
 .m-cards > i.p8,
 .m-card.p8,
-.post__display__cards > i.p8 {
+.post__display__cards > i.p8,
+.post__display__cards--fix > i.p8 {
   background-position: 77.77777777777777% 66.6666666666%;
 }
 .m-cards > i.m9,
 .m-card.m9,
-.post__display__cards > i.m9 {
+.post__display__cards > i.m9,
+.post__display__cards--fix > i.m9 {
   background-position: 88.88888888888889% 0;
 }
 .m-cards > i.s9,
 .m-card.s9,
-.post__display__cards > i.s9 {
+.post__display__cards > i.s9,
+.post__display__cards--fix > i.s9 {
   background-position: 88.88888888888889% 33.3333333333%;
 }
 .m-cards > i.p9,
 .m-card.p9,
-.post__display__cards > i.p9 {
+.post__display__cards > i.p9,
+.post__display__cards--fix > i.p9 {
   background-position: 88.88888888888889% 66.6666666666%;
 }
 .m-cards > i.m5r,
 .m-card.m5r,
-.post__display__cards > i.m5r {
+.post__display__cards > i.m5r,
+.post__display__cards--fix > i.m5r {
   background-position: 100% 0;
 }
 .m-cards > i.s5r,
 .m-card.s5r,
-.post__display__cards > i.s5r {
+.post__display__cards > i.s5r,
+.post__display__cards--fix > i.s5r {
   background-position: 100% 33.3333333333%;
 }
 .m-cards > i.p5r,
 .m-card.p5r,
-.post__display__cards > i.p5r {
+.post__display__cards > i.p5r,
+.post__display__cards--fix > i.p5r {
   background-position: 100% 66.6666666666%;
 }
 .m-cards > i.we,
 .m-card.we,
-.post__display__cards > i.we {
+.post__display__cards > i.we,
+.post__display__cards--fix > i.we {
   background-position: 0% 99.9999999999%;
 }
 .m-cards > i.ws,
 .m-card.ws,
-.post__display__cards > i.ws {
+.post__display__cards > i.ws,
+.post__display__cards--fix > i.ws {
   background-position: 11.11111111111111% 99.9999999999%;
 }
 .m-cards > i.ww,
 .m-card.ww,
-.post__display__cards > i.ww {
+.post__display__cards > i.ww,
+.post__display__cards--fix > i.ww {
   background-position: 22.22222222222222% 99.9999999999%;
 }
 .m-cards > i.wn,
 .m-card.wn,
-.post__display__cards > i.wn {
+.post__display__cards > i.wn,
+.post__display__cards--fix > i.wn {
   background-position: 33.333333333333336% 99.9999999999%;
 }
 .m-cards > i.dw,
 .m-card.dw,
-.post__display__cards > i.dw {
+.post__display__cards > i.dw,
+.post__display__cards--fix > i.dw {
   background-position: 44.44444444444444% 99.9999999999%;
 }
 .m-cards > i.db,
 .m-card.db,
-.post__display__cards > i.db {
+.post__display__cards > i.db,
+.post__display__cards--fix > i.db {
   background-position: 55.55555555555556% 99.9999999999%;
 }
 .m-cards > i.dr,
 .m-card.dr,
-.post__display__cards > i.dr {
+.post__display__cards > i.dr,
+.post__display__cards--fix > i.dr {
   background-position: 66.66666666666667% 99.9999999999%;
 }
 .m-cards {
@@ -682,6 +733,15 @@ h3 {
   border-radius: 10px;
   margin-bottom: 30px;
   padding: 20px 2% 10px;
+}
+.post__set .m-text,
+.post__set .m-textarea {
+  line-height: 1.4;
+  max-width: 98%;
+  width: 98%;
+}
+.post__set .m-textarea {
+  height: 45px;
 }
 .post__set .m-cards {
   margin: 20px 0;
@@ -813,12 +873,14 @@ h3 {
   margin-left: 10px;
   width: 31.5px;
 }
-.post__display__cards {
+.post__display__cards,
+.post__display__cards--fix {
   margin-top: 10px;
   padding: 0 1%;
   width: 640px;
 }
-.post__display__cards > i {
+.post__display__cards > i,
+.post__display__cards--fix > i {
   position: relative;
 }
 .post__display__cards > i:hover:before {
