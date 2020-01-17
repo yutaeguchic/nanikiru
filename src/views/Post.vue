@@ -61,7 +61,8 @@
 
         <h3>状況を入力してください(空白可)</h3>
         <div class="post__set">
-        <textarea class="m-textarea" v-model="post.condition"></textarea>
+          <div>※上限1000文字</div>
+          <textarea class="post__set__textarea" v-model="post.condition"></textarea>
         </div>
       </div><!-- /.state2 -->
 
@@ -121,7 +122,8 @@ export default {
   data() {
     return {
       state: 2,
-      modal: {        show: false,
+      modal: {
+        show: false,
         ttl: '',
         content: ''
       },

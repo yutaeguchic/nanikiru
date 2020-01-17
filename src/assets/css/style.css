@@ -326,7 +326,8 @@ textarea {
   opacity: 0.8;
 }
 .m-text,
-.m-textarea {
+.m-textarea,
+.post__set__textarea {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -334,6 +335,7 @@ textarea {
   border: 1px solid #d6e6f2;
   border-radius: 8px;
   font-size: 16px;
+  line-height: 1.4;
   outline: none;
   padding: 4px 5px;
 }
@@ -818,6 +820,13 @@ h3 {
 }
 .post__set__rangeWrap label i:hover {
   background-color: #b9d7ea;
+}
+.post__set__textarea {
+  min-height: 68px;
+  min-width: 98%;
+  max-width: 98%;
+  width: 98%;
+  height: 68px;
 }
 .post__display {
   background-color: rgba(0,0,0,0.8);
