@@ -1,4 +1,6 @@
-//スプライト(可変)
+/*
+  css sprite(variable)
+*/
 sprite-responsive(imageUrl, imageWidth, imageHeight, areaWidth, areaHeight, offsetX, offsetY)
   font-size 0
   background-image url(imageUrl)
@@ -12,7 +14,9 @@ sprite-responsive(imageUrl, imageWidth, imageHeight, areaWidth, areaHeight, offs
     display block
     padding-top (areaHeight/areaWidth *100)%
 
-//三角形
+/*
+  triangle
+*/
 triangle($width = 10px, $height = 10px, $direction = top, $color = #000)
   width 0
   height 0
@@ -49,3 +53,46 @@ triangle($width = 10px, $height = 10px, $direction = top, $color = #000)
   if $direction == top-left
     border-width $height $width 0 0
     border-color $color transparent transparent transparent
+
+/*
+  checkbox switch
+*/
+switch($height = 2em, $width = 200px)
+  display none
+  & + label
+    background-color #eee
+    border 2px solid #ddd
+    border-radius 6px
+    box-sizing border-box
+    cursor pointer
+    display block
+    font-weight bold
+    font-size 16px
+    height $height
+    line-height $height
+    letter-spacing 0.04em
+    position relative
+    overflow hidden
+    transition all 0.2s ease-out
+    width $width
+    &:before,
+    &:after
+      display inline-block
+      position absolute
+      text-align center
+      width $width
+    &:before
+      content attr(data-on)
+      left -($width)
+    &:after
+      content attr(data-off)
+      left 0
+  &:checked + label
+    background-color #fff
+    border 2px solid $blue01
+    &:before
+      left 0
+    &:after
+      left $width
+  &:hover + label
+    border-color $blue03

@@ -1,6 +1,6 @@
 <template>
   <div class="post">
-    <h2 class="m-ttl">NANIKIRU POST (問題作成)</h2>
+    <h2 class="m-ttl">NANIKIRU POST (問題作成) <span v-show="state!=4">{{state}}/3ページ</span></h2>
     <form>
 
       <div v-show="state===1">
@@ -32,8 +32,8 @@
         <h3>巡目を入力してください</h3>
         <div class="post__set">
           <div class="post__set__rangeWrap">
-            <input id="e" class="m-range" type="range" :min="numTour.min" :max="numTour.max" step="1" value="0" v-model="numTour.val" @change="post.e = toFullwidth($event.target.value)">
-            <label>{{post.e}}巡目<i class="icon-up" @click="countUp()"></i><i class="icon-down" @click="countDown()"></i></label>
+            <input id="e" class="m-range" type="range" :min="numTour.min" :max="numTour.max" step="1" value="1" v-model="numTour.val" @change="post.e = toFullwidth($event.target.value)">
+            <label>{{post.e}}巡目<i class="icon-down" @click="countDown()"></i><i class="icon-up" @click="countUp()"></i></label>
           </div>
         </div>
       </div><!-- /.state1 -->
@@ -44,7 +44,7 @@
           <div>※ドラが<i class="m-card m1"></i>の場合は<i class="m-card m9"></i>を、ドラが<i class="m-card dw"></i>の場合は<i class="m-card dr"></i>を選択</div>
           <div>※手牌と合わせ同種の牌は最大４枚、赤ドラは最大１枚です<br>(ページ遷移時に判定されます)</div>
           <div class="post__set__cardWrap">
-            <div class="m-cards">
+            <div class="post__set__cards">
               <i v-for="i of 37" :key="i" :class="[sortCardItems[i-1], {active: post.f === sortCardItems[i-1]}]" :value="sortCardItems[i-1]" @click="dora($event)"></i>
             </div>
           </div>
@@ -53,49 +53,96 @@
         <h3>手牌を入力してください</h3>
         <div class="post__set">
           <div>※同種の牌はドラ表示牌を含めて最大４枚、赤ドラは最大１枚です</div>
-          <div>※下記の牌クリックで追加、画面下部の手牌クリックで削除</div>
-          <div class="m-cards">
+          <div><strong>※下記の牌クリックで追加、画面下部の手牌クリックで削除</strong></div>
+          <div class="post__set__cards">
             <i v-for="i of 37" :key="i" :class="sortCardItems[i-1]" :value="sortCardItems[i-1]" @click="addCard($event)"></i>
           </div>
         </div>
 
-        <h3>状況を入力してください(空白可)</h3>
+        <h3>戦況・コメント等を入力してください(空白可)</h3>
         <div class="post__set">
           <div>※上限1000文字</div>
-          <textarea class="post__set__textarea" v-model="post.condition"></textarea>
+          <textarea class="post__set__textarea" :maxlength="maxlength.condition" v-model="post.condition"></textarea>
         </div>
       </div><!-- /.state2 -->
 
       <div v-show="state===3">
-        <h3>タイトルを入力してください</h3>
+        <h3>正答牌を選択してください</h3>
+        <div class="post__set">
+          <div>※「正解なし」を選択した場合「何切る相談」として扱われます</div>
+          <div>※正解に選択された牌と同種の牌が手牌に入っている際、すべて正解として扱われます、ただし赤ドラは別種として扱われます<br>(例えば正解を<i class="m-card m5"></i>とした際<i class="m-card m5r"></i>は不正解となります)</div>
+          <input id="g" class="post__set__switch" type="checkbox" value="null" v-model="post.quiz"><label for="g" data-on="正解あり" data-off="正解なし" checked></label>
+          <transition name="fadeDown">
+            <div v-show="post.quiz" class="post__set__cards">
+              <i v-for="i of 14" :key="i" v-show="post.cards[i-1]" :class="[post.cards[i-1], {active: post.g === post.cards[i-1]}]" @click="answerCard($event)"></i>
+            </div>
+          </transition>
+        </div>
+
+        <h3>正答の解説を入力してください</h3>
+        <div class="post__set">
+          <div><strong>※「正解あり」の場合、記入は必須となります</strong></div>
+          <div>※上限1000文字</div>
+          <textarea class="post__set__textarea" :maxlength="maxlength.commentary" v-model="post.commentary"></textarea>
+        </div>
+
+        <h3>問題のタイトルを入力してください</h3>
         <div class="post__set">
           <div>※無記入の場合は『無題』となります</div>
-          <div>※最大{{postTitle.max}}文字です</div>
-          <input class="m-text" type="text" v-model="post.title">
+          <div>※最大{{maxlength.title}}文字です</div>
+          <input class="post__set__text" type="text" maxlength="32" v-model="post.title">
+        </div>
+      </div>
+
+      <div v-show="state===4">
+        <h3>以下の内容で<strong>NANIKIRU</strong>を投稿してよろしいですか？</h3>
+        <div class="post__confirm">
+          <h4>タイトル</h4>
+          <div v-text="post.title.trim()?post.title:'無題'"></div>
+          <h4>投稿者</h4>
+          <div></div>
+          <h4>手牌</h4>
+          <div>
+            <ul class="post__status--confirm">
+              <li>{{post.a}}{{post.b}}</li>
+              <li>{{post.c}}本場</li>
+              <li>{{post.d}}家</li>
+              <li>{{post.e}}巡目</li>
+              <li class="post__status__card">ドラ表示牌 <i :class="post.f"></i></li>
+            </ul>
+            <div class="post__cards--confirm"><i v-for="i of 14" :key="i" :class="[{active: post.g===post.cards[i-1]}, post.cards[i-1]]"></i></div>
+          </div>
+          <h4>戦況・コメント</h4>
+          <div v-text="post.condition.trim()?post.condition:'なし'"></div>
+          <template v-if="post.quiz">
+            <h4>解説</h4>
+            <div>{{post.commentary}}</div>
+          </template>
         </div>
       </div>
 
       <div>
         <button type="button" :class="isPrev()?'m-btn--able':'m-btn--disabled'" :disabled="!isPrev()" @click="prev()">Prev</button>
-        <button type="button" :class="isNext()?'m-btn--able':'m-btn--disabled'" :disabled="!isNext()" @click="next()">Next</button>
+        <button type="button" :class="isNext()?'m-btn--able':'m-btn--disabled'" v-text="state===4?'Post':'Next'" :disabled="!isNext()" @click="next()"></button>
       </div>
 
     </form>
-    <div class="post__display">
+    <div v-show="state!=4" class="post__display">
       <div>
-        <ul class="post__display__status">
-          <li class="post__display__ttl">プレビュー</li>
+        <ul class="post__status">
+          <li class="post__status__ttl">プレビュー</li>
           <li v-show="post.a && post.b">{{post.a}}{{post.b}}</li>
           <li v-show="post.c">{{post.c}}本場</li>
           <li v-show="post.d">{{post.d}}家</li>
           <li v-show="post.e">{{post.e}}巡目</li>
-          <li class="post__display__status__dora" v-show="post.f">ドラ表示牌 <i class="m-card" :class="post.f"></i></li>
+          <li class="post__status__card" v-show="post.f">ドラ表示牌 <i :class="post.f"></i></li>
+          <li class="post__status__card" v-show="post.g && post.quiz">正答 <i :class="post.g"></i></li>
         </ul>
-        <div v-show="state===2" class="post__display__cards">
-          <i v-for="i of 13" :key="i" v-show="post.cards[i-1]" :class="post.cards[i-1]" :data-index="i-1" @click="removeCard($event)"></i>
+        <div v-show="state===2" class="post__cards">
+          <i v-for="i of 14" :key="i" v-show="post.cards[i-1]" :class="post.cards[i-1]" :data-index="i-1" @click="removeCard($event)"></i>
         </div>
-        <div v-show="state!=2" class="post__display__cards--fix">
-          <i v-for="i of 13" :key="i" v-show="post.cards[i-1]" :class="post.cards[i-1]" :data-index="i-1"></i>
+        <div v-show="state!=2" class="post__cards--fix">
+          <i v-for="i of 14" :key="i" v-show="post.cards[i-1]" :class="post.cards[i-1]"></i>
         </div>
       </div>
     </div>
@@ -121,7 +168,7 @@ export default {
   },
   data() {
     return {
-      state: 2,
+      state: 1,
       modal: {
         show: false,
         ttl: '',
@@ -132,23 +179,28 @@ export default {
       sortCardItems: ['m1', 'm2', 'm3', 'm4', 'm5', 'm5r', 'm6', 'm7', 'm8', 'm9', 'p1', 'p2', 'p3', 'p4', 'p5', 'p5r', 'p6', 'p7', 'p8', 'p9', 's1', 's2', 's3', 's4', 's5', 's5r', 's6', 's7', 's8', 's9', 'we', 'ws', 'ww', 'wn', 'dw', 'db', 'dr', null],
       numTour: { //巡目
         val: 1,
-        min: 0,
+        min: 1,
         max: 21
       },
-      postTitle: {
-        max: 32
+      maxlength: {
+        title: 32,
+        condition: 1000,
+        commentary: 1000
       },
       cardFull: false,
       post: {
+        quiz: true,
         title: '', //タイトル
         cards: new Array(14).fill(null), //手牌
-        condition: '', //状況
+        condition: '', //戦況
+        commentary: '', //解説
         a: false, //局風
         b: false, //局数
         c: false, //本場
         d: false, //自風
         e: '１', //巡目
         f: false, //ドラ
+        g: false, //解答
       }
     }
   },
@@ -192,22 +244,32 @@ export default {
       this.sortCard()
       this.cardFull = false
     },
+    answerCard(event) {
+      this.post.g = event.target.classList[0]
+    },
     sortCard() {
       this.post.cards.sort((x, y) => {
         return this.sortCardItems.indexOf(x) - this.sortCardItems.indexOf(y)
       })
     },
+    textValidate(s, max) { //trueにて弾く
+      return s.length > max
+    },
     cardValidate(val) { //trueにて弾く
       return ((val === 'm5r' || val === 'p5r' || val === 's5r') && (this.post.cards.some(e => e === val)) || this.post.cards.filter(function(e){return e === val || e === val.replace('r', '')}).length >= 4) || (this.post.cards.filter(function(e){return e === val || e === val+'r'}).length >= 4)
     },
     isPrev() {
-      return (this.state != 1)
+      return this.state != 1
     },
     isNext() {
-      if(this.state === 1) {
+      if(this.state === 1 || this.state === 4) {
         return this.post.a && this.post.b && this.post.c && this.post.d && this.post.e
-      }else if(this.state === 2) {
+      }else if(this.state === 2 || this.state === 4) {
         return this.post.f && this.cardFull
+      }else if(this.state === 3 || this.state === 4) {
+        return (this.post.quiz && this.post.g && this.post.commentary.trim()) || (!this.post.quiz)
+      }else {
+        return (this.state === 4)
       }
     },
     prev() {
@@ -216,9 +278,17 @@ export default {
       return false
     },
     next() {
-      if((this.state === 2) && this.cardValidate(this.post.f)) {
+      if(this.post.f && this.cardValidate(this.post.f)) {
         const title = 'ドラ表示牌/手配を変更してください'
         const content = '<p>ドラ表示牌を手配で使い切っています</p>'
+        this.showModal(title, content)
+      }else if(this.post.condition && this.textValidate(this.post.condition, this.maxlength.condition)) {
+        const title = '戦況・コメントの文章を変更してください'
+        const content = '<p>上限の1000文字を超えています</p>'
+        this.showModal(title, content)
+      }else if(this.post.g && this.textValidate(this.post.commentary, this.maxlength.commentary)) {
+        const title = '戦況・コメントの文章を変更してください'
+        const content = '<p>上限の1000文字を超えています</p>'
         this.showModal(title, content)
       }else {
         this.state += 1

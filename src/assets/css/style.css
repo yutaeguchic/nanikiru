@@ -240,6 +240,11 @@ textarea {
   -webkit-appearance: button;
   font: inherit;
 }
+strong {
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(50%, transparent), color-stop(60%, #b9d7ea), to(transparent));
+  background: linear-gradient(transparent 50%, #b9d7ea 60%, transparent 100%);
+  font-weight: bold;
+}
 .m-icomoon,
 .m-ttl:before {
   font-family: 'icomoon' !important;
@@ -327,7 +332,8 @@ textarea {
 }
 .m-text,
 .m-textarea,
-.post__set__textarea {
+.post__set__textarea,
+.post__set__text {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -392,8 +398,12 @@ textarea {
 }
 .m-cards > i,
 .m-card,
-.post__display__cards > i,
-.post__display__cards--fix > i {
+.post__set__cards > i,
+.post__status .post__status__card > i,
+.post__status--confirm .post__status__card > i,
+.post__cards > i,
+.post__cards--fix > i,
+.post__cards--confirm > i {
   background-image: url("../img/cards.png");
   background-size: 1000% 400%;
   display: inline-block;
@@ -406,238 +416,392 @@ textarea {
 }
 .m-cards > i:after,
 .m-card:after,
-.post__display__cards > i:after,
-.post__display__cards--fix > i:after {
+.post__set__cards > i:after,
+.post__status .post__status__card > i:after,
+.post__status--confirm .post__status__card > i:after,
+.post__cards > i:after,
+.post__cards--fix > i:after,
+.post__cards--confirm > i:after {
   content: "";
   display: block;
   padding-top: 152.380952381%;
 }
 .m-cards > i.m1,
 .m-card.m1,
-.post__display__cards > i.m1,
-.post__display__cards--fix > i.m1 {
+.post__set__cards > i.m1,
+.post__status .post__status__card > i.m1,
+.post__status--confirm .post__status__card > i.m1,
+.post__cards > i.m1,
+.post__cards--fix > i.m1,
+.post__cards--confirm > i.m1 {
   background-position: 0% 0;
 }
 .m-cards > i.s1,
 .m-card.s1,
-.post__display__cards > i.s1,
-.post__display__cards--fix > i.s1 {
+.post__set__cards > i.s1,
+.post__status .post__status__card > i.s1,
+.post__status--confirm .post__status__card > i.s1,
+.post__cards > i.s1,
+.post__cards--fix > i.s1,
+.post__cards--confirm > i.s1 {
   background-position: 0% 33.3333333333%;
 }
 .m-cards > i.p1,
 .m-card.p1,
-.post__display__cards > i.p1,
-.post__display__cards--fix > i.p1 {
+.post__set__cards > i.p1,
+.post__status .post__status__card > i.p1,
+.post__status--confirm .post__status__card > i.p1,
+.post__cards > i.p1,
+.post__cards--fix > i.p1,
+.post__cards--confirm > i.p1 {
   background-position: 0% 66.6666666666%;
 }
 .m-cards > i.m2,
 .m-card.m2,
-.post__display__cards > i.m2,
-.post__display__cards--fix > i.m2 {
+.post__set__cards > i.m2,
+.post__status .post__status__card > i.m2,
+.post__status--confirm .post__status__card > i.m2,
+.post__cards > i.m2,
+.post__cards--fix > i.m2,
+.post__cards--confirm > i.m2 {
   background-position: 11.11111111111111% 0;
 }
 .m-cards > i.s2,
 .m-card.s2,
-.post__display__cards > i.s2,
-.post__display__cards--fix > i.s2 {
+.post__set__cards > i.s2,
+.post__status .post__status__card > i.s2,
+.post__status--confirm .post__status__card > i.s2,
+.post__cards > i.s2,
+.post__cards--fix > i.s2,
+.post__cards--confirm > i.s2 {
   background-position: 11.11111111111111% 33.3333333333%;
 }
 .m-cards > i.p2,
 .m-card.p2,
-.post__display__cards > i.p2,
-.post__display__cards--fix > i.p2 {
+.post__set__cards > i.p2,
+.post__status .post__status__card > i.p2,
+.post__status--confirm .post__status__card > i.p2,
+.post__cards > i.p2,
+.post__cards--fix > i.p2,
+.post__cards--confirm > i.p2 {
   background-position: 11.11111111111111% 66.6666666666%;
 }
 .m-cards > i.m3,
 .m-card.m3,
-.post__display__cards > i.m3,
-.post__display__cards--fix > i.m3 {
+.post__set__cards > i.m3,
+.post__status .post__status__card > i.m3,
+.post__status--confirm .post__status__card > i.m3,
+.post__cards > i.m3,
+.post__cards--fix > i.m3,
+.post__cards--confirm > i.m3 {
   background-position: 22.22222222222222% 0;
 }
 .m-cards > i.s3,
 .m-card.s3,
-.post__display__cards > i.s3,
-.post__display__cards--fix > i.s3 {
+.post__set__cards > i.s3,
+.post__status .post__status__card > i.s3,
+.post__status--confirm .post__status__card > i.s3,
+.post__cards > i.s3,
+.post__cards--fix > i.s3,
+.post__cards--confirm > i.s3 {
   background-position: 22.22222222222222% 33.3333333333%;
 }
 .m-cards > i.p3,
 .m-card.p3,
-.post__display__cards > i.p3,
-.post__display__cards--fix > i.p3 {
+.post__set__cards > i.p3,
+.post__status .post__status__card > i.p3,
+.post__status--confirm .post__status__card > i.p3,
+.post__cards > i.p3,
+.post__cards--fix > i.p3,
+.post__cards--confirm > i.p3 {
   background-position: 22.22222222222222% 66.6666666666%;
 }
 .m-cards > i.m4,
 .m-card.m4,
-.post__display__cards > i.m4,
-.post__display__cards--fix > i.m4 {
+.post__set__cards > i.m4,
+.post__status .post__status__card > i.m4,
+.post__status--confirm .post__status__card > i.m4,
+.post__cards > i.m4,
+.post__cards--fix > i.m4,
+.post__cards--confirm > i.m4 {
   background-position: 33.333333333333336% 0;
 }
 .m-cards > i.s4,
 .m-card.s4,
-.post__display__cards > i.s4,
-.post__display__cards--fix > i.s4 {
+.post__set__cards > i.s4,
+.post__status .post__status__card > i.s4,
+.post__status--confirm .post__status__card > i.s4,
+.post__cards > i.s4,
+.post__cards--fix > i.s4,
+.post__cards--confirm > i.s4 {
   background-position: 33.333333333333336% 33.3333333333%;
 }
 .m-cards > i.p4,
 .m-card.p4,
-.post__display__cards > i.p4,
-.post__display__cards--fix > i.p4 {
+.post__set__cards > i.p4,
+.post__status .post__status__card > i.p4,
+.post__status--confirm .post__status__card > i.p4,
+.post__cards > i.p4,
+.post__cards--fix > i.p4,
+.post__cards--confirm > i.p4 {
   background-position: 33.333333333333336% 66.6666666666%;
 }
 .m-cards > i.m5,
 .m-card.m5,
-.post__display__cards > i.m5,
-.post__display__cards--fix > i.m5 {
+.post__set__cards > i.m5,
+.post__status .post__status__card > i.m5,
+.post__status--confirm .post__status__card > i.m5,
+.post__cards > i.m5,
+.post__cards--fix > i.m5,
+.post__cards--confirm > i.m5 {
   background-position: 44.44444444444444% 0;
 }
 .m-cards > i.s5,
 .m-card.s5,
-.post__display__cards > i.s5,
-.post__display__cards--fix > i.s5 {
+.post__set__cards > i.s5,
+.post__status .post__status__card > i.s5,
+.post__status--confirm .post__status__card > i.s5,
+.post__cards > i.s5,
+.post__cards--fix > i.s5,
+.post__cards--confirm > i.s5 {
   background-position: 44.44444444444444% 33.3333333333%;
 }
 .m-cards > i.p5,
 .m-card.p5,
-.post__display__cards > i.p5,
-.post__display__cards--fix > i.p5 {
+.post__set__cards > i.p5,
+.post__status .post__status__card > i.p5,
+.post__status--confirm .post__status__card > i.p5,
+.post__cards > i.p5,
+.post__cards--fix > i.p5,
+.post__cards--confirm > i.p5 {
   background-position: 44.44444444444444% 66.6666666666%;
 }
 .m-cards > i.m6,
 .m-card.m6,
-.post__display__cards > i.m6,
-.post__display__cards--fix > i.m6 {
+.post__set__cards > i.m6,
+.post__status .post__status__card > i.m6,
+.post__status--confirm .post__status__card > i.m6,
+.post__cards > i.m6,
+.post__cards--fix > i.m6,
+.post__cards--confirm > i.m6 {
   background-position: 55.55555555555556% 0;
 }
 .m-cards > i.s6,
 .m-card.s6,
-.post__display__cards > i.s6,
-.post__display__cards--fix > i.s6 {
+.post__set__cards > i.s6,
+.post__status .post__status__card > i.s6,
+.post__status--confirm .post__status__card > i.s6,
+.post__cards > i.s6,
+.post__cards--fix > i.s6,
+.post__cards--confirm > i.s6 {
   background-position: 55.55555555555556% 33.3333333333%;
 }
 .m-cards > i.p6,
 .m-card.p6,
-.post__display__cards > i.p6,
-.post__display__cards--fix > i.p6 {
+.post__set__cards > i.p6,
+.post__status .post__status__card > i.p6,
+.post__status--confirm .post__status__card > i.p6,
+.post__cards > i.p6,
+.post__cards--fix > i.p6,
+.post__cards--confirm > i.p6 {
   background-position: 55.55555555555556% 66.6666666666%;
 }
 .m-cards > i.m7,
 .m-card.m7,
-.post__display__cards > i.m7,
-.post__display__cards--fix > i.m7 {
+.post__set__cards > i.m7,
+.post__status .post__status__card > i.m7,
+.post__status--confirm .post__status__card > i.m7,
+.post__cards > i.m7,
+.post__cards--fix > i.m7,
+.post__cards--confirm > i.m7 {
   background-position: 66.66666666666667% 0;
 }
 .m-cards > i.s7,
 .m-card.s7,
-.post__display__cards > i.s7,
-.post__display__cards--fix > i.s7 {
+.post__set__cards > i.s7,
+.post__status .post__status__card > i.s7,
+.post__status--confirm .post__status__card > i.s7,
+.post__cards > i.s7,
+.post__cards--fix > i.s7,
+.post__cards--confirm > i.s7 {
   background-position: 66.66666666666667% 33.3333333333%;
 }
 .m-cards > i.p7,
 .m-card.p7,
-.post__display__cards > i.p7,
-.post__display__cards--fix > i.p7 {
+.post__set__cards > i.p7,
+.post__status .post__status__card > i.p7,
+.post__status--confirm .post__status__card > i.p7,
+.post__cards > i.p7,
+.post__cards--fix > i.p7,
+.post__cards--confirm > i.p7 {
   background-position: 66.66666666666667% 66.6666666666%;
 }
 .m-cards > i.m8,
 .m-card.m8,
-.post__display__cards > i.m8,
-.post__display__cards--fix > i.m8 {
+.post__set__cards > i.m8,
+.post__status .post__status__card > i.m8,
+.post__status--confirm .post__status__card > i.m8,
+.post__cards > i.m8,
+.post__cards--fix > i.m8,
+.post__cards--confirm > i.m8 {
   background-position: 77.77777777777777% 0;
 }
 .m-cards > i.s8,
 .m-card.s8,
-.post__display__cards > i.s8,
-.post__display__cards--fix > i.s8 {
+.post__set__cards > i.s8,
+.post__status .post__status__card > i.s8,
+.post__status--confirm .post__status__card > i.s8,
+.post__cards > i.s8,
+.post__cards--fix > i.s8,
+.post__cards--confirm > i.s8 {
   background-position: 77.77777777777777% 33.3333333333%;
 }
 .m-cards > i.p8,
 .m-card.p8,
-.post__display__cards > i.p8,
-.post__display__cards--fix > i.p8 {
+.post__set__cards > i.p8,
+.post__status .post__status__card > i.p8,
+.post__status--confirm .post__status__card > i.p8,
+.post__cards > i.p8,
+.post__cards--fix > i.p8,
+.post__cards--confirm > i.p8 {
   background-position: 77.77777777777777% 66.6666666666%;
 }
 .m-cards > i.m9,
 .m-card.m9,
-.post__display__cards > i.m9,
-.post__display__cards--fix > i.m9 {
+.post__set__cards > i.m9,
+.post__status .post__status__card > i.m9,
+.post__status--confirm .post__status__card > i.m9,
+.post__cards > i.m9,
+.post__cards--fix > i.m9,
+.post__cards--confirm > i.m9 {
   background-position: 88.88888888888889% 0;
 }
 .m-cards > i.s9,
 .m-card.s9,
-.post__display__cards > i.s9,
-.post__display__cards--fix > i.s9 {
+.post__set__cards > i.s9,
+.post__status .post__status__card > i.s9,
+.post__status--confirm .post__status__card > i.s9,
+.post__cards > i.s9,
+.post__cards--fix > i.s9,
+.post__cards--confirm > i.s9 {
   background-position: 88.88888888888889% 33.3333333333%;
 }
 .m-cards > i.p9,
 .m-card.p9,
-.post__display__cards > i.p9,
-.post__display__cards--fix > i.p9 {
+.post__set__cards > i.p9,
+.post__status .post__status__card > i.p9,
+.post__status--confirm .post__status__card > i.p9,
+.post__cards > i.p9,
+.post__cards--fix > i.p9,
+.post__cards--confirm > i.p9 {
   background-position: 88.88888888888889% 66.6666666666%;
 }
 .m-cards > i.m5r,
 .m-card.m5r,
-.post__display__cards > i.m5r,
-.post__display__cards--fix > i.m5r {
+.post__set__cards > i.m5r,
+.post__status .post__status__card > i.m5r,
+.post__status--confirm .post__status__card > i.m5r,
+.post__cards > i.m5r,
+.post__cards--fix > i.m5r,
+.post__cards--confirm > i.m5r {
   background-position: 100% 0;
 }
 .m-cards > i.s5r,
 .m-card.s5r,
-.post__display__cards > i.s5r,
-.post__display__cards--fix > i.s5r {
+.post__set__cards > i.s5r,
+.post__status .post__status__card > i.s5r,
+.post__status--confirm .post__status__card > i.s5r,
+.post__cards > i.s5r,
+.post__cards--fix > i.s5r,
+.post__cards--confirm > i.s5r {
   background-position: 100% 33.3333333333%;
 }
 .m-cards > i.p5r,
 .m-card.p5r,
-.post__display__cards > i.p5r,
-.post__display__cards--fix > i.p5r {
+.post__set__cards > i.p5r,
+.post__status .post__status__card > i.p5r,
+.post__status--confirm .post__status__card > i.p5r,
+.post__cards > i.p5r,
+.post__cards--fix > i.p5r,
+.post__cards--confirm > i.p5r {
   background-position: 100% 66.6666666666%;
 }
 .m-cards > i.we,
 .m-card.we,
-.post__display__cards > i.we,
-.post__display__cards--fix > i.we {
+.post__set__cards > i.we,
+.post__status .post__status__card > i.we,
+.post__status--confirm .post__status__card > i.we,
+.post__cards > i.we,
+.post__cards--fix > i.we,
+.post__cards--confirm > i.we {
   background-position: 0% 99.9999999999%;
 }
 .m-cards > i.ws,
 .m-card.ws,
-.post__display__cards > i.ws,
-.post__display__cards--fix > i.ws {
+.post__set__cards > i.ws,
+.post__status .post__status__card > i.ws,
+.post__status--confirm .post__status__card > i.ws,
+.post__cards > i.ws,
+.post__cards--fix > i.ws,
+.post__cards--confirm > i.ws {
   background-position: 11.11111111111111% 99.9999999999%;
 }
 .m-cards > i.ww,
 .m-card.ww,
-.post__display__cards > i.ww,
-.post__display__cards--fix > i.ww {
+.post__set__cards > i.ww,
+.post__status .post__status__card > i.ww,
+.post__status--confirm .post__status__card > i.ww,
+.post__cards > i.ww,
+.post__cards--fix > i.ww,
+.post__cards--confirm > i.ww {
   background-position: 22.22222222222222% 99.9999999999%;
 }
 .m-cards > i.wn,
 .m-card.wn,
-.post__display__cards > i.wn,
-.post__display__cards--fix > i.wn {
+.post__set__cards > i.wn,
+.post__status .post__status__card > i.wn,
+.post__status--confirm .post__status__card > i.wn,
+.post__cards > i.wn,
+.post__cards--fix > i.wn,
+.post__cards--confirm > i.wn {
   background-position: 33.333333333333336% 99.9999999999%;
 }
 .m-cards > i.dw,
 .m-card.dw,
-.post__display__cards > i.dw,
-.post__display__cards--fix > i.dw {
+.post__set__cards > i.dw,
+.post__status .post__status__card > i.dw,
+.post__status--confirm .post__status__card > i.dw,
+.post__cards > i.dw,
+.post__cards--fix > i.dw,
+.post__cards--confirm > i.dw {
   background-position: 44.44444444444444% 99.9999999999%;
 }
 .m-cards > i.db,
 .m-card.db,
-.post__display__cards > i.db,
-.post__display__cards--fix > i.db {
+.post__set__cards > i.db,
+.post__status .post__status__card > i.db,
+.post__status--confirm .post__status__card > i.db,
+.post__cards > i.db,
+.post__cards--fix > i.db,
+.post__cards--confirm > i.db {
   background-position: 55.55555555555556% 99.9999999999%;
 }
 .m-cards > i.dr,
 .m-card.dr,
-.post__display__cards > i.dr,
-.post__display__cards--fix > i.dr {
+.post__set__cards > i.dr,
+.post__status .post__status__card > i.dr,
+.post__status--confirm .post__status__card > i.dr,
+.post__cards > i.dr,
+.post__cards--fix > i.dr,
+.post__cards--confirm > i.dr {
   background-position: 66.66666666666667% 99.9999999999%;
 }
 .m-cards {
   font-size: 0;
 }
-.m-card {
+.m-card,
+.post__status .post__status__card > i,
+.post__status--confirm .post__status__card > i {
   height: 32px;
   margin: 0 3px;
   width: 21px;
@@ -681,6 +845,14 @@ textarea {
   right: -20px;
   top: -20px;
   width: 40px;
+}
+.m-box,
+.post__set,
+.post__confirm {
+  background-color: #edf4f9;
+  padding: 20px 2% 10px;
+  -webkit-transition: all 0.2s ease-out;
+  transition: all 0.2s ease-out;
 }
 html {
   background-color: $white;
@@ -730,44 +902,29 @@ h3 {
   font-weight: bold;
   margin: 15px 10px;
 }
-.post__set {
-  background-color: #edf4f9;
+.post__set,
+.post__confirm {
   border-radius: 10px;
   margin-bottom: 30px;
-  padding: 20px 2% 10px;
 }
-.post__set .m-text,
-.post__set .m-textarea {
-  line-height: 1.4;
-  max-width: 98%;
-  width: 98%;
-}
-.post__set .m-textarea {
-  height: 45px;
-}
-.post__set .m-cards {
+.post__set__cards {
   margin: 20px 0;
   cursor: pointer;
   opacity: 1;
 }
-.post__set .m-cards:hover i {
-  opacity: 0.5;
-}
-.post__set .m-cards i {
+.post__set__cards > i {
   -webkit-transition: all 0.2s ease-out;
   transition: all 0.2s ease-out;
   width: 58px;
 }
-.post__set .m-cards i.active:after {
+.post__set__cards > i.active:after,
+.post__set__cards > i:hover:after {
   background-color: rgba(255,0,0,0.2);
   content: "";
   display: block;
   height: 100%;
   width: 100%;
   z-index: 1;
-}
-.post__set .m-cards i:hover {
-  opacity: 1;
 }
 .post__set__radioWrap {
   display: -webkit-box;
@@ -821,12 +978,81 @@ h3 {
 .post__set__rangeWrap label i:hover {
   background-color: #b9d7ea;
 }
+.post__set__textarea,
+.post__set__text {
+  margin-bottom: 10px;
+  width: 96%;
+}
 .post__set__textarea {
+  max-width: 96%;
   min-height: 68px;
-  min-width: 98%;
-  max-width: 98%;
-  width: 98%;
+  min-width: 96%;
   height: 68px;
+}
+.post__set__switch {
+  display: none;
+}
+.post__set__switch + label {
+  background-color: #eee;
+  border: 2px solid #ddd;
+  border-radius: 6px;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  cursor: pointer;
+  display: block;
+  font-weight: bold;
+  font-size: 16px;
+  height: 4em;
+  line-height: 4em;
+  letter-spacing: 0.04em;
+  position: relative;
+  overflow: hidden;
+  -webkit-transition: all 0.2s ease-out;
+  transition: all 0.2s ease-out;
+  width: 200px;
+}
+.post__set__switch + label:before,
+.post__set__switch + label:after {
+  display: inline-block;
+  position: absolute;
+  text-align: center;
+  width: 200px;
+}
+.post__set__switch + label:before {
+  content: attr(data-on);
+  left: -200px;
+}
+.post__set__switch + label:after {
+  content: attr(data-off);
+  left: 0;
+}
+.post__set__switch:checked + label {
+  background-color: #fff;
+  border: 2px solid #d6e6f2;
+}
+.post__set__switch:checked + label:before {
+  left: 0;
+}
+.post__set__switch:checked + label:after {
+  left: 200px;
+}
+.post__set__switch:hover + label {
+  border-color: #769fcd;
+}
+.post__set__switch + label {
+  margin: 20px 0 10px;
+}
+.post__confirm > h4 {
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(50%, transparent), color-stop(60%, #fff), to(transparent));
+  background: linear-gradient(transparent 50%, #fff 60%, transparent 100%);
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+.post__confirm > div {
+  font-size: 14px;
+  margin-bottom: 15px;
+  white-space: pre;
 }
 .post__display {
   background-color: rgba(0,0,0,0.8);
@@ -844,7 +1070,8 @@ h3 {
   width: 640px;
   margin: 0 auto;
 }
-.post__display__status {
+.post__status,
+.post__status--confirm {
   -webkit-box-align: end;
   -ms-flex-align: end;
   align-items: flex-end;
@@ -855,19 +1082,20 @@ h3 {
   display: flex;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
-  margin-top: 10px;
   padding: 0 1%;
 }
-.post__display__status li {
-  border: 1px solid #fff;
+.post__status li,
+.post__status--confirm li {
   border-radius: 4px;
   margin: 0 8px 5px 0;
   padding: 1px 6px;
 }
-.post__display__status .post__display__ttl {
+.post__status .post__status__ttl,
+.post__status--confirm .post__status__ttl {
   border: none;
 }
-.post__display__status .post__display__status__dora {
+.post__status .post__status__card,
+.post__status--confirm .post__status__card {
   -webkit-box-align: end;
   -ms-flex-align: end;
   align-items: flex-end;
@@ -876,23 +1104,51 @@ h3 {
   display: -ms-flexbox;
   display: flex;
 }
-.post__display__status .post__display__status__dora .m-card {
+.post__status .post__status__card > i,
+.post__status--confirm .post__status__card > i {
   display: block;
   height: 48px;
   margin-left: 10px;
   width: 31.5px;
 }
-.post__display__cards,
-.post__display__cards--fix {
+.post__status {
   margin-top: 10px;
+}
+.post__status li {
+  border: 1px solid #fff;
+}
+.post__status--confirm li {
+  border: 1px solid #000;
+}
+.post__cards,
+.post__cards--fix,
+.post__cards--confirm {
+  margin-top: 10px;
+}
+.post__cards > i,
+.post__cards--fix > i,
+.post__cards--confirm > i {
+  position: relative;
+}
+.post__cards > i.active:after,
+.post__cards--fix > i.active:after,
+.post__cards--confirm > i.active:after {
+  background-color: rgba(255,0,0,0.2);
+  content: "";
+  display: block;
+  height: 100%;
+  width: 100%;
+  z-index: 1;
+}
+.post__cards,
+.post__cards--fix {
   padding: 0 1%;
   width: 640px;
 }
-.post__display__cards > i,
-.post__display__cards--fix > i {
-  position: relative;
+.post__cards--confirm {
+  width: 100%;
 }
-.post__display__cards > i:hover:before {
+.post__cards > i:hover:before {
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
