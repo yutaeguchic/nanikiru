@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <global-header/>
-    <router-view/>
+    <router-view :account="user"/>
     <global-account :account="user"/>
     <global-footer/>
   </div>

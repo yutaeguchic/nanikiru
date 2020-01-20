@@ -2,7 +2,6 @@
   <div class="post">
     <h2 class="m-ttl">NANIKIRU POST (問題作成) <span v-show="state!=4">{{state}}/3ページ</span></h2>
     <form>
-
       <div v-show="state===1">
         <h3>局を選択してください</h3>
         <div class="post__set">
@@ -79,12 +78,14 @@
           </transition>
         </div>
 
-        <h3>正答の解説を入力してください</h3>
-        <div class="post__set">
-          <div><strong>※「正解あり」の場合、記入は必須となります</strong></div>
-          <div>※上限1000文字</div>
-          <textarea class="post__set__textarea" :maxlength="maxlength.commentary" v-model="post.commentary"></textarea>
-        </div>
+        <template v-show="post.quiz">
+          <h3>正答の解説を入力してください</h3>
+          <div class="post__set">
+            <div><strong>※「正解あり」の場合、記入は必須となります</strong></div>
+            <div>※上限1000文字</div>
+            <textarea class="post__set__textarea" :maxlength="maxlength.commentary" v-model="post.commentary"></textarea>
+          </div>
+        </template>
 
         <h3>問題のタイトルを入力してください</h3>
         <div class="post__set">
@@ -100,7 +101,7 @@
           <h4>タイトル</h4>
           <div v-text="post.title.trim()?post.title:'無題'"></div>
           <h4>投稿者</h4>
-          <div></div>
+          <div>{{account.displayName}}(@{{account.twid}})</div>
           <h4>手牌</h4>
           <div>
             <ul class="post__status--confirm">
@@ -123,7 +124,8 @@
 
       <div>
         <button type="button" :class="isPrev()?'m-btn--able':'m-btn--disabled'" :disabled="!isPrev()" @click="prev()">Prev</button>
-        <button type="button" :class="isNext()?'m-btn--able':'m-btn--disabled'" v-text="state===4?'Post':'Next'" :disabled="!isNext()" @click="next()"></button>
+        <button v-if="this.state!=4" type="button" :class="isNext()?'m-btn--able':'m-btn--disabled'" :disabled="!isNext()" @click="next()">Next</button>
+        <button v-else type="button" :class="isNext()?'m-btn--able':'m-btn--disabled'" :disabled="!isNext()" @click="submit()">Post</button>
       </div>
 
     </form>
@@ -147,7 +149,8 @@
       </div>
     </div>
     <transition name="fadeDown">
-      <modal v-if="modal.show" @close="modal.show = false" v-transition="fadeIn">
+      <Loader v-if="loader.show"/>
+      <modal v-if="modal.show" @close="modal.show=false">
         <template v-slot:header>
           <h1 class="m-ttl">{{modal.ttl}}</h1>
         </template>
@@ -161,14 +164,20 @@
 
 <script>
 import Modal from '@/components/Modal.vue'
+import Loader from '@/components/Loader.vue'
 export default {
   name: 'post',
+  props: ['account'],
   components: {
-    Modal
+    Modal,
+    Loader
   },
   data() {
     return {
       state: 1,
+      loader: {
+        show: false
+      },
       modal: {
         show: false,
         ttl: '',
@@ -194,6 +203,7 @@ export default {
         cards: new Array(14).fill(null), //手牌
         condition: '', //戦況
         commentary: '', //解説
+        rating: [],
         a: false, //局風
         b: false, //局数
         c: false, //本場
@@ -295,6 +305,9 @@ export default {
         this.$SmoothScroll(document.body, 400)
       }
       return false
+    },
+    submit() {
+      console.log('test')
     },
     showModal(ttl, content) {
       this.modal.ttl = ttl
