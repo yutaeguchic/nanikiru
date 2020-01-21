@@ -198,6 +198,7 @@ export default {
       },
       cardFull: false,
       post: {
+        uid: '',
         quiz: true,
         title: '', //タイトル
         cards: new Array(14).fill(null), //手牌

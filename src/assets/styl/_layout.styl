@@ -275,11 +275,22 @@ h3
   right 0
   position fixed
   text-align right
-  transition all 0.2s ease
+  transition all 0.4s ease
   z-index $indexLevel2
+  &:before
+    triangle(0, 0, top-left, rgba(#000, .2))
+    content ""
+    left 0
+    position fixed
+    top 0
+    transition all 0.4s ease
+    z-index -1
   &.active
     border-color transparent transparent lighten($blue02, 12) transparent
     border-width 0 0 100vh 100vw
+    &:before
+      border-width 100vh 100vw 0 0
+      display block
 
 .footer__btn
   @extends .m-iconBtn
