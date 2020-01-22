@@ -23,7 +23,7 @@ const css = (cb) => {
     errorHandler: notify.onError("Error: <%= error.message %>")
   }))
   .pipe(stylus({
-    compress: false,
+    compress: true,
     linenos: false
   }))
   .pipe(autoprefixer({

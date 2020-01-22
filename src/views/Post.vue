@@ -78,14 +78,16 @@
           </transition>
         </div>
 
-        <template v-show="post.quiz">
-          <h3>正答の解説を入力してください</h3>
-          <div class="post__set">
-            <div><strong>※「正解あり」の場合、記入は必須となります</strong></div>
-            <div>※上限1000文字</div>
-            <textarea class="post__set__textarea" :maxlength="maxlength.commentary" v-model="post.commentary"></textarea>
+        <transition name="fadeDown">
+          <div v-show="post.quiz">
+            <h3>正答の解説を入力してください</h3>
+            <div class="post__set">
+              <div><strong>※「正解あり」の場合、記入は必須となります</strong></div>
+              <div>※上限1000文字</div>
+              <textarea class="post__set__textarea" :maxlength="maxlength.commentary" v-model="post.commentary"></textarea>
+            </div>
           </div>
-        </template>
+        </transition>
 
         <h3>問題のタイトルを入力してください</h3>
         <div class="post__set">
@@ -123,8 +125,8 @@
       </div>
 
       <div>
-        <button type="button" :class="isPrev()?'m-btn--able':'m-btn--disabled'" :disabled="!isPrev()" @click="prev()">Prev</button>
-        <button v-if="this.state!=4" type="button" :class="isNext()?'m-btn--able':'m-btn--disabled'" :disabled="!isNext()" @click="next()">Next</button>
+        <button type="button" :class="isPrev()?'m-btn--able':'m-btn--disabled'" :disabled="!isPrev()" @click="move(-1)">Prev</button>
+        <button v-if="this.state!=4" type="button" :class="isNext()?'m-btn--able':'m-btn--disabled'" :disabled="!isNext()" @click="move(1)">Next</button>
         <button v-else type="button" :class="isNext()?'m-btn--able':'m-btn--disabled'" :disabled="!isNext()" @click="submit()">Post</button>
       </div>
 
@@ -148,41 +150,17 @@
         </div>
       </div>
     </div>
-    <transition name="fadeDown">
-      <Loader v-if="loader.show"/>
-      <modal v-if="modal.show" @close="modal.show=false">
-        <template v-slot:header>
-          <h1 class="m-ttl">{{modal.ttl}}</h1>
-        </template>
-        <template v-slot:content>
-          <div v-html="modal.content"></div>
-        </template>
-      </modal>
-    </transition>
   </div>
 </template>
 
 <script>
-import Modal from '@/components/Modal.vue'
-import Loader from '@/components/Loader.vue'
+import firebase from 'firebase'
 export default {
   name: 'post',
   props: ['account'],
-  components: {
-    Modal,
-    Loader
-  },
   data() {
     return {
       state: 1,
-      loader: {
-        show: false
-      },
-      modal: {
-        show: false,
-        ttl: '',
-        content: ''
-      },
       directions: ['東', '南', '西', '北'],
       numLabel: Array.from({length:31}, (_, i) => this.toFullwidth(String(i))),
       sortCardItems: ['m1', 'm2', 'm3', 'm4', 'm5', 'm5r', 'm6', 'm7', 'm8', 'm9', 'p1', 'p2', 'p3', 'p4', 'p5', 'p5r', 'p6', 'p7', 'p8', 'p9', 's1', 's2', 's3', 's4', 's5', 's5r', 's6', 's7', 's8', 's9', 'we', 'ws', 'ww', 'wn', 'dw', 'db', 'dr', null],
@@ -198,7 +176,11 @@ export default {
       },
       cardFull: false,
       post: {
-        uid: '',
+        uid: this.account.uid,
+        timestamp: {
+          add: false,
+          refresh: false
+        },
         quiz: true,
         title: '', //タイトル
         cards: new Array(14).fill(null), //手牌
@@ -283,37 +265,39 @@ export default {
         return (this.state === 4)
       }
     },
-    prev() {
-      this.state -= 1
-      this.$SmoothScroll(document.body, 400)
-      return false
-    },
-    next() {
+    move(count) {
       if(this.post.f && this.cardValidate(this.post.f)) {
-        const title = 'ドラ表示牌/手配を変更してください'
-        const content = '<p>ドラ表示牌を手配で使い切っています</p>'
-        this.showModal(title, content)
+        this.$parent.modal.ttl = 'ドラ表示牌/手配を変更してください'
+        this.$parent.modal.content = '<p>ドラ表示牌を手配で使い切っています</p>'
+        this.$emit('modal')
       }else if(this.post.condition && this.textValidate(this.post.condition, this.maxlength.condition)) {
-        const title = '戦況・コメントの文章を変更してください'
-        const content = '<p>上限の1000文字を超えています</p>'
-        this.showModal(title, content)
+        this.$parent.modal.ttl = '戦況・コメントの文章を変更してください'
+        this.$parent.modal.content = '<p>上限の1000文字を超えています</p>'
+        this.$emit('modal')
       }else if(this.post.g && this.textValidate(this.post.commentary, this.maxlength.commentary)) {
-        const title = '戦況・コメントの文章を変更してください'
-        const content = '<p>上限の1000文字を超えています</p>'
-        this.showModal(title, content)
+        this.$parent.modal.ttl = '戦況・コメントの文章を変更してください'
+        this.$parent.modal.content = '<p>上限の1000文字を超えています</p>'
+        this.$emit('modal')
       }else {
-        this.state += 1
+        this.state = this.state + count
         this.$SmoothScroll(document.body, 400)
+        return false
       }
-      return false
     },
     submit() {
-      console.log('test')
-    },
-    showModal(ttl, content) {
-      this.modal.ttl = ttl
-      this.modal.content = content
-      this.modal.show = true
+      const time = firebase.firestore.FieldValue.serverTimestamp()
+      this.post.timestamp.add = time
+      const self = this
+      firebase.firestore().collection('posts').add(self.post).then(() => {
+        self.$parent.modal.ttl = '投稿完了'
+        self.$parent.modal.content = '<p><strong>NANIKIRU</strong>を投稿しました</p>'
+        this.$router.push('/?modal')
+      }).catch((error) => {
+        console.log(error)
+        self.$parent.modal.ttl = '投稿エラー'
+        self.$parent.modal.content = '<p><strong>NANIKIRU</strong>の投稿に失敗しました</p>'
+        self.$emit('modal')
+      })
     }
   }
 }
