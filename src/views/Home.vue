@@ -11,5 +11,4 @@ export default {
     console.log(this.$route.params)
   }
 }
-
 </script>
