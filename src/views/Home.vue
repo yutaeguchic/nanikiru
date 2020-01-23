@@ -1,10 +1,8 @@
 <template>
   <div class="home">
-    <h2 class="m-ttl">NANIKIRU New</h2>
-    <div class="archive">
-      <div v-for="(post, index) of posts" :key="index" class="archive__post">
-        <Cassette :post="post" design="archive"/>
-      </div>
+    <h2 class="m-ttl--page">NANIKIRU New</h2>
+    <div class="query">
+      <Cassette v-for="(post, index) of posts" :key="index" :post="post" design="archive"/>
     </div>
   </div>
 </template>

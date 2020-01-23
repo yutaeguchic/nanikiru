@@ -21,7 +21,7 @@ body
   background-color $blue01
   box-shadow 0 3px 5px $blue01
   font-family: "Roboto", sans-serif
-  min-height 66px
+  min-height 58px
   position fixed
   top 0
   width 100%
@@ -33,10 +33,10 @@ body
     height 2px
     width 100%
   & > h1
-    font-size 32px
+    font-size 28px
     font-weight bold
     letter-spacing 0.03em
-    padding 5px 0
+    padding 5px 0 3px
     text-align center
 
 /*
@@ -52,36 +52,13 @@ body
 .header + .post
   padding-bottom 250px
 
-h3
-  font-size 16px
-  font-weight bold
-  margin 15px 10px
-
 /*
   post
 */
-.postSet,
-.post__confirm
+.postSet
   @extends .m-box
   border-radius 10px
   margin-bottom 30px
-
-.postSet--cards
-  margin 20px 0
-  cursor pointer
-  opacity 1
-  & > i
-    @extends .m-cards > i
-    transition all 0.2s ease-out
-    width 58px
-    &.active:after,
-    &:hover:after
-      background-color $red01
-      content ""
-      display block
-      height 100%
-      width 100%
-      z-index 1
 
 .postSet--radioWrap
   display flex
@@ -138,13 +115,14 @@ h3
   & + label
     margin 20px 0 10px
 
-.post__confirm
+.postConfirm
+  @extends .m-box
   & > div
     font-size 14px
     margin-bottom 25px
     white-space pre
 
-.post__display
+.post__preview
   background-color rgba(black, .8)
   bottom 0
   color #fff
@@ -158,88 +136,21 @@ h3
   > div
     width 640px
     margin 0 auto
+    padding 10px 1% 5px
 
-.postStatus,
-.postStatus--confirm
-  align-items flex-end
-  font-weight bold
-  font-size 16px
-  display flex
-  flex-wrap wrap
-  padding 0 1%
-  li
-    border-radius 4px
-    margin 0 8px 5px 0
-    padding 1px 6px
-  .postStatus__ttl
-    border none
-  .postStatus__card
-    align-items flex-end
-    border none
-    display flex
-    & > i
-      @extends .m-card
-      display block
-      height 48px
-      margin-left 10px
-      width 31.5px
-
-.postStatus
-  margin-top 10px
-  li
-    border 1px solid #fff
-
-.postStatus--confirm
-  li
-    border 1px solid #000
-
-.postCards,
-.postCards--fix,
-.postCards--confirm
-  margin-top 10px
-  & > i
-    @extends .m-cards > i
-    position relative
-    &.active
-      &:after
-        background-color $red01
-        content ""
-        display block
-        height 100%
-        width 100%
-        z-index 1
-
-.postCards,
-.postCards--fix
-  padding 0 1%
-  width 640px
-
-.postCards--confirm
-  width 100%
-
-.postCards
-  & > i
-    &:hover
-      &:before
-        align-items center
-        background-color rgba(#000, .5)
-        content "\f00d"
-        font-family "icomoon" !important
-        font-size 18px
-        display flex
-        justify-content center
-        line-height 1
-        height 100%
-        left 0
-        position absolute
-        top 0
-        width 100%
+.post__preview__status
+  @extends .m-box__status
+  & > li
+    border-color $white
 
 /*
   archive
 */
-.archive
-  margin-top 20px
+.query__item
+  @extends .m-box
+  cursor pointer
+  &:hover
+    background-color $blue01
 
 /*
   account
@@ -270,6 +181,8 @@ h3
 /*
   footer
 */
+.fooerWrap
+  width 100vw
 .footer
   triangle(150px, 150px, bottom-right, $blue01)
   bottom 0
@@ -278,20 +191,23 @@ h3
   text-align right
   transition all 0.4s ease
   z-index $indexLevel2
-  &:before
-    triangle(0, 0, top-left, rgba(#000, .2))
-    content ""
-    left 0
-    position fixed
-    top 0
-    transition all 0.4s ease
-    z-index -1
   &.active
     border-color transparent transparent lighten($blue02, 12) transparent
     border-width 0 0 100vh 100vw
-    &:before
-      border-width 100vh 100vw 0 0
-      display block
+
+.footer__overlay
+  triangle(0, 0, top-left, rgba(#000, .2))
+  content ""
+  left 0
+  position fixed
+  top 0
+  transition all 0.4s ease
+  z-index $indexLevel1
+
+.footer.active
+  & + .footer__overlay
+    border-width 100vh 100vw 0 0
+    display block
 
 .footer__btn
   @extends .m-iconBtn
