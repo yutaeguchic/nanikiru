@@ -4,6 +4,8 @@
 
     <router-view
       :account="user"
+      :posts="posts"
+      :users="users"
       @modal="modal.show = true"
     />
 
@@ -56,7 +58,9 @@ export default {
   data() {
     return {
       user: false,
-      LoginRequiredPages: ['/post'],
+      posts: [],
+      users: [],
+      loginRequiredPages: ['/post'],
       modal: {
         show: false,
         ttl: '',
@@ -69,6 +73,12 @@ export default {
   },
   created() {
     this.getUser(false)
+  },
+  firestore() {
+    return {
+      posts: firebase.firestore().collection('posts'),
+      users: firebase.firestore().collection('users')
+    }
   },
   watch: {
     '$route': 'loginCheck'
@@ -91,7 +101,7 @@ export default {
         }else {
           this.user = false //ログアウト判定で必要
           let path = this.$route.path
-          if(loginCheck && this.LoginRequiredPages.includes(path)) {
+          if(loginCheck && this.loginRequiredPages.includes(path)) {
             this.$router.push('/')
           }
         }

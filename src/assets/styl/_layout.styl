@@ -60,13 +60,13 @@ h3
 /*
   post
 */
-.post__set,
+.postSet,
 .post__confirm
   @extends .m-box
   border-radius 10px
   margin-bottom 30px
 
-.post__set__cards
+.postSet--cards
   margin 20px 0
   cursor pointer
   opacity 1
@@ -83,7 +83,7 @@ h3
       width 100%
       z-index 1
 
-.post__set__radioWrap
+.postSet--radioWrap
   display flex
   flex-wrap wrap
   label
@@ -93,11 +93,11 @@ h3
     margin-right 10px
     width 80px
 
-.post__set__radioWrap + .post__set__radioWrap
+.postSet--radioWrap + .postSet--radioWrap
   border-top 2px dashed #fff
   padding-top 10px
 
-.post__set__rangeWrap
+.postSet--rangeWrap
   label
     align-items center
     display flex
@@ -118,32 +118,27 @@ h3
       &:hover
         background-color $blue02
 
-.post__set__textarea,
-.post__set__text
+.postSet--textarea,
+.postSet--text
   margin-bottom 10px
   width 96%
 
-.post__set__textarea
+.postSet--textarea
   @extends .m-textarea
   max-width 96%
   min-height 68px
   min-width 96%
   height 68px
 
-.post__set__text
+.postSet--text
   @extends .m-text
 
-.post__set__switch
+.postSet--switch
   switch(4em, 200px)
   & + label
     margin 20px 0 10px
 
 .post__confirm
-  & > h4
-    background linear-gradient(transparent 50%, #fff 60%, transparent 100%)
-    font-size 15px
-    font-weight bold
-    margin-bottom 5px
   & > div
     font-size 14px
     margin-bottom 25px
@@ -164,8 +159,8 @@ h3
     width 640px
     margin 0 auto
 
-.post__status,
-.post__status--confirm
+.postStatus,
+.postStatus--confirm
   align-items flex-end
   font-weight bold
   font-size 16px
@@ -176,9 +171,9 @@ h3
     border-radius 4px
     margin 0 8px 5px 0
     padding 1px 6px
-  .post__status__ttl
+  .postStatus__ttl
     border none
-  .post__status__card
+  .postStatus__card
     align-items flex-end
     border none
     display flex
@@ -189,18 +184,18 @@ h3
       margin-left 10px
       width 31.5px
 
-.post__status
+.postStatus
   margin-top 10px
   li
     border 1px solid #fff
 
-.post__status--confirm
+.postStatus--confirm
   li
     border 1px solid #000
 
-.post__cards,
-.post__cards--fix,
-.post__cards--confirm
+.postCards,
+.postCards--fix,
+.postCards--confirm
   margin-top 10px
   & > i
     @extends .m-cards > i
@@ -214,15 +209,15 @@ h3
         width 100%
         z-index 1
 
-.post__cards,
-.post__cards--fix
+.postCards,
+.postCards--fix
   padding 0 1%
   width 640px
 
-.post__cards--confirm
+.postCards--confirm
   width 100%
 
-.post__cards
+.postCards
   & > i
     &:hover
       &:before
@@ -239,6 +234,12 @@ h3
         position absolute
         top 0
         width 100%
+
+/*
+  archive
+*/
+.archive
+  margin-top 20px
 
 /*
   account
@@ -280,7 +281,7 @@ h3
   &:before
     triangle(0, 0, top-left, rgba(#000, .2))
     content ""
-    left -15px
+    left 0
     position fixed
     top 0
     transition all 0.4s ease
