@@ -1,3 +1,4 @@
+import firebase from 'firebase'
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import vueSmoothScroll from 'vue-smoothscroll'
@@ -20,7 +21,15 @@ const routes = [
   {
     path: '/post',
     name: 'post',
+    meta: {
+      requiresAuth: true
+    },
     component: () => import('../views/Post.vue')
+  },
+  {
+    path: '/*',
+    name: 'notfound',
+    component: () => import('../views/404.vue')
   }
 ]
 
@@ -28,6 +37,18 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
+})
+
+//login check
+router.beforeEach((to, from, next) => {
+  let requiresAuth = to.matched.some(record => record.meta.requiresAuth)
+  if(requiresAuth) {
+    firebase.auth().onAuthStateChanged(user => {
+      if(user) next()
+      else next({name: 'home'})
+    })
+  }
+  next()
 })
 
 export default router

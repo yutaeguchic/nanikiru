@@ -103,7 +103,7 @@
           <h4 class="m-box__strong">タイトル</h4>
           <div v-text="post.title.trim()?post.title:'無題'"></div>
           <h4 class="m-box__strong">投稿者</h4>
-          <div>{{account.displayName}}(@{{account.twid}})</div>
+          <div>{{currentUser.displayName}}(@{{currentUser.twid}})</div>
           <h4 class="m-box__strong">手牌</h4>
           <div>
             <ul class="m-box__status">
@@ -157,7 +157,7 @@
 import firebase from 'firebase'
 export default {
   name: 'post',
-  props: ['account'],
+  props: ['currentUser'],
   data() {
     return {
       state: 1,
@@ -286,7 +286,7 @@ export default {
     },
     submit() {
       const time = firebase.firestore.FieldValue.serverTimestamp()
-      this.post.uid = this.account.uid
+      this.post.uid = this.currentUser.uid
       this.post.timestamp.add = time
       this.post.title = this.post.title.trim()
       this.post.condition = this.post.condition.trim()

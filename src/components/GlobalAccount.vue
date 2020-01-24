@@ -1,6 +1,6 @@
 <template>
   <div class="account">
-    <div v-if="account" class="account__display" @click="logout"><img :src="account.photoURL" :alt="account.displayName"></div>
+    <div v-if="currentUser" class="account__display" @click="logout"><img :src="currentUser.photoURL" :alt="currentUser.displayName"></div>
     <div v-else class="account__btn" title="login" @click="login"><i class="icon-twitter"></i></div>
   </div>
 </template>
@@ -10,7 +10,7 @@ import firebase from 'firebase'
 
 export default {
   name: 'account',
-  props: ['account'],
+  props: ['currentUser'],
   data() {
     return {
       uid : false
@@ -19,22 +19,10 @@ export default {
   methods: {
     login() {
       const provider = new firebase.auth.TwitterAuthProvider()
-      firebase.auth().signInWithPopup(provider).then((result)=> {
-        this.uid = String(result.user.uid)
-        const data = {
-          twid: result.additionalUserInfo.username,
-          displayName: result.user.displayName,
-          photoURL: result.user.photoURL
-        }
-        this.set(data)
-      })
+      firebase.auth().signInWithRedirect(provider)
     },
     logout() {
       firebase.auth().signOut()
-    },
-    set(data) {
-      const self = this
-      firebase.firestore().collection('users').doc(self.uid).set(data, {merge: true})
     }
   }
 }

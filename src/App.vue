@@ -3,14 +3,14 @@
     <global-header/>
 
     <router-view
-      :account="user"
+      :currentUser="currentUser"
       :posts="posts"
       :users="users"
       @modal="modal.show = true"
     />
 
     <global-account
-      :account="user"
+      :currentUser="currentUser"
     />
 
     <global-footer/>
@@ -57,10 +57,9 @@ export default {
   },
   data() {
     return {
-      user: false,
+      currentUser: false,
       posts: [],
       users: [],
-      loginRequiredPages: ['/post'],
       modal: {
         show: false,
         ttl: '',
@@ -72,7 +71,7 @@ export default {
     }
   },
   created() {
-    this.getUser(false)
+    if(!this.currentUser) this.fetchUser()
   },
   firestore() {
     return {
@@ -80,12 +79,8 @@ export default {
       users: firebase.firestore().collection('users')
     }
   },
-  watch: {
-    '$route': 'loginCheck'
-  },
   methods: {
-    getUser(loginCheck) {
-      if(this.user) return false
+    fetchUser() {
       firebase.auth().onAuthStateChanged(user => {
         if(user) {
           const dbUser = firebase.firestore().collection('users').doc(user.uid)
@@ -96,19 +91,15 @@ export default {
               photoURL: user.photoURL.replace('_normal', ''),
               twid: docSnapshot.get('twid')
             }
-            this.user = data
+            this.currentUser = data
           })
         }else {
-          this.user = false //ログアウト判定で必要
-          let path = this.$route.path
-          if(loginCheck && this.loginRequiredPages.includes(path)) {
-            this.$router.push('/')
-          }
+          this.currentUser = false //ログアウト判定で必要
         }
       })
     },
-    loginCheck() {
-      this.getUser(true)
+    updateCurrentUser() {
+      console.log('up')
     }
   }
 }
