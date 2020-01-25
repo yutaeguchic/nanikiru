@@ -1,6 +1,6 @@
 <template>
   <div class="account">
-    <div v-if="currentUser" class="account__display" @click="logout"><img :src="currentUser.photoURL" :alt="currentUser.displayName"></div>
+    <div v-if="currentUser.login" class="account__display" @click="logout"><img :src="currentUser.photoURL" :alt="currentUser.displayName"></div>
     <div v-else class="account__btn" title="login" @click="login"><i class="icon-twitter"></i></div>
   </div>
 </template>
@@ -22,6 +22,7 @@ export default {
       firebase.auth().signInWithRedirect(provider)
     },
     logout() {
+      this.$parent.currentUser.login = false
       firebase.auth().signOut()
     }
   }

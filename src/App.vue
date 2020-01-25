@@ -9,6 +9,8 @@
       @modal="modal.show = true"
     />
 
+    <div>{{redirectResult}}</div>
+
     <global-account
       :currentUser="currentUser"
     />
@@ -57,7 +59,20 @@ export default {
   },
   data() {
     return {
-      currentUser: false,
+      redirectResult: false,
+      currentUser: {
+        login: false,
+        uid: false,
+        displayName: false,
+        photoURL: false,
+        twid: false
+      },
+      docRefUser: false,
+      dbUser: {
+        displayName: false,
+        photoURL: false,
+        twid: false
+      },
       posts: [],
       users: [],
       modal: {
@@ -71,7 +86,7 @@ export default {
     }
   },
   created() {
-    if(!this.currentUser) this.fetchUser()
+    this.setCurrentUser()
   },
   firestore() {
     return {
@@ -80,26 +95,42 @@ export default {
     }
   },
   methods: {
-    fetchUser() {
-      firebase.auth().onAuthStateChanged(user => {
-        if(user) {
-          const dbUser = firebase.firestore().collection('users').doc(user.uid)
-          dbUser.get().then(docSnapshot => {
-            let data = {
-              uid: user.uid,
-              displayName: user.displayName,
-              photoURL: user.photoURL.replace('_normal', ''),
-              twid: docSnapshot.get('twid')
-            }
-            this.currentUser = data
-          })
-        }else {
-          this.currentUser = false //ログアウト判定で必要
-        }
-      })
+    setCurrentUser() {
+      firebase.auth().onAuthStateChanged(this.asyncHandler)
     },
-    updateCurrentUser() {
-      console.log('up')
+    async asyncHandler(user) {
+      if(user) {
+        this.currentUser.uid = await String(user.uid)
+        this.currentUser.displayName = await user.displayName
+        this.currentUser.photoURL = await user.photoURL.replace('_normal', '')
+        await this.setDocRefUser(this.currentUser.uid)
+        await this.setDbUser()
+      }
+    },
+    async setDocRefUser(uid) {
+      this.docRefUser = await firebase.firestore().collection('users').doc(uid)
+    },
+    async setDbUser() {
+      const docSnapshot = await this.docRefUser.get()
+      if(docSnapshot.exists) {
+        this.currentUser.twid = await docSnapshot.get('twid')
+      }else {
+        await this.setRedirectResult()
+        if(this.redirectResult.user) {
+          this.dbUser.twid = await this.redirectResult.additionalUserInfo.username
+          this.dbUser.displayName = await this.currentUser.displayName
+          this.dbUser.photoURL = await this.currentUser.photoURL
+          await this.docRefUser.set(this.dbUser, {merge: true})
+          this.currentUser.twid = await this.dbUser.twid
+        }
+      }
+      this.currentUser.login = await true
+    },
+    async setRedirectResult() {
+      const result = firebase.auth().getRedirectResult().catch(error => console.log('error: ' + error))
+      if(result) {
+        this.redirectResult = await result
+      }
     }
   }
 }
