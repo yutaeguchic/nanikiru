@@ -2,7 +2,7 @@
   <div class="home">
     <h2 class="m-ttl--page">NANIKIRU New</h2>
     <div class="query">
-      <Cassette v-for="(post, index) of Object.values(posts)" :key="index" :post="post" :users="users" design="archive"/>
+      <Cassette v-for="(post, index) of Object.values(posts)" :key="index" :post="post" :users="users"/>
     </div>
   </div>
 </template>

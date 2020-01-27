@@ -72,8 +72,8 @@ export default {
         photoURL: false,
         twid: false
       },
-      posts: [],
-      users: [],
+      posts: {},
+      users: {},
       modal: {
         show: false,
         ttl: '',
@@ -88,11 +88,6 @@ export default {
     this.loader.show = true
     this.setCurrentUser()
   },
-  firestore() {
-    return {
-      posts: firebase.firestore().collection('posts')
-    }
-  },
   methods: {
     setCurrentUser() {
       firebase.auth().onAuthStateChanged(this.asyncHandler)
@@ -105,6 +100,7 @@ export default {
         await this.setDocRefUser(this.currentUser.uid)
         await this.setDbUser()
         await this.setUsers()
+        this.setPosts()
       }
       this.loader.show = await false
     },
@@ -144,6 +140,18 @@ export default {
           })
         }
       self.users = users
+      })
+    },
+    setPosts() {
+      const docRefPosts = firebase.firestore().collection('posts')
+      let posts = {}
+      docRefPosts.get().then(snapshot => {
+        if(!snapshot.empty) {
+          snapshot.forEach(async doc => {
+            posts[doc.id] = await doc.data()
+          })
+        }
+      this.posts = posts
       })
     }
   }

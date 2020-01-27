@@ -1,5 +1,5 @@
 <template>
-  <div class="query__item" title="answer">
+  <div class="query__item">
     <h3 class="m-box__title" v-text="post.title?post.title:'無題'"></h3>
     <header class="query__item__header">
       <div class="qmery__item__header__detial">
@@ -19,7 +19,7 @@
         <div><i class="icon-price-tag"></i><strong v-text="post.quiz?'問題':'相談'"></strong></div>
         <div>戦況・作者コメント： <strong v-text="post.condition?'あり':'なし'"></strong></div>
       </div>
-      <router-link tag="button" type="button" class="query__item__btn" to="{name:home, params: {postId: post.id}}">挑戦（詳細）</router-link>
+      <button type="button" class="query__item__btn" @click="toSingle(post)">挑戦（詳細）</button>
     </footer>
   </div>
 </template>
@@ -27,12 +27,16 @@
 <script>
 export default {
   name: 'Post',
-  props: ['post', 'users', 'design'],
+  props: ['post', 'users'],
   methods: {
     getWriter(uid) {
       if(this.users[uid]) {
         return this.users[uid].displayName + ' （@' + this.users[uid].twid + '）'
       }
+    },
+    toSingle(post) {
+      this.$on('sendSinglePost', post)
+      this.$router.push('/post/'+post.id)
     }
   }
 }

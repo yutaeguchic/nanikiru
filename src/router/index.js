@@ -19,12 +19,17 @@ const routes = [
     component: () => import('../views/About.vue')
   },
   {
-    path: '/post',
+    path: '/post/new',
     name: 'post',
     meta: {
       requiresAuth: true
     },
     component: () => import('../views/Post.vue')
+  },
+  {
+    path: '/post/:id',
+    name: 'single',
+    component: () => import('../views/Single.vue')
   },
   {
     path: '/*',
