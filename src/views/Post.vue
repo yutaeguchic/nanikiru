@@ -285,6 +285,7 @@ export default {
       }
     },
     submit() {
+      this.$SmoothScroll(document.body, 400)
       const time = firebase.firestore.FieldValue.serverTimestamp()
       this.post.uid = this.currentUser.uid
       this.post.timestamp.add = time

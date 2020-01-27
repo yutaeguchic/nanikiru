@@ -9,8 +9,6 @@
       @modal="modal.show = true"
     />
 
-    <div>{{redirectResult}}</div>
-
     <global-account
       :currentUser="currentUser"
     />
@@ -67,6 +65,7 @@ export default {
         photoURL: false,
         twid: false
       },
+      docRefUsers: false,
       docRefUser: false,
       dbUser: {
         displayName: false,
@@ -86,12 +85,12 @@ export default {
     }
   },
   created() {
+    this.loader.show = true
     this.setCurrentUser()
   },
   firestore() {
     return {
-      posts: firebase.firestore().collection('posts'),
-      users: firebase.firestore().collection('users')
+      posts: firebase.firestore().collection('posts')
     }
   },
   methods: {
@@ -105,10 +104,13 @@ export default {
         this.currentUser.photoURL = await user.photoURL.replace('_normal', '')
         await this.setDocRefUser(this.currentUser.uid)
         await this.setDbUser()
+        await this.setUsers()
       }
+      this.loader.show = await false
     },
     async setDocRefUser(uid) {
-      this.docRefUser = await firebase.firestore().collection('users').doc(uid)
+      this.docRefUsers = await firebase.firestore().collection('users')
+      this.docRefUser = await this.docRefUsers.doc(uid)
     },
     async setDbUser() {
       const docSnapshot = await this.docRefUser.get()
@@ -131,6 +133,18 @@ export default {
       if(result) {
         this.redirectResult = await result
       }
+    },
+    setUsers() {
+      const self = this
+      this.docRefUsers.get().then(snapshot => {
+        let users = {}
+        if(!snapshot.empty) {
+          snapshot.forEach(async doc => {
+            users[doc.id] = await doc.data()
+          })
+        }
+      self.users = users
+      })
     }
   }
 }

@@ -18,7 +18,7 @@ body
   header
 */
 .header
-  background-color $blue01
+  background linear-gradient(to bottom, $blue01 5%, darken($blue01, 5) 100%)
   box-shadow 0 3px 5px $blue01
   font-family: "Roboto", sans-serif
   min-height 58px
@@ -35,7 +35,7 @@ body
   & > h1
     font-size 28px
     font-weight bold
-    letter-spacing 0.03em
+    letter-spacing .03em
     padding 5px 0 3px
     text-align center
 
@@ -148,9 +148,85 @@ body
 */
 .query__item
   @extends .m-box
+  background lighten($blue01, 4) url($imgPath + 'dragon.png')
+  background-repeat no-repeat
+  background-position top 16% left 60%
+  padding-top 12px
+
+.query__item__header
+  font-size 13px
+  display flex
+  justify-content space-between
+  margin-bottom 7px
+
+.qmery__item__header__detial
+  width 70%
+
+.qmery__item__writer
+  font-weight bold
+  margin-bottom 5px
+  > i
+    color $blue03
+    font-size 18px
+    margin-right 3px
+
+.query__item__status
+  @extends .m-box__status
+  margin-bottom 0
+
+.query__item__dora
+  align-items flex-end
+  display flex
+  font-weight bold
+  justify-content flex-end
+  margin-left auto
+  margin-right 0
+  padding 0
+  width 30%
+  > i
+    height auto
+    margin-right 0
+    width 24%
+
+.query__item__footer
+  align-items center
+  display flex
+  justify-content space-between
+  margin-top 6px
+  padding-top 5px
+
+.query__item__footer__detail
+  width 45%
+  > div
+    border-bottom 2px dashed $blue02
+    margin-bottom 5px
+    padding-bottom 2px
+    > i
+      color $blue03
+      font-size 16px
+      margin-right 5px
+      position relative
+      top 1px
+
+.query__item__btn
+  appearance none
+  align-items center
+  background-color transparent
+  border 1px solid $blue03
+  border-radius 10px
+  box-sizing border-box
   cursor pointer
+  display flex
+  font-size 22px
+  justify-content center
+  height 64px
+  line-height 1
+  letter-spacing .04em
+  padding-right .08em
+  transition all 0.2s ease-out
+  width 45%
   &:hover
-    background-color $blue01
+    background-color $blue02
 
 /*
   404 notfound
