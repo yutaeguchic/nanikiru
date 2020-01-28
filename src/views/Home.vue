@@ -2,7 +2,7 @@
   <div class="home">
     <h2 class="m-ttl--page">NANIKIRU New</h2>
     <div class="query">
-      <Cassette v-for="(post, i) of postArray" :key="i" :post="post" :users="users"/>
+      <Cassette v-for="(key, i) of getPostKeys.slice(0, postCount)" :key="i" :post="posts[key]" :postId="key" :users="users"/>
     </div>
   </div>
 </template>
@@ -12,23 +12,20 @@ import Cassette from '@/components/Cassette.vue'
 export default {
   name: 'home',
   props: ['posts', 'users'],
+  components: {
+    Cassette
+  },
   data() {
     return {
       postCount: 10,
-      postArray: false
     }
-  },
-  components: {
-    Cassette
   },
   mounted() {
     if(window.location.search === '?modal') this.setModal()
   },
-  watch: {
-    posts() {
-      if(!this.postArray) {
-        this.postArray = Object.values(this.posts)
-      }
+  computed: {
+    getPostKeys() {
+      return Object.keys(this.posts)
     }
   },
   methods: {

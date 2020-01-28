@@ -1,12 +1,20 @@
 <template>
   <div class="single">
-    <h2 class="m-ttl--page"></h2>
+    <div>{{posts[postId]}}</div>
   </div>
 </template>
 
 <script>
 export default {
   name: 'single',
-  props: ['posts', 'users']
+  props: ['posts', 'users'],
+  data() {
+    return {
+      postId: false
+    }
+  },
+  mounted() {
+    this.postId = this.$route.params['id']
+  }
 }
 </script>

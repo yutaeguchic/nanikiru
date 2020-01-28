@@ -19,7 +19,7 @@
         <div><i class="icon-price-tag"></i><strong v-text="post.quiz?'問題':'相談'"></strong></div>
         <div>戦況・作者コメント： <strong v-text="post.condition?'あり':'なし'"></strong></div>
       </div>
-      <button type="button" class="query__item__btn" @click="toSingle(post)">挑戦（詳細）</button>
+      <router-link tag="button" type="button" class="query__item__btn" :to="'/post/'+postId">挑戦（詳細）</router-link>
     </footer>
   </div>
 </template>
@@ -27,7 +27,7 @@
 <script>
 export default {
   name: 'Post',
-  props: ['post', 'users'],
+  props: ['post', 'postId', 'users'],
   methods: {
     getWriter(uid) {
       if(this.users[uid]) {
