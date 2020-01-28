@@ -66,12 +66,12 @@ export default {
         twid: false
       },
       docRefUsers: false,
-      docRefUser: false,
       dbUser: {
         displayName: false,
         photoURL: false,
         twid: false
       },
+      docRefPosts: false,
       posts: {},
       users: {},
       modal: {
@@ -93,23 +93,24 @@ export default {
       firebase.auth().onAuthStateChanged(this.asyncHandler)
     },
     async asyncHandler(user) {
+      await this.setDocRefs()
+      await this.setUsers()
+      this.setPosts()
       if(user) {
         this.currentUser.uid = await String(user.uid)
         this.currentUser.displayName = await user.displayName
         this.currentUser.photoURL = await user.photoURL.replace('_normal', '')
-        await this.setDocRefUser(this.currentUser.uid)
-        await this.setDbUser()
-        await this.setUsers()
-        this.setPosts()
+        await this.setDbUser(this.currentUser.uid)
       }
       this.loader.show = await false
     },
-    async setDocRefUser(uid) {
-      this.docRefUsers = await firebase.firestore().collection('users')
-      this.docRefUser = await this.docRefUsers.doc(uid)
+    setDocRefs() {
+      this.docRefUsers = firebase.firestore().collection('users')
+      this.docRefPosts = firebase.firestore().collection('posts')
     },
-    async setDbUser() {
-      const docSnapshot = await this.docRefUser.get()
+    async setDbUser(uid) {
+      const docRefUser = this.docRefUsers.doc(uid)
+      const docSnapshot = await docRefUser.get()
       if(docSnapshot.exists) {
         this.currentUser.twid = await docSnapshot.get('twid')
       }else {
@@ -118,7 +119,7 @@ export default {
           this.dbUser.twid = await this.redirectResult.additionalUserInfo.username
           this.dbUser.displayName = await this.currentUser.displayName
           this.dbUser.photoURL = await this.currentUser.photoURL
-          await this.docRefUser.set(this.dbUser, {merge: true})
+          await docRefUser.set(this.dbUser, {merge: true})
           this.currentUser.twid = await this.dbUser.twid
         }
       }
@@ -143,9 +144,8 @@ export default {
       })
     },
     setPosts() {
-      const docRefPosts = firebase.firestore().collection('posts')
       let posts = {}
-      docRefPosts.get().then(snapshot => {
+      this.docRefPosts.get().then(snapshot => {
         if(!snapshot.empty) {
           snapshot.forEach(async doc => {
             posts[doc.id] = await doc.data()

@@ -33,10 +33,6 @@ export default {
       if(this.users[uid]) {
         return this.users[uid].displayName + ' （@' + this.users[uid].twid + '）'
       }
-    },
-    toSingle(post) {
-      this.$on('sendSinglePost', post)
-      this.$router.push('/post/'+post.id)
     }
   }
 }
