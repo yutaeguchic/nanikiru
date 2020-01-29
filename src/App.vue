@@ -4,8 +4,8 @@
 
     <router-view
       :currentUser="currentUser"
-      :posts="posts"
-      :users="users"
+      :posts.sync="posts"
+      :users.sync="users"
       @modal="modal.show = true"
     />
 
@@ -72,7 +72,7 @@ export default {
         twid: false
       },
       docRefPosts: false,
-      posts: {},
+      posts: false,
       users: {},
       modal: {
         show: false,

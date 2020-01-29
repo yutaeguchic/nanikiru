@@ -14,6 +14,21 @@ body
   font-size 14px
   line-height 1.7
 
+h1,h2,h3,h4,h5,h6,
+ul, ol, li {
+  margin 0
+  padding 0
+}
+
+a
+  border-bottom 1px solid $blue03
+  color darken($blue03, 10)
+  text-decoration none
+  transition all 0.2s ease-out
+  &:hover
+    border-color darken($blue03, 20)
+    color darken($blue03, 20)
+
 /*
   header
 */
@@ -55,6 +70,9 @@ body
 /*
   post
 */
+.post
+  user-select none
+
 .postSet
   @extends .m-box
   border-radius 10px
@@ -227,6 +245,70 @@ body
   width 45%
   &:hover
     background-color $blue02
+
+/*
+  single
+*/
+.single
+  font-size 16px
+  line-height 1.6
+
+.single__section
+  margin-bottom 35px
+
+.single__writer
+  font-size 18px
+  margin-bottom 30px
+  text-align right
+  > i
+    color $blue03
+    font-size 20px
+    margin-right 4px
+
+.single__status
+  margin-bottom 15px
+  font-weight bold
+  > li
+    display inline-block
+    border-bottom 1px dashed $blue02
+    margin-right 10px
+    &:before
+      @extends .m-icomoon
+      @extends .icon-clip:before
+      color $blue03
+      margin-right 2px
+
+.single__condition
+  white-space pre
+
+.single__card
+  margin-bottom 8px
+  > i
+    @extends .m-card
+    height auto
+    width 6.7%
+
+.single__title
+  font-size 18px
+  font-weight bold
+  line-height 1
+  margin-bottom 10px
+  &:before
+    @extends .m-icomoon
+    @extends .icon-radio-checked:before
+    color $blue03
+    margin-right 4px
+    position relative
+    top 1px
+
+.single__subTitle
+  font-weight bold
+  margin-bottom 2px
+  &:before
+    @extends .m-icomoon
+    @extends .icon-clip:before
+    color $blue03
+    margin-right 2px
 
 /*
   404 notfound

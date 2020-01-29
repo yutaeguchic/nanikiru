@@ -40,8 +40,8 @@
       <div v-show="state===2">
         <h3 class="m-ttl--section">ドラ表示牌を選択してください</h3>
         <div class="m-box">
-          <div>※ドラが<i class="m-card m1"></i>の場合は<i class="m-card m9"></i>を、ドラが<i class="m-card dw"></i>の場合は<i class="m-card dr"></i>を選択</div>
-          <div>※手牌と合わせ同種の牌は最大４枚、赤ドラは最大１枚です<br>(ページ遷移時に判定されます)</div>
+          <div class="m-box__note">※ドラが<i class="m-card m1"></i>の場合は<i class="m-card m9"></i>を、ドラが<i class="m-card dw"></i>の場合は<i class="m-card dr"></i>を選択</div>
+          <div class="m-box__note">※手牌と合わせ同種の牌は最大４枚、赤ドラは最大１枚です<br>(ページ遷移時に判定されます)</div>
           <div class="postSet--cardWrap">
             <div class="m-box__cards">
               <i v-for="i of 37" :key="i" class="large select" :class="[sortCardItems[i-1], {active: post.f === sortCardItems[i-1]}]" :data-value="sortCardItems[i-1]" @click="setDora($event)"></i>
@@ -51,8 +51,8 @@
 
         <h3 class="m-ttl--section">手牌を入力してください</h3>
         <div class="m-box">
-          <div>※同種の牌はドラ表示牌を含めて最大４枚、赤ドラは最大１枚です</div>
-          <div><strong>※下記の牌クリックで追加、画面下部の手牌クリックで削除</strong></div>
+          <div class=m-box__note>※同種の牌はドラ表示牌を含めて最大４枚、赤ドラは最大１枚です</div>
+          <div class=m-box__note><strong>※下記の牌クリックで追加、画面下部の手牌クリックで削除</strong></div>
           <div class="m-box__cards">
             <i v-for="i of 37" :key="i" class="large select" :class="sortCardItems[i-1]" :data-value="sortCardItems[i-1]" @click="addCard($event)"></i>
           </div>
@@ -60,7 +60,7 @@
 
         <h3 class="m-ttl--section">戦況・コメント等を入力してください(空白可)</h3>
         <div class="m-box">
-          <div>※上限1000文字</div>
+          <div class="m-box__note">※上限1000文字</div>
           <textarea class="postSet--textarea" :maxlength="maxlength.condition" v-model="post.condition"></textarea>
         </div>
       </div><!-- /.state2 -->
@@ -68,8 +68,8 @@
       <div v-show="state===3">
         <h3 class="m-ttl--section">正答牌を選択してください</h3>
         <div class="m-box">
-          <div>※「正解なし」を選択した場合「何切る相談」として扱われます</div>
-          <div>※正解に選択された牌と同種の牌が手牌に入っている際、すべて正解として扱われます、ただし赤ドラは別種として扱われます<br>(例えば正解を<i class="m-card m5"></i>とした際<i class="m-card m5r"></i>は不正解となります)</div>
+          <div class="m-box__note">※「正解なし」を選択した場合「何切る相談」として扱われます</div>
+          <div class="m-box__note">※正解に選択された牌と同種の牌が手牌に入っている際、すべて正解として扱われます、ただし赤ドラは別種として扱われます<br>(例えば正解を<i class="m-card m5"></i>とした際<i class="m-card m5r"></i>は不正解となります)</div>
           <input id="g" class="postSet--switch" type="checkbox" value="null" v-model="post.quiz"><label for="g" data-on="正解あり" data-off="正解なし" checked></label>
           <transition name="fadeDown">
             <div v-show="post.quiz" class="m-box__cards">
@@ -82,8 +82,8 @@
           <div v-show="post.quiz">
             <h3 class="m-ttl--section">正答の解説を入力してください</h3>
             <div class="m-box">
-              <div><strong>※「正解あり」の場合、記入は必須となります</strong></div>
-              <div>※上限1000文字</div>
+              <div class=m-box__note><strong>※「正解あり」の場合、記入は必須となります</strong></div>
+              <div class=m-box__note>※上限1000文字</div>
               <textarea class="postSet--textarea" :maxlength="maxlength.commentary" v-model="post.commentary"></textarea>
             </div>
           </div>
@@ -91,8 +91,8 @@
 
         <h3 class="m-ttl--section">問題のタイトルを入力してください</h3>
         <div class="m-box">
-          <div>※無記入の場合は『無題』となります</div>
-          <div>※最大{{maxlength.title}}文字です</div>
+          <div class="m-box__note">※無記入の場合は『無題』となります</div>
+          <div class="m-box__note">※最大{{maxlength.title}}文字です</div>
           <input class="postSet--text" type="text" maxlength="32" v-model="post.title">
         </div>
       </div>
