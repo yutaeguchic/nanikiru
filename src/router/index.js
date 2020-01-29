@@ -32,6 +32,14 @@ const routes = [
     component: () => import('../views/Single.vue')
   },
   {
+    path: '/answer/:id',
+    name: 'answer',
+    meta: {
+      requiresAuth: true
+    },
+    component: () => import('../views/Answer.vue')
+  },
+  {
     path: '/*',
     name: 'notfound',
     component: () => import('../views/404.vue')

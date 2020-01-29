@@ -1,35 +1,46 @@
 <template>
   <div id="app">
-    <global-header/>
-
-    <router-view
+    <global-header
       :currentUser="currentUser"
-      :posts.sync="posts"
-      :users.sync="users"
-      @modal="modal.show = true"
+      @modal="setModal"
     />
+
+    <transition name="fadeIn">
+      <router-view
+        :currentUser="currentUser"
+        :posts.sync="posts"
+        :users.sync="users"
+        @modal="setModal"
+        @setPosts="setPosts()"
+      />
+    </transition>
 
     <global-account
       :currentUser="currentUser"
+      @login="login()"
+      @logout="logout()"
     />
 
     <global-footer/>
 
-    <transition name="fadeDown">
+    <transition name="fadeInDown">
       <modal
         v-show="modal.show"
-        @close="modal.show=false"
+        @close="closeModal()"
       >
         <template v-slot:header>
-          <h1 class="m-ttl">{{modal.ttl}}</h1>
+          <h1 class="m-ttl">{{modal.title}}</h1>
         </template>
         <template v-slot:content>
-          <div v-html="modal.content"></div>
+          <div class="m-modal__content" v-html="modal.content"></div>
+          <transition name="fadeInDown">
+            <div class="m-modal__btn" v-show="modal.submit"><button type="button" class="m-btn--able" @click="callMethod(modal.funcName)">{{modal.button}}</button></div>
+          </transition>
         </template>
       </modal>
     </transition>
 
-    <transition name="fadeDown">
+    <transition name="fadeInDown">
       <Loader
         v-show="loader.show"
       />
@@ -69,15 +80,20 @@ export default {
       dbUser: {
         displayName: false,
         photoURL: false,
-        twid: false
+        twid: false,
+        answers: [],
+        plofile: ''
       },
       docRefPosts: false,
       posts: false,
       users: {},
       modal: {
         show: false,
-        ttl: '',
-        content: ''
+        title: '',
+        content: '',
+        button: '',
+        submit: false,
+        funcName: false
       },
       loader: {
         show: false
@@ -89,6 +105,27 @@ export default {
     this.setCurrentUser()
   },
   methods: {
+    callMethod(name) {
+      return this[name]()
+    },
+    login() {
+      const provider = new firebase.auth.TwitterAuthProvider()
+      firebase.auth().signInWithRedirect(provider)
+    },
+    logout() {
+      this.currentUser.login = false
+      firebase.auth().signOut()
+    },
+    setModal(data) {
+      const self = this
+      Object.keys(data).forEach((key) => {
+        self.$set(self.modal, key, data[key])
+      })
+    },
+    closeModal() {
+      this.modal.show = false
+      this.modal.submit = false
+    },
     setCurrentUser() {
       firebase.auth().onAuthStateChanged(this.asyncHandler)
     },
@@ -106,7 +143,7 @@ export default {
     },
     setDocRefs() {
       this.docRefUsers = firebase.firestore().collection('users')
-      this.docRefPosts = firebase.firestore().collection('posts')
+      this.docRefPosts = firebase.firestore().collection('posts').orderBy('timestamp')
     },
     async setDbUser(uid) {
       const docRefUser = this.docRefUsers.doc(uid)
@@ -153,6 +190,9 @@ export default {
         }
       this.posts = posts
       })
+    },
+    postAnswer() {
+      console.log('postAnswer')
     }
   }
 }

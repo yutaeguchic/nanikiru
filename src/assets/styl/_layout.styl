@@ -50,9 +50,21 @@ a
   & > h1
     font-size 28px
     font-weight bold
+    cursor pointer
     letter-spacing .03em
     padding 5px 0 3px
     text-align center
+
+.header__btn
+  @extends .m-iconBtn
+  top 10px
+  font-size 32px
+  height 55px
+  right 10px
+  position fixed
+  width 55px
+  &:hover
+    border-color #fff
 
 /*
   content
@@ -138,10 +150,10 @@ a
   & > div
     font-size 14px
     margin-bottom 25px
-    white-space pre
+    white-space pre-wrap
 
 .post__preview
-  background-color rgba(black, .8)
+  background-color rgba(darken($black, 20), .8)
   bottom 0
   color #fff
   left 0
@@ -160,6 +172,9 @@ a
   @extends .m-box__status
   & > li
     border-color $white
+  & + .m-box__cards
+    border-radius 4px
+    background-color lighten($black, 5)
 
 /*
   archive
@@ -256,6 +271,11 @@ a
 .single__section
   margin-bottom 35px
 
+.single__date
+  font-size 14px
+  margin-bottom 5px
+  text-align right
+
 .single__writer
   font-size 18px
   margin-bottom 30px
@@ -279,7 +299,7 @@ a
       margin-right 2px
 
 .single__condition
-  white-space pre
+  white-space pre-wrap
 
 .single__card
   margin-bottom 8px
@@ -309,6 +329,10 @@ a
     @extends .icon-clip:before
     color $blue03
     margin-right 2px
+
+.single__submit
+  margin 25px 0 10px
+  text-align center
 
 /*
   404 notfound

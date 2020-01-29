@@ -17,7 +17,7 @@
     <footer class="query__item__footer">
       <div class="query__item__footer__detail">
         <div><i class="icon-price-tag"></i><strong v-text="post.quiz?'問題':'相談'"></strong></div>
-        <div>戦況・作者コメント： <strong v-text="post.condition?'あり':'なし'"></strong></div>
+        <div>戦況・出題者コメント： <strong v-text="post.condition?'あり':'なし'"></strong></div>
       </div>
       <router-link tag="button" type="button" class="query__item__btn" :to="'/post/'+postId">挑戦（詳細）</router-link>
     </footer>

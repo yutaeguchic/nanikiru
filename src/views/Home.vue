@@ -30,7 +30,7 @@ export default {
   },
   methods: {
     setModal() {
-      this.$emit('modal')
+      this.$parent.modal.show = true
       history.replaceState('', '', '/')
     }
   }

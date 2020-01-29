@@ -20,13 +20,12 @@
 
     <div class="single__section">
       <h3 class="single__title">戦況・出題者コメント</h3>
-      <div class="single__condition" v-text="post.condition?post.condition:'なし'"></div>
+      <div class="single__condition" v-text="post.condition?condition:'なし'"></div>
     </div>
 
     <div class="single__section">
       <h3 class="single__title">解答</h3>
       <form class="m-box">
-        <div class="m-box__title">解答を選択してください</div>
         <div class="m-box__note">※正解の牌が複数枚含まれている際、すべて正解となります、ただし赤ドラは別種として扱われます<br>(例えば正解を<i class="m-card m5"></i>とした際<i class="m-card m5r"></i>は不正解となります)</div>
         <div class="m-box__cards">
           <i v-for="(card, i) of post.cards" :key="i" class="large select" :class="[card, {active: answer === card}]" :data-value="card" @click="setAnswer($event)"></i>
@@ -34,73 +33,33 @@
         <div class="single__submit"><button type="button" :class="answer?'m-btn--able':'m-btn--disabled'" :disabled="!answer" @click="confirm()">解答する</button></div>
       </form>
     </div>
+
+    <transition name="fadeDown">
+      <modal
+        v-show="modal"
+        @close="modal=false"
+      >
+        <template v-slot:header>
+          <h1 class="m-ttl">確認</h1>
+        </template>
+        <template v-slot:content>
+          <div class="single__modal">
+            <p>以下の牌で回答してよろしいですか？<strong>※NANIKIRUの解答は１つ１回まで</strong></p>
+            <i :class="answer"></i>
+            <button type="button" @click="submit()">解答</button>
+          </div>
+        </template>
+      </modal>
+    </transition>
+
   </div>
 </template>
 
 <script>
 export default {
-  name: 'single',
+  name: 'answer',
   props: ['posts', 'users'],
   data() {
-    return {
-      post: {},
-      postId: false,
-      date: '',
-      writer: {},
-      answer: ''
-    }
   },
-  watch: {
-    posts() {
-      if(this.posts) {
-        this.setPost()
-        this.setWriter()
-        this.setDate()
-      }
-    }
-  },
-  mounted() {
-    this.postId = this.$route.params['id']
-    if(this.posts) {
-      this.setPost()
-      this.setWriter()
-      this.setDate()
-    }
-  },
-  methods: {
-    setPost() {
-      if(this.posts[this.postId]) {
-        this.post = this.posts[this.postId]
-      }else {
-        console.log('notfound')
-        this.$router.push('/notfound')
-      }
-    },
-    setDate() {
-      const seconds = this.post.timestamp.add.seconds
-      const a = new Date(seconds * 1000)
-      const year = a.getFullYear()
-      const month = a.getMonth()+1
-      const date = a.getDate()
-      this.date = year + '/' + month + '/' + date
-    },
-    setWriter() {
-      this.writer = this.users[this.post.uid]
-    },
-    setAnswer(event) {
-      this.answer = event.toElement.attributes['data-value'].value
-    },
-    confirm() {
-      const data = {
-        title: '確認',
-        content: '<p>以下の牌で回答してよろしいですか？<strong>※NANIKIRUの解答は１つ１回まで</strong></p>',
-        submit: true,
-        button: '解答する',
-        funcName: 'postAnswer',
-        show: true
-      }
-      this.$emit('modal', data)
-    }
-  }
 }
 </script>

@@ -9,7 +9,7 @@
         </ul>
         <div class="footer__btn" @click="navClose()" title="close"><i class="icon-close"></i></div>
       </nav>
-      <div class="footer__btn" v-else title="open menu"><i class="icon-menu" @click="navShow()"></i></div>
+      <div class="footer__btn" v-else @click="navShow()" title="open menu"><i class="icon-menu"></i></div>
     </div>
     <div class="footer__overlay"></div>
   </footer>
@@ -17,6 +17,7 @@
 
 <script>
 export default {
+  name: 'Footer',
   data: function() {
     return {
       footerNav: false

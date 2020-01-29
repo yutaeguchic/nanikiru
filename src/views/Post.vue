@@ -68,10 +68,10 @@
       <div v-show="state===3">
         <h3 class="m-ttl--section">正答牌を選択してください</h3>
         <div class="m-box">
-          <div class="m-box__note">※「正解なし」を選択した場合「何切る相談」として扱われます</div>
+          <div class="m-box__note">※「正解なし」を選択した場合NANIKIRUは「相談」モードとなります</div>
           <div class="m-box__note">※正解に選択された牌と同種の牌が手牌に入っている際、すべて正解として扱われます、ただし赤ドラは別種として扱われます<br>(例えば正解を<i class="m-card m5"></i>とした際<i class="m-card m5r"></i>は不正解となります)</div>
           <input id="g" class="postSet--switch" type="checkbox" value="null" v-model="post.quiz"><label for="g" data-on="正解あり" data-off="正解なし" checked></label>
-          <transition name="fadeDown">
+          <transition name="fadeInDown">
             <div v-show="post.quiz" class="m-box__cards">
               <i v-for="i of 14" :key="i" v-show="post.cards[i-1]" class="large select" :class="[post.cards[i-1], {active: post.g === post.cards[i-1]}]" :data-value="post.cards[i-1]" @click="setAnswerCard($event)"></i>
             </div>
@@ -186,7 +186,10 @@ export default {
         cards: new Array(14).fill(null), //手牌
         condition: '', //戦況
         commentary: '', //解説
-        rating: [],
+        answers: { //解答データ格納用
+          uid: false,
+          answer: false
+        },
         a: false, //局風
         b: false, //局数
         c: false, //本場
@@ -267,17 +270,26 @@ export default {
     },
     move(count) {
       if(this.post.f && this.cardValidate(this.post.f)) {
-        this.$parent.modal.ttl = 'ドラ表示牌/手配を変更してください'
-        this.$parent.modal.content = '<p>ドラ表示牌を手配で使い切っています</p>'
-        this.$emit('modal')
+        const data = {
+          title: 'ドラ表示牌/手配を変更してください',
+          content: '<p>ドラ表示牌を手配で使い切っています</p>',
+          show: true
+        }
+        this.$emit('modal', data)
       }else if(this.post.condition && this.textValidate(this.post.condition, this.maxlength.condition)) {
-        this.$parent.modal.ttl = '戦況・コメントの文章を変更してください'
-        this.$parent.modal.content = '<p>上限の1000文字を超えています</p>'
-        this.$emit('modal')
+        const data = {
+          title: '戦況・コメントの文章を変更してください',
+          content: '<p>上限の1000文字を超えています</p>',
+          show: true
+        }
+        this.$emit('modal', data)
       }else if(this.post.g && this.textValidate(this.post.commentary, this.maxlength.commentary)) {
-        this.$parent.modal.ttl = '戦況・コメントの文章を変更してください'
-        this.$parent.modal.content = '<p>上限の1000文字を超えています</p>'
-        this.$emit('modal')
+        const data = {
+          title: '戦況・コメントの文章を変更してください',
+          content: '<p>上限の1000文字を超えています</p>',
+          show: true
+        }
+        this.$emit('modal', data)
       }else {
         this.state = this.state + count
         this.$SmoothScroll(document.body, 400)
@@ -291,17 +303,21 @@ export default {
       this.post.timestamp.add = time
       this.post.title = this.post.title.trim()
       this.post.condition = this.post.condition.trim()
-      this.post.commentary = this.post.quiz?this.post.quiz.trim():''
+      this.post.commentary = this.post.quiz?this.post.commentary.trim():''
       const self = this
       firebase.firestore().collection('posts').add(self.post).then(() => {
-        self.$parent.modal.ttl = '投稿完了'
-        self.$parent.modal.content = '<p><strong>NANIKIRU</strong>を投稿しました</p>'
+        this.$emit('setPosts')
+        this.$parent.modal.ttl = '投稿完了'
+        this.$parent.modal.content = '<p><strong>NANIKIRU</strong>を投稿しました</p>'
         this.$router.push('/?modal')
       }).catch((err) => {
         console.log(err)
-        self.$parent.modal.ttl = '投稿エラー'
-        self.$parent.modal.content = '<p><strong>NANIKIRU</strong>の投稿に失敗しました</p>'
-        self.$emit('modal')
+        const data = {
+          ttl: '投稿エラー',
+          content: '<p><strong>NANIKIRU</strong>の投稿に失敗しました</p>',
+          show: true
+        }
+        self.$emit('modal', data)
       })
     }
   }

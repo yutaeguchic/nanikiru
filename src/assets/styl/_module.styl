@@ -223,6 +223,14 @@ $characters = 'we' 'ws' 'ww' 'wn' 'dw' 'db' 'dr'
   & > h1
     font-size 16px
     border-bottom 2px dashed $blue01
+  p
+    font-size 14px
+    line-height 1.7
+    margin 0
+    padding 0
+
+.m-modal__content
+  margin 10px 0
 
 .m-modal__close
   @extends .m-iconBtn
@@ -232,6 +240,12 @@ $characters = 'we' 'ws' 'ww' 'wn' 'dw' 'db' 'dr'
   right -20px
   top -20px
   width 40px
+
+.m-modal__btn
+  margin 20px 0 10px
+  text-align center
+  > button
+    @extends .m-btn
 
 /*
   loader
@@ -318,8 +332,9 @@ $characters = 'we' 'ws' 'ww' 'wn' 'dw' 'db' 'dr'
       width 100%
 
 .m-box__title
-  font-size 15px
   border-bottom 2px dashed #fff
+  font-size 15px
+  font-weight bold
   letter-spacing .04em
   line-height 1.4
   margin 0 0 10px
