@@ -31,8 +31,18 @@ export default {
   methods: {
     getWriter(uid) {
       if(this.users[uid]) {
-        return this.users[uid].displayName + ' （@' + this.users[uid].twid + '）'
+        return this.users[uid].displayName + ' （@' + this.users[uid].username + '）'
       }
+    },
+    setDate() {
+      const seconds = this.post.timestamp.seconds
+      const a = new Date(seconds * 1000)
+      const year = a.getFullYear()
+      const month = a.getMonth()+1
+      const date = a.getDate()
+      const hours = a.getHours()
+      const minutes = a.getMinutes()
+      this.date = year + '/' + month + '/' + date + ' ' + hours + ':' + minutes
     }
   }
 }

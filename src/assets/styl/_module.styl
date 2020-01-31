@@ -231,6 +231,7 @@ $characters = 'we' 'ws' 'ww' 'wn' 'dw' 'db' 'dr'
 
 .m-modal__content
   margin 10px 0
+  text-align center
 
 .m-modal__close
   @extends .m-iconBtn
@@ -240,6 +241,13 @@ $characters = 'we' 'ws' 'ww' 'wn' 'dw' 'db' 'dr'
   right -20px
   top -20px
   width 40px
+
+.m-modal__card
+  margin-top 20px
+  > i
+    @extends .m-card
+    height auto
+    width 40px
 
 .m-modal__btn
   margin 20px 0 10px
@@ -348,3 +356,6 @@ $characters = 'we' 'ws' 'ww' 'wn' 'dw' 'db' 'dr'
 
 .m-box__note
   margin-bottom 5px
+  > .m-card
+    position relative
+    top 2px

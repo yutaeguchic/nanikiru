@@ -1,5 +1,6 @@
 <template>
-  <div class="notfound">
+  <div class="content-notfound">
+
     <div class="m-box">
       <h3 class="m-box__title m-box__cards"><i class="m-card m4"></i><i class="m-card p1"></i><i class="m-card m4"></i><br>Not Found</h3>
       <p>このURLに該当するページはありません<br>お探しのページは削除された可能性があります</p>
@@ -10,6 +11,6 @@
 
 <script>
 export default {
-  name: 'notfound'
+  name: 'Notfound'
 }
 </script>

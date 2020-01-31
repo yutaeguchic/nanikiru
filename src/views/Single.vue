@@ -1,11 +1,16 @@
 <template>
-  <div class="single">
-    <h2 class="m-ttl--page" v-text="post.title?post.title:'無題'"></h2>
+  <div class="content-single">
+    <breadcrumb
+      text="NANIKIRU"
+    />
 
+    <h2 class="m-ttl--page">NANIKIRU <span v-text="post.quiz?'問題':'相談'"></span></h2>
+
+    <div class="single__date">{{postDate}}</div>
+    <div class="single__writer"><i class="icon-pen"></i>{{writer.displayName}}<br>(<a :href="'https://twitter.com/'+writer.username" target="_blank" title="twitter">@{{writer.username}}</a>)</div>
+
+    <h3 class="single__postTitle" v-text="post.title?post.title:'無題'"></h3>
     <div class="single__section">
-      <div class="single__date">{{date}}</div>
-      <div class="single__writer"><i class="icon-pen"></i>{{writer.displayName}}<br>(<a :href="'https://twitter.com/'+writer.twid" target="_blank" title="twitter">@{{writer.twid}}</a>)</div>
-      <h3 class="single__title" v-text="post.quiz?'問題':'相談'"></h3>
       <ul class="single__status">
         <li>{{post.a}}{{post.b}}</li>
         <li>{{post.c}}本場</li>
@@ -29,25 +34,45 @@
         <div class="m-box__title">解答を選択してください</div>
         <div class="m-box__note">※正解の牌が複数枚含まれている際、すべて正解となります、ただし赤ドラは別種として扱われます<br>(例えば正解を<i class="m-card m5"></i>とした際<i class="m-card m5r"></i>は不正解となります)</div>
         <div class="m-box__cards">
-          <i v-for="(card, i) of post.cards" :key="i" class="large select" :class="[card, {active: answer === card}]" :data-value="card" @click="setAnswer($event)"></i>
+          <i v-for="(card, i) of post.cards" :key="i" class="large select" :class="[card, {active: answer.card === card}]" :data-value="card" @click="setAnswer($event)"></i>
         </div>
-        <div class="single__submit"><button type="button" :class="answer?'m-btn--able':'m-btn--disabled'" :disabled="!answer" @click="confirm()">解答する</button></div>
+        <div v-if="post.uid === currentUser.uid" class="single__submit">
+          <button type="button" class="m-btn--disabled">解答する</button>
+          <div class="single__submit__note">※出題者のため、解答はできません</div>
+        </div>
+        <div v-else class="single__submit"><button type="button" :class="answer.card?'m-btn--able':'m-btn--disabled'" :disabled="!answer.card" @click="confirm()">解答する</button></div>
       </form>
     </div>
+
+    <div class="content__footer">
+      <return-home/>
+    </div>
+
   </div>
 </template>
 
 <script>
+import firebase from 'firebase'
+import Breadcrumb from '@/components/Breadcrumb.vue'
+import ReturnHome from '@/components/btns/ReturnHome.vue'
 export default {
-  name: 'single',
-  props: ['posts', 'users'],
+  name: 'Single',
+  components: {
+    Breadcrumb,
+    ReturnHome
+  },
+  props: ['posts', 'users', 'currentUser'],
   data() {
     return {
       post: {},
       postId: false,
-      date: '',
       writer: {},
-      answer: ''
+      answer: {
+        postId: '',
+        timestamp: false,
+        uid: '',
+        card: false
+      }
     }
   },
   watch: {
@@ -55,7 +80,6 @@ export default {
       if(this.posts) {
         this.setPost()
         this.setWriter()
-        this.setDate()
       }
     }
   },
@@ -64,7 +88,12 @@ export default {
     if(this.posts) {
       this.setPost()
       this.setWriter()
-      this.setDate()
+    }
+  },
+  computed: {
+    postDate: function() {
+      const d = (this.post.timestamp)? this.getDate(this.post.timestamp.seconds):false
+      return d
     }
   },
   methods: {
@@ -72,34 +101,60 @@ export default {
       if(this.posts[this.postId]) {
         this.post = this.posts[this.postId]
       }else {
-        console.log('notfound')
         this.$router.push('/notfound')
       }
     },
-    setDate() {
-      const seconds = this.post.timestamp.add.seconds
+    getDate(seconds) {
       const a = new Date(seconds * 1000)
       const year = a.getFullYear()
       const month = a.getMonth()+1
       const date = a.getDate()
-      this.date = year + '/' + month + '/' + date
+      const hours = a.getHours()
+      const minutes = a.getMinutes()
+      return this.date = year + '/' + month + '/' + date + ' ' + hours + ':' + minutes
     },
     setWriter() {
       this.writer = this.users[this.post.uid]
     },
     setAnswer(event) {
-      this.answer = event.toElement.attributes['data-value'].value
+      this.answer.card = event.toElement.attributes['data-value'].value
     },
     confirm() {
-      const data = {
-        title: '確認',
-        content: '<p>以下の牌で回答してよろしいですか？<strong>※NANIKIRUの解答は１つ１回まで</strong></p>',
-        submit: true,
-        button: '解答する',
-        funcName: 'postAnswer',
-        show: true
+      if(this.currentUser.login) {
+        const time = firebase.firestore.FieldValue.serverTimestamp()
+        const data = {
+          title: '確認',
+          content: '<p>以下の牌で回答してよろしいですか？<strong>※NANIKIRUの解答は１つ１回まで</strong></p><div class="m-modal__card"><i class="'+this.answer.card+'"></i></div>',
+          submit: true,
+          button: '解答する',
+          funcName: 'postAnswer',
+          answer: {
+            postId: this.postId,
+            timestamp: time,
+            uid: this.currentUser.uid,
+            card: this.answer.card
+          },
+          show: true
+        }
+        this.$emit('modal', data)
+      }else if(this.post.uid === this.currentUser.uid) {
+        const data = {
+          title: '解答ができません',
+          content: '<p>NANIKIRUの出題者のため</p>',
+          show: true
+        }
+        this.$emit('modal', data)
+      }else {
+        const data = {
+          title: 'ログインして下さい',
+          content: '<p>NANIKIRUの解答にはTwitterアカウントによる承認が必要です</p>',
+          submit: true,
+          button: 'ログインする',
+          funcName: 'login',
+          show: true
+        }
+        this.$emit('modal', data)
       }
-      this.$emit('modal', data)
     }
   }
 }

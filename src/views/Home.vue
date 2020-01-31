@@ -1,6 +1,9 @@
 <template>
-  <div class="home">
-    <h2 class="m-ttl--page">NANIKIRU New</h2>
+  <div class="content-home">
+
+    <breadcrumb/>
+
+    <h2 class="m-ttl--page">NANIKIRU 新着</h2>
     <div class="query">
       <Cassette v-for="(key, i) of getPostKeys.slice(0, postCount)" :key="i" :post="posts[key]" :postId="key" :users="users"/>
     </div>
@@ -9,12 +12,14 @@
 
 <script>
 import Cassette from '@/components/Cassette.vue'
+import Breadcrumb from '@/components/Breadcrumb.vue'
 export default {
-  name: 'home',
-  props: ['posts', 'users'],
+  name: 'Home',
   components: {
+    Breadcrumb,
     Cassette
   },
+  props: ['posts', 'users'],
   data() {
     return {
       postCount: 10,

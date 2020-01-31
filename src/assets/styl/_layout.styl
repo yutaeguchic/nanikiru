@@ -55,7 +55,10 @@ a
     padding 5px 0 3px
     text-align center
 
-.header__btn
+/*
+  newPostBtn
+*/
+.newPost__btn
   @extends .m-iconBtn
   top 10px
   font-size 32px
@@ -63,28 +66,59 @@ a
   right 10px
   position fixed
   width 55px
+  z-index $indexLevel4
   &:hover
     border-color #fff
 
 /*
+  breadcrumb
+*/
+.breadcrumb
+  align-items center
+  font-size 14px
+  display flex
+  margin-bottom 11px
+  > li:first-child
+    color darken($blue03, 10)
+    cursor pointer
+    margin-right 5px
+    transition all 0.2s ease-out
+    &:hover
+      color darken($blue03, 20)
+    .icon-home:before
+      font-size 15px
+      margin-right 2px
+      position relative
+      top 1px
+  li
+    .icon-right:before
+      margin-right 5px
+
+/*
   content
 */
-.header + div
+[class^="content-"]
   background-color rgba(255, 255, 255, 0.7)
   min-height 100%
   margin 0 auto
   max-width 640px
-  padding 86px 1% 100px
+  padding 74px 1% 100px
 
-.header + .post
+.content-post
   padding-bottom 250px
+  user-select none
+
+.content__footer
+  margin-top 80px
+  text-align center
+
+.content-notfound
+  > .m-box
+    text-align center
 
 /*
   post
 */
-.post
-  user-select none
-
 .postSet
   @extends .m-box
   border-radius 10px
@@ -250,7 +284,7 @@ a
   box-sizing border-box
   cursor pointer
   display flex
-  font-size 22px
+  font-size 18px
   justify-content center
   height 64px
   line-height 1
@@ -278,12 +312,19 @@ a
 
 .single__writer
   font-size 18px
-  margin-bottom 30px
+  margin-bottom 5px
   text-align right
   > i
     color $blue03
     font-size 20px
     margin-right 4px
+
+.single__postTitle
+  border-bottom 1px solid $blue01
+  font-size 18px
+  font-weight bold
+  letter-spacing 0.06em
+  margin-bottom 16px
 
 .single__status
   margin-bottom 15px
@@ -311,8 +352,8 @@ a
 .single__title
   font-size 18px
   font-weight bold
-  line-height 1
-  margin-bottom 10px
+  letter-spacing 0.07em
+  margin-bottom 8px
   &:before
     @extends .m-icomoon
     @extends .icon-radio-checked:before
@@ -334,11 +375,9 @@ a
   margin 25px 0 10px
   text-align center
 
-/*
-  404 notfound
-*/
-.notfound
-  text-align center
+.single__submit__note
+  margin-top 5px
+  font-size 14px
 
 /*
   account
@@ -369,8 +408,6 @@ a
 /*
   footer
 */
-.fooerWrap
-  width 100vw
 .footer
   triangle(150px, 150px, bottom-right, $blue01)
   bottom 0
@@ -407,12 +444,25 @@ a
   width 55px
   &:hover
     border-color #fff
+  > i
+    align-items center
+    display flex
+    height 100%
+    justify-content center
+    width 100%
+
+.active
+  .footer__btn
+    font-size 60px
+    height 104px
+    width 104px
 
 .footer__copy
-  bottom 143px
+  bottom 155px
   font-family "Roboto", sans-serif
   font-size 16px
   font-weight bold
-  right -56px
+  right -62px
   position fixed
   transform rotate(-90deg)
+  z-index $indexLevel3

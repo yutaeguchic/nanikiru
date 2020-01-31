@@ -1,6 +1,10 @@
 <template>
-  <div class="post">
-    <h2 class="m-ttl--page">NANIKIRU POST (問題作成) <span v-show="state!=4">{{state}}/3ページ</span></h2>
+  <div class="content-post">
+    <breadcrumb
+      text="NANIKIRU 作成"
+    />
+
+    <h2 class="m-ttl--page">NANIKIRU 作成 <span v-show="state!=4">{{state}}/3ページ</span></h2>
     <form>
       <div v-show="state===1">
         <h3 class="m-ttl--section">局を選択してください</h3>
@@ -103,7 +107,7 @@
           <h4 class="m-box__strong">タイトル</h4>
           <div v-text="post.title.trim()?post.title:'無題'"></div>
           <h4 class="m-box__strong">投稿者</h4>
-          <div>{{currentUser.displayName}}(@{{currentUser.twid}})</div>
+          <div>{{currentUser.db.displayName}}(@{{currentUser.db.username}})</div>
           <h4 class="m-box__strong">手牌</h4>
           <div>
             <ul class="m-box__status">
@@ -155,8 +159,12 @@
 
 <script>
 import firebase from 'firebase'
+import Breadcrumb from '@/components/Breadcrumb.vue'
 export default {
   name: 'post',
+  components: {
+    Breadcrumb
+  },
   props: ['currentUser'],
   data() {
     return {
@@ -177,10 +185,8 @@ export default {
       cardFull: false,
       post: {
         uid: false,
-        timestamp: {
-          add: false,
-          refresh: false
-        },
+        timestamp: false,
+        retimestamp: false,
         quiz: true,
         title: '', //タイトル
         cards: new Array(14).fill(null), //手牌
@@ -300,14 +306,14 @@ export default {
       this.$SmoothScroll(document.body, 400)
       const time = firebase.firestore.FieldValue.serverTimestamp()
       this.post.uid = this.currentUser.uid
-      this.post.timestamp.add = time
+      this.post.timestamp = time
       this.post.title = this.post.title.trim()
       this.post.condition = this.post.condition.trim()
       this.post.commentary = this.post.quiz?this.post.commentary.trim():''
       const self = this
       firebase.firestore().collection('posts').add(self.post).then(() => {
         this.$emit('setPosts')
-        this.$parent.modal.ttl = '投稿完了'
+        this.$parent.modal.title = '投稿完了'
         this.$parent.modal.content = '<p><strong>NANIKIRU</strong>を投稿しました</p>'
         this.$router.push('/?modal')
       }).catch((err) => {

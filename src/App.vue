@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <global-header
+    <global-header/>
+
+    <global-new-post
       :currentUser="currentUser"
       @modal="setModal"
     />
@@ -52,7 +54,8 @@
 <script>
 import firebase from 'firebase'
 import GlobalHeader from '@/components/GlobalHeader.vue'
-import GlobalAccount from '@/components/GlobalAccount.vue'
+import GlobalNewPost from '@/components/btns/GlobalNewPost.vue'
+import GlobalAccount from '@/components/btns/GlobalAccount.vue'
 import GlobalFooter from '@/components/GlobalFooter.vue'
 import Modal from '@/components/Modal.vue'
 import Loader from '@/components/Loader.vue'
@@ -61,6 +64,7 @@ export default {
   name: 'home',
   components: {
     GlobalHeader,
+    GlobalNewPost,
     GlobalAccount,
     GlobalFooter,
     Modal,
@@ -69,22 +73,19 @@ export default {
   data() {
     return {
       redirectResult: false,
+      docRefUsers: false,
+      docRefPosts: false,
       currentUser: {
         login: false,
         uid: false,
-        displayName: false,
-        photoURL: false,
-        twid: false
+        db: {
+          username: false,
+          displayName: false,
+          photoURL: false,
+          answers: {},
+          plofile: ''
+        }
       },
-      docRefUsers: false,
-      dbUser: {
-        displayName: false,
-        photoURL: false,
-        twid: false,
-        answers: [],
-        plofile: ''
-      },
-      docRefPosts: false,
       posts: false,
       users: {},
       modal: {
@@ -93,7 +94,13 @@ export default {
         content: '',
         button: '',
         submit: false,
-        funcName: false
+        funcName: false,
+        answer: {
+          postId: '',
+          timestamp: false,
+          uid: '',
+          card: false
+        }
       },
       loader: {
         show: false
@@ -104,6 +111,13 @@ export default {
     this.loader.show = true
     this.setCurrentUser()
   },
+  watch: {
+    '$route': function(to, from) {
+      if (to.path !== from.path) {
+        this.$SmoothScroll(document.body, 400)
+      }
+    }
+  },
   methods: {
     callMethod(name) {
       return this[name]()
@@ -113,8 +127,24 @@ export default {
       firebase.auth().signInWithRedirect(provider)
     },
     logout() {
-      this.currentUser.login = false
+      this.currentUser = {
+        login: false,
+        uid: false,
+        db: {
+          username: false,
+          displayName: false,
+          photoURL: false,
+          answers: {},
+          plofile: ''
+        }
+      }
       firebase.auth().signOut()
+      const data = {
+        title: 'ログアウト',
+        content: '<p>ログアウトしました</p>',
+        show: true
+      }
+      this.setModal(data)
     },
     setModal(data) {
       const self = this
@@ -126,39 +156,59 @@ export default {
       this.modal.show = false
       this.modal.submit = false
     },
+    setDocRefs() {
+      this.docRefUsers = firebase.firestore().collection('users')
+      this.docRefPosts = firebase.firestore().collection('posts').orderBy('timestamp')
+    },
+    setDb() {
+      this.setUsers()
+      this.setPosts()
+    },
     setCurrentUser() {
       firebase.auth().onAuthStateChanged(this.asyncHandler)
     },
     async asyncHandler(user) {
       await this.setDocRefs()
-      await this.setUsers()
-      this.setPosts()
+      await this.setDb()
       if(user) {
-        this.currentUser.uid = await String(user.uid)
-        this.currentUser.displayName = await user.displayName
-        this.currentUser.photoURL = await user.photoURL.replace('_normal', '')
-        await this.setDbUser(this.currentUser.uid)
+        await this.setRedirectResult()
+        this.currentUser = await {
+          login: false,
+          uid: String(user.uid),
+          db: {
+            username: false,
+            displayName: user.displayName,
+            photoURL: user.photoURL.replace('_normal', ''),
+            answers: {},
+            plofile: ''
+          }
+        }
+        await this.mergeDbUser(this.currentUser.uid)
       }
       this.loader.show = await false
     },
-    setDocRefs() {
-      this.docRefUsers = firebase.firestore().collection('users')
-      this.docRefPosts = firebase.firestore().collection('posts').orderBy('timestamp')
-    },
-    async setDbUser(uid) {
+    async mergeDbUser(uid) {
       const docRefUser = this.docRefUsers.doc(uid)
       const docSnapshot = await docRefUser.get()
-      if(docSnapshot.exists) {
-        this.currentUser.twid = await docSnapshot.get('twid')
-      }else {
-        await this.setRedirectResult()
-        if(this.redirectResult.user) {
-          this.dbUser.twid = await this.redirectResult.additionalUserInfo.username
-          this.dbUser.displayName = await this.currentUser.displayName
-          this.dbUser.photoURL = await this.currentUser.photoURL
-          await docRefUser.set(this.dbUser, {merge: true})
-          this.currentUser.twid = await this.dbUser.twid
+      if(docSnapshot.exists) { //DB登録済み
+        const docData = await docSnapshot.data()
+        this.currentUser.db.username = await docData.username
+        this.currentUser.db.answers = await docData.answers
+        this.currentUser.db.plofile = await docData.plofile
+        if(this.redirectResult.user) { //データ更新
+          this.currentUser.db.username = await this.redirectResult.additionalUserInfo.username
+          if(this.currentUser.db.username != docData.username || this.currentUser.db.displayName != docData.displayName || this.currentUser.db.photoURL != docData.photoURL) {
+            const updateData = await {
+              db: this.currentUser.db
+            }
+            await docRefUser.update(updateData)
+          }
         }
+      }else { //DB未登録
+        if(this.redirectResult.user) {
+          this.currentUser.db.username = await this.redirectResult.additionalUserInfo.username
+        }
+        await docRefUser.set(this.currentUser.db, {merge: true})
       }
       this.currentUser.login = await true
     },
@@ -191,8 +241,27 @@ export default {
       this.posts = posts
       })
     },
-    postAnswer() {
-      console.log('postAnswer')
+    async postAnswer() {
+      await this.writeAnswerUser(this.modal.answer)
+      await this.writeAnswerPost(this.modal.answer)
+    },
+    writeAnswerUser(answer) {
+      const answers = this.currentUser.answer
+      answers[answer.postId] = {
+        timestamp: answer.timestamp,
+        answer: answer.card
+      }
+      this.docRefUser.doc(answer.postId).update({
+        answers: answers
+      })
+    },
+    writeAnswerPost(answer) {
+      const answers = this.posts[answer.postId].answers
+      const data = {
+        uid: answer.uid,
+        answer: answer.card
+      }
+      console.log(answers, data)
     }
   }
 }
