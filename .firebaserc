@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "nanikiru-4db40"
+    "prod": "nanikiru-4db40",
+    "dev": "nanikiru-dev"
   }
 }
