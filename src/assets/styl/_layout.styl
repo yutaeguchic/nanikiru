@@ -38,6 +38,7 @@ a
   font-family: "Roboto", sans-serif
   min-height 58px
   position fixed
+  text-align center
   top 0
   width 100%
   z-index $indexLevel1
@@ -51,14 +52,15 @@ a
     font-size 28px
     font-weight bold
     cursor pointer
+    display inline-block
     letter-spacing .03em
-    padding 5px 0 3px
+    padding 5px 20px 3px
     text-align center
 
 /*
   newPostBtn
 */
-.newPost__btn
+.newPostBtn
   @extends .m-iconBtn
   top 10px
   font-size 32px
@@ -66,7 +68,7 @@ a
   right 10px
   position fixed
   width 55px
-  z-index $indexLevel4
+  z-index $indexLevel1
   &:hover
     border-color #fff
 
@@ -386,7 +388,7 @@ a
   bottom 10px
   position fixed
   left 10px
-  z-index $indexLevel4
+  z-index $indexLevel1
 .account__btn,
 .account__display
   @extends .m-iconBtn
@@ -408,40 +410,48 @@ a
 /*
   footer
 */
-.footer
-  triangle(150px, 150px, bottom-right, $blue01)
-  bottom 0
-  right 0
+[class^="footer__overlay"]
   position fixed
-  text-align right
-  transition all 0.4s ease
-  z-index $indexLevel2
-  &.active
-    border-color transparent transparent lighten($blue02, 12) transparent
-    border-width 0 0 100vh 100vw
-
-.footer__overlay
-  triangle(0, 0, top-left, rgba(#000, .2))
-  content ""
-  left 0
-  position fixed
-  top 0
   transition all 0.4s ease
   z-index $indexLevel1
 
-.footer.active
-  & + .footer__overlay
+.footer__overlay--black
+  triangle(0, 0, top-left, rgba(#000, .2))
+  left 0
+  top 0
+  &.active
     border-width 100vh 100vw 0 0
-    display block
 
-.footer__btn
+.footer__overlay--blue
+  triangle(0, 0, bottom-right, lighten($blue02, 12))
+  bottom 0
+  right 0
+  &.active
+    border-width 0 0 100vh 100vw
+
+.footer__copy
+  color #fff
+  font-family "Roboto", sans-serif
+  font-size 16px
+  font-weight bold
+  left -72px
+  letter-spacing 0.02em
+  position fixed
+  text-shadow 1px 1px 1px $black
+  top 86px
+  transform rotate(90deg)
+  z-index $indexLevel3
+
+.footer__menuBtn
   @extends .m-iconBtn
   bottom 10px
   font-size 40px
   height 55px
   right 10px
   position fixed
+  transition all 0.2s ease
   width 55px
+  z-index $indexLevel2
   &:hover
     border-color #fff
   > i
@@ -450,19 +460,26 @@ a
     height 100%
     justify-content center
     width 100%
-
-.active
-  .footer__btn
+  &.active
     font-size 60px
     height 104px
     width 104px
 
-.footer__copy
-  bottom 155px
-  font-family "Roboto", sans-serif
-  font-size 16px
+.footer__menu
+  bottom 125px
+  border-top 2px dashed $blue03
+  color $black
   font-weight bold
-  right -62px
+  right 10px
   position fixed
-  transform rotate(-90deg)
-  z-index $indexLevel3
+  text-align right
+  text-shadow 1px 1px 1px $white
+  z-index $indexLevel4
+  > li
+    border-bottom 2px dashed $blue03
+    cursor pointer
+    font-size 16px
+    line-height 1
+    padding 10px 0
+    &:hover
+      color darken($blue03, 20)

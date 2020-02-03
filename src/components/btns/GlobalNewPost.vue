@@ -1,5 +1,5 @@
 <template>
-  <div class="newPost__btn" @click="goNewPost()" title="add post"><i class="icon-pen"></i></div>
+  <div class="newPostBtn" @click="goNewPost()" title="add post"><i class="icon-pen"></i></div>
 </template>
 
 <script>

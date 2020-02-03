@@ -10,6 +10,16 @@
 .fadeIn-enter-active
   animation fadeIn .3s
 
+.fadeInMenu-enter-active
+  opacity 0
+  animation fadeInRight .5s
+  for $i in (1..6)
+    &:nth-of-type({$i})
+      animation-delay (.1 * ($i - 1))s
+
+.fadeInMenu-leave-active
+  animation fadeIn .2s reverse
+
 /*
   keyforames
 */
@@ -26,6 +36,22 @@
   100%
     opacity: 1
     transform none
+
+@keyframes fadeInLeft
+  0%
+    opacity: 0
+    transform: translate3d(-100%, 0, 0)
+  100%
+    opacity: 1
+    transform: none
+
+@keyframes fadeInRight
+  0%
+    opacity: 0
+    transform: translate3d(100%, 0, 0)
+  100%
+    opacity: 1
+    transform: none
 
 @keyframes loading
   0%,

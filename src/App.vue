@@ -20,10 +20,12 @@
     <global-account
       :currentUser="currentUser"
       @login="login()"
-      @logout="logout()"
     />
 
-    <global-footer/>
+    <global-footer
+      :currentUser="currentUser"
+      @logout="logout()"
+    />
 
     <transition name="fadeInDown">
       <modal

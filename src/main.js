@@ -3,7 +3,9 @@ import App from './App.vue'
 import router from './router'
 import {firestorePlugin} from 'vuefire'
 import firebase from 'firebase'
+
 import './assets/css/style.css'
+import './assets/css/transition.css'
 
 Vue.config.productionTip = false
 Vue.use(firestorePlugin)

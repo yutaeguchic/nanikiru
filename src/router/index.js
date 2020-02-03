@@ -40,6 +40,11 @@ const routes = [
     component: () => import('../views/Answer.vue')
   },
   {
+    path: '/user/:uid',
+    name: 'user',
+    component: () => import('../views/User.vue')
+  },
+  {
     path: '/*',
     name: 'notfound',
     component: () => import('../views/404.vue')
