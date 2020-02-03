@@ -158,7 +158,7 @@ export default {
     },
     setDocRefs() {
       this.docRefUsers = firebase.firestore().collection('users')
-      this.docRefPosts = firebase.firestore().collection('posts').orderBy('timestamp')
+      this.docRefPosts = firebase.firestore().collection('posts').orderBy("c", "desc")
     },
     setDb() {
       this.setUsers()
