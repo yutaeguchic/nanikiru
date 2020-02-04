@@ -12,6 +12,13 @@
   -webkit-animation: fadeIn 0.3s;
   animation: fadeIn 0.3s;
 }
+.fadeInLeft-enter-active {
+  -webkit-animation: fadeInLeft 0.3s;
+  animation: fadeInLeft 0.3s;
+}
+.fadeInLeft-leave-active {
+  animation: fadeIn 0.3s reverse;
+}
 .fadeInMenu-enter-active {
   opacity: 0;
   -webkit-animation: fadeInRight 0.5s;

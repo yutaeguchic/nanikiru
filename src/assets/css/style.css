@@ -1549,17 +1549,14 @@ a:hover {
   border-width: 0 0 100vh 100vw;
 }
 .footer__copy {
-  color: #fff;
+  bottom: 5px;
   font-family: "Roboto", sans-serif;
   font-size: 16px;
   font-weight: bold;
-  left: -72px;
+  left: 5%;
   letter-spacing: 0.02em;
   position: fixed;
-  text-shadow: 1px 1px 1px #4a4a4a;
-  top: 86px;
-  -webkit-transform: rotate(90deg);
-  transform: rotate(90deg);
+  text-shadow: 1px 1px 1px #f7fbfc;
   z-index: 1000;
 }
 .footer__menuBtn {
@@ -1594,9 +1591,46 @@ a:hover {
   height: 104px;
   width: 104px;
 }
+.footer__inquiry {
+  border: 2px solid #769fcd;
+  border-radius: 50%;
+  -webkit-box-shadow: -1px 1px 5px #89b7d9;
+  box-shadow: -1px 1px 5px #89b7d9;
+  font-size: 40px;
+  height: 80px;
+  left: 10px;
+  overflow: hidden;
+  position: fixed;
+  top: 10px;
+  -webkit-transition: all 0.2s ease-out;
+  transition: all 0.2s ease-out;
+  width: 80px;
+  z-index: 10000;
+}
+.footer__inquiry a {
+  display: block;
+}
+.footer__inquiry img {
+  max-height: 100%;
+  max-width: 100%;
+}
+.footer__inquiry:hover {
+  border-color: #265c7e;
+}
+.footer__inquiryMsg {
+  background-color: rgba(247,251,252,0.9);
+  border-radius: 6px;
+  left: 20px;
+  max-width: 300px;
+  padding: 5px;
+  position: fixed;
+  text-align: center;
+  top: 100px;
+  width: 50%;
+  z-index: 10000;
+}
 .footer__menu {
   bottom: 125px;
-  border-top: 2px dashed #769fcd;
   color: #4a4a4a;
   font-weight: bold;
   right: 10px;
@@ -1611,6 +1645,9 @@ a:hover {
   font-size: 16px;
   line-height: 1;
   padding: 10px 0;
+}
+.footer__menu > li:first-child {
+  border-top: 2px dashed #769fcd;
 }
 .footer__menu > li:hover {
   color: #3b6ca2;

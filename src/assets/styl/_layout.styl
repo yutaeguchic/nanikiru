@@ -430,16 +430,14 @@ a
     border-width 0 0 100vh 100vw
 
 .footer__copy
-  color #fff
+  bottom 5px
   font-family "Roboto", sans-serif
   font-size 16px
   font-weight bold
-  left -72px
+  left 5%
   letter-spacing 0.02em
   position fixed
-  text-shadow 1px 1px 1px $black
-  top 86px
-  transform rotate(90deg)
+  text-shadow 1px 1px 1px $white
   z-index $indexLevel3
 
 .footer__menuBtn
@@ -465,9 +463,41 @@ a
     height 104px
     width 104px
 
+.footer__inquiry
+  border 2px solid #769fcd
+  border-radius 50%
+  box-shadow -1px 1px 5px darken($blue01, 20)
+  font-size 40px
+  height 80px
+  left 10px
+  overflow hidden
+  position fixed
+  top 10px
+  transition all 0.2s ease-out
+  width 80px
+  z-index $indexLevel4
+  a
+    display block
+  img
+    max-height 100%
+    max-width 100%
+  &:hover
+    border-color darken($blue02, 50)
+
+.footer__inquiryMsg
+  background-color rgba($white, .9)
+  border-radius 6px
+  left 20px
+  max-width 300px
+  padding 5px
+  position fixed
+  text-align center
+  top 100px
+  width 50%
+  z-index $indexLevel4
+
 .footer__menu
   bottom 125px
-  border-top 2px dashed $blue03
   color $black
   font-weight bold
   right 10px
@@ -481,5 +511,7 @@ a
     font-size 16px
     line-height 1
     padding 10px 0
+    &:first-child
+      border-top 2px dashed $blue03
     &:hover
       color darken($blue03, 20)

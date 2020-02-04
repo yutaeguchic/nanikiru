@@ -9,8 +9,16 @@
     <div class="footer__overlay--black" :class="{'active': menu}"></div>
     <div class="footer__overlay--blue" :class="{'active': menu}"></div>
 
-    <transition name="fadeIn">
+    <transition name="fadeInLeft">
       <div v-show="menu" class="footer__copy">© 2019 - {{ new Date().getFullYear() }} hatobane</div>
+    </transition>
+
+    <transition name="fadeInLeft">
+      <div v-show="menu" class="footer__inquiry"><a href="https://twitter.com/NANIKIRU3" target="_blank"><img src="https://pbs.twimg.com/profile_images/1206809975256801280/QuHde0s0.jpg" alt="問い合わせ先"></a></div>
+    </transition>
+
+    <transition name="fadeInLeft">
+      <div v-show="menu" class="footer__inquiryMsg">↑不具合・ご要望・お問い合わせはこちら</div>
     </transition>
 
     <transition-group tag="ul" class="footer__menu" :class="{'active': menu}" name="fadeInMenu">
