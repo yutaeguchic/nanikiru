@@ -93,7 +93,6 @@ export default {
   },
   watch: {
     modal() {
-      console.log(this.modal)
       if(this.modal.able) this.init()
     }
   },

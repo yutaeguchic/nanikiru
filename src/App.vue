@@ -9,8 +9,8 @@
     <transition name="fadeIn">
       <router-view
         :currentUser="currentUser"
-        :posts.sync="posts"
-        :users.sync="users"
+        :posts.sync="db.posts"
+        :users.sync="db.users"
         @setPosts="setPosts()"
       />
     </transition>
@@ -63,9 +63,6 @@ export default {
   },
   data() {
     return {
-      redirectResult: false,
-      docRefUsers: false,
-      docRefPosts: false,
       currentUser: {
         login: false,
         uid: false,
@@ -83,8 +80,15 @@ export default {
         uid: '',
         card: false
       },
-      posts: false,
-      users: {},
+      db: {
+        redirectResult: false,
+        docRef: {
+          users: false,
+          posts: false
+        },
+        users: {},
+        posts: {}
+      },
       modal: {
         able: false,
         page: '',
@@ -140,90 +144,89 @@ export default {
         }
       })
     },
-    setDocRefs() {
-      this.docRefUsers = firebase.firestore().collection('users')
-      this.docRefPosts = firebase.firestore().collection('posts').orderBy("c", "desc")
-    },
-    setDb() {
-      this.setUsers()
-      this.setPosts()
-    },
     setCurrentUser() {
-      firebase.auth().onAuthStateChanged(this.asyncHandler)
-    },
-    async asyncHandler(user) {
-      await this.setDocRefs()
-      await this.setDb()
-      if(user) {
-        await this.setRedirectResult()
-        this.currentUser = await {
-          login: false,
-          uid: String(user.uid),
-          db: {
-            username: false,
-            displayName: user.displayName,
-            photoURL: user.photoURL.replace('_normal', ''),
-            answers: {},
-            plofile: ''
-          }
-        }
-        await this.mergeDbUser(this.currentUser.uid)
+      const setDocRefs = ()=> {
+        this.db.docRef.users = firebase.firestore().collection('users')
+        this.db.docRef.posts = firebase.firestore().collection('posts').orderBy("c", "desc")
       }
-      this.loader.show = await false
-    },
-    async mergeDbUser(uid) {
-      const docRefUser = this.docRefUsers.doc(uid)
-      const docSnapshot = await docRefUser.get()
-      if(docSnapshot.exists) { //DB登録済み
-        const docData = await docSnapshot.data()
-        this.currentUser.db.username = await docData.username
-        this.currentUser.db.answers = await docData.answers
-        this.currentUser.db.plofile = await docData.plofile
-        if(this.redirectResult.user) { //データ更新
-          this.currentUser.db.username = await this.redirectResult.additionalUserInfo.username
-          if(this.currentUser.db.username != docData.username || this.currentUser.db.displayName != docData.displayName || this.currentUser.db.photoURL != docData.photoURL) {
-            const updateData = await {
-              db: this.currentUser.db
+      const setDb = ()=> {
+        this.setDbUsers()
+        this.setDbPosts()
+      }
+      const setRedirectResult = async ()=> {
+        const result = firebase.auth().getRedirectResult().catch(error => console.log('error: ' + error))
+        if(result) {
+          this.db.redirectResult = await result
+          this.loginModal()
+        }
+      }
+      const mergeDbUser = async (uid)=> {
+        const userData = this.db.docRef.users.doc(uid)
+        const docSnapshot = await userData.get()
+        if(docSnapshot.exists) { //DB登録済み
+          const docData = await docSnapshot.data()
+          this.currentUser.db.username = await docData.username
+          this.currentUser.db.answers = await docData.answers
+          this.currentUser.db.plofile = await docData.plofile
+          if(this.db.redirectResult.user) { //データ更新
+            this.currentUser.db.username = await this.db.redirectResult.additionalUserInfo.username
+            if(this.currentUser.db.username != docData.username || this.currentUser.db.displayName != docData.displayName || this.currentUser.db.photoURL != docData.photoURL) {
+              const updateData = await {
+                db: this.currentUser.db
+              }
+              await userData.update(updateData)
             }
-            await docRefUser.update(updateData)
           }
+        }else { //DB未登録
+          if(this.db.redirectResult.user) {
+            this.currentUser.db.username = await this.db.redirectResult.additionalUserInfo.username
+          }
+          await userData.set(this.currentUser.db, {merge: true})
         }
-      }else { //DB未登録
-        if(this.redirectResult.user) {
-          this.currentUser.db.username = await this.redirectResult.additionalUserInfo.username
+        this.currentUser.login = await true
+      }
+      const handler = async (user)=> {
+        await setDocRefs()
+        await setDb()
+        if(user) {
+          await setRedirectResult()
+          this.currentUser = await {
+            login: false,
+            uid: String(user.uid),
+            db: {
+              username: false,
+              displayName: user.displayName,
+              photoURL: user.photoURL.replace('_normal', ''),
+              answers: {},
+              plofile: ''
+            }
+          }
+          await mergeDbUser(this.currentUser.uid)
         }
-        await docRefUser.set(this.currentUser.db, {merge: true})
+        this.loader.show = await false
       }
-      this.currentUser.login = await true
+      firebase.auth().onAuthStateChanged(handler)
     },
-    async setRedirectResult() {
-      const result = firebase.auth().getRedirectResult().catch(error => console.log('error: ' + error))
-      if(result) {
-        this.redirectResult = await result
-        this.loginModal()
-      }
-    },
-    setUsers() {
-      const self = this
-      this.docRefUsers.get().then(snapshot => {
+    setDbUsers() {
+      this.db.docRef.users.get().then(snapshot => {
         let users = {}
         if(!snapshot.empty) {
           snapshot.forEach(async doc => {
             users[doc.id] = await doc.data()
           })
         }
-      self.users = users
+      this.db.users = users
       })
     },
-    setPosts() {
+    setDbPosts() {
       let posts = {}
-      this.docRefPosts.get().then(snapshot => {
+      this.db.docRef.posts.get().then(snapshot => {
         if(!snapshot.empty) {
           snapshot.forEach(async doc => {
             posts[doc.id] = await doc.data()
           })
         }
-      this.posts = posts
+      this.db.posts = posts
       })
     },
     async postAnswer() {
@@ -236,7 +239,7 @@ export default {
         timestamp: answer.timestamp,
         answer: answer.card
       }
-      this.docRefUser.doc(answer.postId).update({
+      this.db.docRef.users.doc(answer.postId).update({
         answers: answers
       })
     },

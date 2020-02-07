@@ -19,7 +19,7 @@ export default {
     Breadcrumb,
     Cassette
   },
-  props: ['posts', 'users'],
+  props: ['posts', 'users', 'currentUser'],
   data() {
     return {
       postCount: 10,
