@@ -847,6 +847,7 @@ strong {
   background-color: #fff;
   border: 2px solid #769fcd;
   border-radius: 8px;
+  cursor: default;
   padding: 15px 10px;
   position: absolute;
   width: 300px;
@@ -867,6 +868,7 @@ strong {
   text-align: center;
 }
 .m-modal__close {
+  cursor: pointer;
   font-size: 26px;
   height: 40px;
   position: absolute;
@@ -1387,7 +1389,7 @@ a:hover {
   -ms-flex-align: center;
   align-items: center;
   background-color: transparent;
-  border: 1px solid #769fcd;
+  border: 2px solid #769fcd;
   border-radius: 10px;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
@@ -1626,7 +1628,6 @@ a:hover {
   position: fixed;
   text-align: center;
   top: 100px;
-  width: 50%;
   z-index: 10000;
 }
 .footer__menu {

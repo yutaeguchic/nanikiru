@@ -4,7 +4,6 @@
 
     <global-new-post
       :currentUser="currentUser"
-      @modal="setModal"
     />
 
     <transition name="fadeIn">
@@ -12,7 +11,6 @@
         :currentUser="currentUser"
         :posts.sync="posts"
         :users.sync="users"
-        @modal="setModal"
         @setPosts="setPosts()"
       />
     </transition>
@@ -29,19 +27,10 @@
 
     <transition name="fadeInDown">
       <modal
-        v-show="modal.show"
-        @close="closeModal()"
-      >
-        <template v-slot:header>
-          <h1 class="m-ttl">{{modal.title}}</h1>
-        </template>
-        <template v-slot:content>
-          <div class="m-modal__content" v-html="modal.content"></div>
-          <transition name="fadeInDown">
-            <div class="m-modal__btn" v-show="modal.submit"><button type="button" class="m-btn--able" @click="callMethod(modal.funcName)">{{modal.button}}</button></div>
-          </transition>
-        </template>
-      </modal>
+        v-show="modal.able"
+        :modal="modal"
+        @submit="callMethod(modal.funcName)"
+      />
     </transition>
 
     <transition name="fadeInDown">
@@ -88,21 +77,19 @@ export default {
           plofile: ''
         }
       },
+      currentAnswer: {
+        postId: '',
+        timestamp: false,
+        uid: '',
+        card: false
+      },
       posts: false,
       users: {},
       modal: {
-        show: false,
-        title: '',
-        content: '',
-        button: '',
-        submit: false,
-        funcName: false,
-        answer: {
-          postId: '',
-          timestamp: false,
-          uid: '',
-          card: false
-        }
+        able: false,
+        page: '',
+        tag: '',
+        funcName: false
       },
       loader: {
         show: false
@@ -113,9 +100,13 @@ export default {
     this.loader.show = true
     this.setCurrentUser()
   },
+  mounted() {
+    this.actionParam()
+  },
   watch: {
     '$route': function(to, from) {
       if (to.path !== from.path) {
+        this.actionParam()
         this.$SmoothScroll(document.body, 400)
       }
     }
@@ -129,34 +120,25 @@ export default {
       firebase.auth().signInWithRedirect(provider)
     },
     logout() {
-      this.currentUser = {
-        login: false,
-        uid: false,
-        db: {
-          username: false,
-          displayName: false,
-          photoURL: false,
-          answers: {},
-          plofile: ''
+      firebase.auth().signOut().then(()=> {
+        this.currentUser = {
+          login: false,
+          uid: false,
+          db: {
+            username: false,
+            displayName: false,
+            photoURL: false,
+            answers: {},
+            plofile: ''
+          }
         }
-      }
-      firebase.auth().signOut()
-      const data = {
-        title: 'ログアウト',
-        content: '<p>ログアウトしました</p>',
-        show: true
-      }
-      this.setModal(data)
-    },
-    setModal(data) {
-      const self = this
-      Object.keys(data).forEach((key) => {
-        self.$set(self.modal, key, data[key])
+        this.modal = {
+          able: true,
+          page: 'general',
+          tag: 'logout',
+          funcName: false
+        }
       })
-    },
-    closeModal() {
-      this.modal.show = false
-      this.modal.submit = false
     },
     setDocRefs() {
       this.docRefUsers = firebase.firestore().collection('users')
@@ -218,6 +200,7 @@ export default {
       const result = firebase.auth().getRedirectResult().catch(error => console.log('error: ' + error))
       if(result) {
         this.redirectResult = await result
+        this.loginModal()
       }
     },
     setUsers() {
@@ -244,10 +227,10 @@ export default {
       })
     },
     async postAnswer() {
-      await this.writeAnswerUser(this.modal.answer)
-      await this.writeAnswerPost(this.modal.answer)
+      await this.dbSetAnswerUser()
+      await this.dbSetAnswerPost()
     },
-    writeAnswerUser(answer) {
+    dbSetAnswerUser(answer) {
       const answers = this.currentUser.answer
       answers[answer.postId] = {
         timestamp: answer.timestamp,
@@ -257,13 +240,27 @@ export default {
         answers: answers
       })
     },
-    writeAnswerPost(answer) {
+    dbSetAnswerPost(answer) {
       const answers = this.posts[answer.postId].answers
       const data = {
         uid: answer.uid,
         answer: answer.card
       }
       console.log(answers, data)
+    },
+    loginModal() {
+      this.modal = {
+        able: true,
+        page: 'general',
+        tag: 'login',
+        funcName: false
+      }
+    },
+    actionParam() {
+      if(window.location.search === '?modal') {
+        this.modal.able = true
+        history.replaceState('', '', '/')
+      }
     }
   }
 }

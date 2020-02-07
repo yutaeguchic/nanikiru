@@ -25,18 +25,9 @@ export default {
       postCount: 10,
     }
   },
-  mounted() {
-    if(window.location.search === '?modal') this.setModal()
-  },
   computed: {
     getPostKeys() {
       return Object.keys(this.posts)
-    }
-  },
-  methods: {
-    setModal() {
-      this.$parent.modal.show = true
-      history.replaceState('', '', '/')
     }
   }
 }

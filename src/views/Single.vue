@@ -64,8 +64,8 @@ export default {
   props: ['posts', 'users', 'currentUser'],
   data() {
     return {
-      post: {},
       postId: false,
+      post: {},
       writer: {},
       answer: {
         postId: '',
@@ -122,38 +122,33 @@ export default {
     confirm() {
       if(this.currentUser.login) {
         const time = firebase.firestore.FieldValue.serverTimestamp()
-        const data = {
-          title: '確認',
-          content: '<p>以下の牌で回答してよろしいですか？<strong>※NANIKIRUの解答は１つ１回まで</strong></p><div class="m-modal__card"><i class="'+this.answer.card+'"></i></div>',
-          submit: true,
-          button: '解答する',
-          funcName: 'postAnswer',
-          answer: {
-            postId: this.postId,
-            timestamp: time,
-            uid: this.currentUser.uid,
-            card: this.answer.card
-          },
-          show: true
+        const answer = {
+          postId: this.postId,
+          timestamp: time,
+          uid: this.currentUser.uid,
+          card: this.answer.card
         }
-        this.$emit('modal', data)
+        this.$parent.currentAnswer = answer
+        this.$parent.modal = {
+          able: true,
+          page: 'single',
+          tag: ['confirm', this.answer.card],
+          funcName: 'postAnswer'
+        }
       }else if(this.post.a === this.currentUser.uid) {
-        const data = {
-          title: '解答ができません',
-          content: '<p>NANIKIRUの出題者のため</p>',
-          show: true
+        this.$parent.modal = {
+          able: true,
+          page: 'single',
+          tag: 'errorWriter',
+          funcName: false
         }
-        this.$emit('modal', data)
-      }else {
-        const data = {
-          title: 'ログインして下さい',
-          content: '<p>NANIKIRUの解答にはTwitterアカウントによる承認が必要です</p>',
-          submit: true,
-          button: 'ログインする',
-          funcName: 'login',
-          show: true
+      }else if(!this.currentUser.login){
+        this.$parent.modal = {
+          able: true,
+          page: 'single',
+          tag: 'requireLogin',
+          funcName: false
         }
-        this.$emit('modal', data)
       }
     }
   }

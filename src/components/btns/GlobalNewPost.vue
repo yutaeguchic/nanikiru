@@ -11,15 +11,12 @@ export default {
       if(this.currentUser.login) {
         this.$router.push('/post/new')
       }else {
-        const data = {
-          title: 'ログインして下さい',
-          content: '<p>NANIKIRUの投稿にはTwitterアカウントによる承認が必要です</p>',
-          submit: true,
-          button: 'ログインする',
-          funcName: 'login',
-          show: true
+        this.$parent.modal = {
+          able: true,
+          page: 'general',
+          tag: 'requireLogin',
+          funcName: 'login'
         }
-        this.$emit('modal', data)
       }
     }
   }

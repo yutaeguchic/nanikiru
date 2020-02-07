@@ -273,26 +273,26 @@ export default {
     },
     move(count) {
       if(this.post.l && this.cardValidate(this.post.l)) {
-        const data = {
-          title: 'ドラ表示牌/手配を変更してください',
-          content: '<p>ドラ表示牌を手配で使い切っています</p>',
-          show: true
+        this.$parent.modal = {
+          able: true,
+          page: 'post',
+          tag: 'errorDora',
+          funcName: false
         }
-        this.$emit('modal', data)
       }else if(this.post.m && this.textValidate(this.post.m, this.maxlength.condition)) {
-        const data = {
-          title: '戦況・コメントの文章を変更してください',
-          content: '<p>上限の1000文字を超えています</p>',
-          show: true
+        this.$parent.modal = {
+          able: true,
+          page: 'post',
+          tag: 'errorCountCondition',
+          funcName: false
         }
-        this.$emit('modal', data)
       }else if(this.post.n && this.textValidate(this.post.p, this.maxlength.commentary)) {
-        const data = {
-          title: '戦況・コメントの文章を変更してください',
-          content: '<p>上限の1000文字を超えています</p>',
-          show: true
+        this.$parent.modal = {
+          able: true,
+          page: 'post',
+          tag: 'errorCountCommentary',
+          funcName: false
         }
-        this.$emit('modal', data)
       }else {
         this.state = this.state + count
         this.$SmoothScroll(document.body, 400)
@@ -310,17 +310,21 @@ export default {
       const self = this
       firebase.firestore().collection('posts').add(self.post).then(() => {
         this.$emit('setPosts')
-        this.$parent.modal.title = '投稿完了'
-        this.$parent.modal.content = '<p><strong>NANIKIRU</strong>を投稿しました</p>'
+        this.$parent.modal = {
+          able: false,
+          page: 'post',
+          tag: 'submit',
+          funcName: false,
+        }
         this.$router.push('/?modal')
       }).catch((err) => {
         console.log(err)
-        const data = {
-          ttl: '投稿エラー',
-          content: '<p><strong>NANIKIRU</strong>の投稿に失敗しました</p>',
-          show: true
+        this.$parent.modal = {
+          able: true,
+          page: 'post',
+          tag: 'errorPost',
+          funcName: false
         }
-        self.$emit('modal', data)
       })
     }
   }
