@@ -13,7 +13,7 @@
         :posts.sync="db.posts"
         :users.sync="db.users"
         :modalText="modalText"
-        @setPosts="setPosts()"
+        @setDbPosts="setDbPosts()"
       />
     </transition>
 
@@ -66,6 +66,17 @@ export default {
   },
   data() {
     return {
+      db: {
+        redirectResult: null,
+        docRef: {
+          users: null,
+          posts: null,
+          answers: null
+        },
+        users: false,
+        posts: false,
+        answers: false
+      },
       currentUser: {
         login: null,
         uid: null,
@@ -73,25 +84,10 @@ export default {
           username: null,
           displayName: null,
           photoURL: null,
-          answers: null,
           plofile: null
         }
       },
-      currentAnswer: {
-        postId: null,
-        timestamp: null,
-        uid: null,
-        card: null
-      },
-      db: {
-        redirectResult: null,
-        docRef: {
-          users: null,
-          posts: null
-        },
-        users: false,
-        posts: false
-      },
+      currentAnswer: null,
       modal: {
         able: false,
         text: {
@@ -133,14 +129,13 @@ export default {
     logout() {
       firebase.auth().signOut().then(()=> {
         this.currentUser = {
-          login: false,
-          uid: false,
+          login: null,
+          uid: null,
           db: {
-            username: false,
-            displayName: false,
-            photoURL: false,
-            answers: {},
-            plofile: ''
+            username: null,
+            displayName: null,
+            photoURL: null,
+            plofile: null
           }
         }
         this.modal = {
@@ -154,10 +149,12 @@ export default {
       const setDocRefs = ()=> {
         this.db.docRef.users = firebase.firestore().collection('users')
         this.db.docRef.posts = firebase.firestore().collection('posts').orderBy("c", "desc")
+        this.db.docRef.answers = firebase.firestore().collection('answers')
       }
       const setDb = ()=> {
         this.setDbUsers()
         this.setDbPosts()
+        this.setDbAnswers()
       }
       const setRedirectResult = async ()=> {
         const result = await firebase.auth().getRedirectResult().catch(error => console.log('error: ' + error))
@@ -172,7 +169,6 @@ export default {
         if(docSnapshot.exists) { //DB登録済み
           const docData = await docSnapshot.data()
           this.currentUser.db.username = await docData.username
-          this.currentUser.db.answers = await docData.answers
           this.currentUser.db.plofile = await docData.plofile
           if(this.db.redirectResult) { //データ更新
             this.currentUser.db.username = await this.db.redirectResult.additionalUserInfo.username
@@ -200,11 +196,10 @@ export default {
             login: false,
             uid: String(user.uid),
             db: {
-              username: false,
+              username: null,
               displayName: user.displayName,
               photoURL: user.photoURL.replace('_normal', ''),
-              answers: {},
-              plofile: ''
+              plofile: null
             }
           }
           await mergeDbUser(this.currentUser.uid)
@@ -235,20 +230,20 @@ export default {
       this.db.posts = posts
       })
     },
-    async postAnswer() {
-      const setDbAnswerUser = ()=> {
-        const data = {
-          timestamp: this.currentAnswer.timestamp,
-          answer: this.currentAnswer.card
+    setDbAnswers() {
+      let answers = {}
+      this.db.docRef.answers.get().then(snapshot => {
+        if(!snapshot.empty) {
+          snapshot.forEach(async doc => {
+            answers[doc.id] = await doc.data()
+          })
         }
-        this.db.docRef.users.doc(this.currentAnswer.postId).update(data)
-      }
-      const setDbAnswerPost = ()=> {
-      }
-      await setDbAnswerUser()
-      await console.log(setDbAnswerPost())
-      this.$router.push('/answer/'+this.currentAnswer.postId)
-      //this.modal.able = true
+      this.db.answers = answers
+      })
+    },
+    async postAnswer() {
+
+      await this.$router.push('/answer/'+this.currentAnswer.postId)
     },
     loginModal() {
       this.modal = {

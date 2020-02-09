@@ -122,13 +122,13 @@ export default {
     confirm() {
       if(this.currentUser.login) {
         const time = firebase.firestore.FieldValue.serverTimestamp()
-        const answer = {
-          postId: this.postId,
+        let data = {}
+        data[this.postId] = {}
+        data[this.postId][this.currentUser.uid] = {
           timestamp: time,
-          uid: this.currentUser.uid,
           card: this.answer.card
         }
-        this.$parent.currentAnswer = answer
+        this.$parent.currentAnswer = data
         this.$parent.modal = {
           able: true,
           text: {

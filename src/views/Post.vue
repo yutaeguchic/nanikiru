@@ -82,13 +82,13 @@
           </transition>
         </div>
 
-        <transition name="fadeDown">
+        <transition name="fadeInDown">
           <div v-show="post.e">
             <h3 class="m-ttl--section">正答の解説を入力してください</h3>
             <div class="m-box">
               <div class=m-box__note><strong>※「正解あり」の場合、記入は必須となります</strong></div>
               <div class=m-box__note>※上限1000文字</div>
-              <textarea class="postSet--textarea" :maxlength="maxlength.commentary" v-model="post.p"></textarea>
+              <textarea class="postSet--textarea" :maxlength="maxlength.commentary" v-model="post.o"></textarea>
             </div>
           </div>
         </transition>
@@ -123,7 +123,7 @@
           <div v-text="post.m.trim()?post.m:'なし'"></div>
           <template v-if="post.e">
             <h4 class="m-box__strong">解説</h4>
-            <div>{{post.p}}</div>
+            <div>{{post.o}}</div>
           </template>
         </div>
       </div>
@@ -165,7 +165,7 @@ export default {
   components: {
     Breadcrumb
   },
-  props: ['currentUser'],
+  props: ['currentUser', 'modalText'],
   data() {
     return {
       state: 1, //ページ数
@@ -198,8 +198,7 @@ export default {
         l: '',
         m: '',
         n: '',
-        o: false,
-        p: ''
+        o: ''
       }
     }
   },
@@ -266,7 +265,7 @@ export default {
       }else if(this.state === 2 || this.state === 4) {
         return this.post.l && this.cardFull
       }else if(this.state === 3 || this.state === 4) {
-        return (this.post.e && this.post.n && this.post.p.trim()) || (!this.post.e)
+        return (this.post.e && this.post.n && this.post.o.trim()) || (!this.post.e)
       }else {
         return (this.state === 4)
       }
@@ -284,7 +283,7 @@ export default {
           text: this.modalText.post.errorCountCondition,
           funcName: null
         }
-      }else if(this.post.n && this.textValidate(this.post.p, this.maxlength.commentary)) {
+      }else if(this.post.n && this.textValidate(this.post.o, this.maxlength.commentary)) {
         this.$parent.modal = {
           able: true,
           text: this.modalText.post.errorCountCommentary,
@@ -303,10 +302,10 @@ export default {
       this.post.c = time
       this.post.d = this.post.d.trim()
       this.post.m = this.post.m.trim()
-      this.post.p = this.post.e?this.post.p.trim():''
+      this.post.o = this.post.e?this.post.o.trim():''
       const self = this
       firebase.firestore().collection('posts').add(self.post).then(() => {
-        this.$emit('setPosts')
+        this.$emit('setDbPosts')
         this.$parent.modal = {
           able: true,
           text: this.modalText.post.posted,
