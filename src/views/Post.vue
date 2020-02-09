@@ -275,23 +275,20 @@ export default {
       if(this.post.l && this.cardValidate(this.post.l)) {
         this.$parent.modal = {
           able: true,
-          page: 'post',
-          tag: 'errorDora',
-          funcName: false
+          text: this.modalText.post.errorDora,
+          funcName: null
         }
       }else if(this.post.m && this.textValidate(this.post.m, this.maxlength.condition)) {
         this.$parent.modal = {
           able: true,
-          page: 'post',
-          tag: 'errorCountCondition',
-          funcName: false
+          text: this.modalText.post.errorCountCondition,
+          funcName: null
         }
       }else if(this.post.n && this.textValidate(this.post.p, this.maxlength.commentary)) {
         this.$parent.modal = {
           able: true,
-          page: 'post',
-          tag: 'errorCountCommentary',
-          funcName: false
+          text: this.modalText.post.errorCountCommentary,
+          funcName: null
         }
       }else {
         this.state = this.state + count
@@ -311,19 +308,17 @@ export default {
       firebase.firestore().collection('posts').add(self.post).then(() => {
         this.$emit('setPosts')
         this.$parent.modal = {
-          able: false,
-          page: 'post',
-          tag: 'submit',
-          funcName: false,
+          able: true,
+          text: this.modalText.post.posted,
+          funcName: null
         }
         this.$router.push('/?modal')
       }).catch((err) => {
         console.log(err)
         this.$parent.modal = {
           able: true,
-          page: 'post',
-          tag: 'errorPost',
-          funcName: false
+          text: this.modalText.post.errorPost,
+          funcName: null
         }
       })
     }

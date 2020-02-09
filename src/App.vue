@@ -4,6 +4,7 @@
 
     <global-new-post
       :currentUser="currentUser"
+      :modalText="modalText"
     />
 
     <transition name="fadeIn">
@@ -11,6 +12,7 @@
         :currentUser="currentUser"
         :posts.sync="db.posts"
         :users.sync="db.users"
+        :modalText="modalText"
         @setPosts="setPosts()"
       />
     </transition>
@@ -50,6 +52,7 @@ import GlobalAccount from '@/components/btns/GlobalAccount.vue'
 import GlobalFooter from '@/components/GlobalFooter.vue'
 import Modal from '@/components/Modal.vue'
 import Loader from '@/components/Loader.vue'
+import modalText from '@/assets/data/modalText.json'
 
 export default {
   name: 'home',
@@ -64,37 +67,41 @@ export default {
   data() {
     return {
       currentUser: {
-        login: false,
-        uid: false,
+        login: null,
+        uid: null,
         db: {
-          username: false,
-          displayName: false,
-          photoURL: false,
-          answers: {},
-          plofile: ''
+          username: null,
+          displayName: null,
+          photoURL: null,
+          answers: null,
+          plofile: null
         }
       },
       currentAnswer: {
-        postId: '',
-        timestamp: false,
-        uid: '',
-        card: false
+        postId: null,
+        timestamp: null,
+        uid: null,
+        card: null
       },
       db: {
-        redirectResult: false,
+        redirectResult: null,
         docRef: {
-          users: false,
-          posts: false
+          users: null,
+          posts: null
         },
-        users: {},
-        posts: {}
+        users: false,
+        posts: false
       },
       modal: {
         able: false,
-        page: '',
-        tag: '',
-        funcName: false
+        text: {
+          title: null,
+          content: null,
+          submit: null
+        },
+        funcName: null
       },
+      modalText: modalText,
       loader: {
         show: false
       }
@@ -138,9 +145,8 @@ export default {
         }
         this.modal = {
           able: true,
-          page: 'general',
-          tag: 'logout',
-          funcName: false
+          text: this.modalText.general.logout,
+          funcName: null
         }
       })
     },
@@ -154,10 +160,10 @@ export default {
         this.setDbPosts()
       }
       const setRedirectResult = async ()=> {
-        const result = firebase.auth().getRedirectResult().catch(error => console.log('error: ' + error))
-        if(result) {
+        const result = await firebase.auth().getRedirectResult().catch(error => console.log('error: ' + error))
+        if(result.user) {
+          await this.loginModal()
           this.db.redirectResult = await result
-          this.loginModal()
         }
       }
       const mergeDbUser = async (uid)=> {
@@ -168,7 +174,7 @@ export default {
           this.currentUser.db.username = await docData.username
           this.currentUser.db.answers = await docData.answers
           this.currentUser.db.plofile = await docData.plofile
-          if(this.db.redirectResult.user) { //データ更新
+          if(this.db.redirectResult) { //データ更新
             this.currentUser.db.username = await this.db.redirectResult.additionalUserInfo.username
             if(this.currentUser.db.username != docData.username || this.currentUser.db.displayName != docData.displayName || this.currentUser.db.photoURL != docData.photoURL) {
               const updateData = await {
@@ -230,33 +236,25 @@ export default {
       })
     },
     async postAnswer() {
-      await this.dbSetAnswerUser()
-      await this.dbSetAnswerPost()
-    },
-    dbSetAnswerUser(answer) {
-      const answers = this.currentUser.answer
-      answers[answer.postId] = {
-        timestamp: answer.timestamp,
-        answer: answer.card
+      const setDbAnswerUser = ()=> {
+        const data = {
+          timestamp: this.currentAnswer.timestamp,
+          answer: this.currentAnswer.card
+        }
+        this.db.docRef.users.doc(this.currentAnswer.postId).update(data)
       }
-      this.db.docRef.users.doc(answer.postId).update({
-        answers: answers
-      })
-    },
-    dbSetAnswerPost(answer) {
-      const answers = this.posts[answer.postId].answers
-      const data = {
-        uid: answer.uid,
-        answer: answer.card
+      const setDbAnswerPost = ()=> {
       }
-      console.log(answers, data)
+      await setDbAnswerUser()
+      await console.log(setDbAnswerPost())
+      this.$router.push('/answer/'+this.currentAnswer.postId)
+      //this.modal.able = true
     },
     loginModal() {
       this.modal = {
         able: true,
-        page: 'general',
-        tag: 'login',
-        funcName: false
+        text: this.modalText.general.login,
+        funcName: null
       }
     },
     actionParam() {

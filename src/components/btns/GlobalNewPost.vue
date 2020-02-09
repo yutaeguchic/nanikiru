@@ -5,7 +5,7 @@
 <script>
 export default {
   name: 'GlobalNewPost',
-  props: ['currentUser'],
+  props: ['currentUser', 'modalText'],
   methods: {
     goNewPost() {
       if(this.currentUser.login) {
@@ -13,8 +13,7 @@ export default {
       }else {
         this.$parent.modal = {
           able: true,
-          page: 'general',
-          tag: 'requireLogin',
+          text: this.modalText.newPost.requireLogin,
           funcName: 'login'
         }
       }

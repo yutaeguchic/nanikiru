@@ -61,17 +61,17 @@ export default {
     Breadcrumb,
     ReturnHome
   },
-  props: ['posts', 'users', 'currentUser'],
+  props: ['posts', 'users', 'currentUser', 'modalText'],
   data() {
     return {
-      postId: false,
+      postId: null,
       post: {},
       writer: {},
       answer: {
-        postId: '',
-        timestamp: false,
-        uid: '',
-        card: false
+        postId: null,
+        timestamp: null,
+        uid: null,
+        card: null
       }
     }
   },
@@ -131,23 +131,24 @@ export default {
         this.$parent.currentAnswer = answer
         this.$parent.modal = {
           able: true,
-          page: 'single',
-          tag: ['confirm', this.answer.card],
+          text: {
+            title: this.modalText.single.confirm.title,
+            content: this.modalText.single.confirm.content.replace(/\{\{card\}\}/, this.answer.card),
+            button: this.modalText.single.confirm.button
+          },
           funcName: 'postAnswer'
         }
       }else if(this.post.a === this.currentUser.uid) {
         this.$parent.modal = {
           able: true,
-          page: 'single',
-          tag: 'errorWriter',
-          funcName: false
+          text: this.modalText.single.errorWrite,
+          funcName: null
         }
       }else if(!this.currentUser.login){
         this.$parent.modal = {
           able: true,
-          page: 'single',
-          tag: 'requireLogin',
-          funcName: false
+          text: this.modalText.single.requireLogin,
+          funcName: 'login'
         }
       }
     }

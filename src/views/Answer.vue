@@ -5,6 +5,9 @@
     />
 
     <h2 class="m-ttl--page">NANIKIRU 解答</h2>
+    <div>{{post}}</div>
+    <div>---</div>
+    <div>{{currentUser}}</div>
 
   </div>
 </template>
@@ -16,8 +19,21 @@ export default {
   components: {
     Breadcrumb
   },
-  props: ['posts', 'users'],
+  props: ['posts', 'users', 'currentUsers'],
   data() {
+    return {
+      postId: '',
+      post: {}
+    }
+  },
+  watch: {
+    posts() {
+      if(this.posts) this.setPost()
+    }
+  },
+  mounted() {
+    this.postId = this.$route.params['id']
+    if(this.posts) this.setPost()
   },
 }
 </script>

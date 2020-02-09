@@ -1,0 +1,65 @@
+{
+  "single": {
+    "confirm": {
+      "title": "確認",
+      "content": "<p>以下の牌で回答してよろしいですか？<strong>※NANIKIRUの解答は１つ１回まで</strong></p><div class=\"m-modal__card\"><i class=\"{{card}}\"></i></div>",
+      "button": "解答する"
+    },
+    "errorWrite": {
+      "title": "解答ができません",
+      "content": "<p><strong>NANIKIRU</strong>の出題者のため</p>",
+      "button": null
+    },
+    "requireLogin": {
+      "title": "ログインしてください",
+      "content": "<p><strong>NANIKIRU</strong>の解答にはTwitterアカウントによる承認が必要です</p>",
+      "button": "ログインする"
+    }
+  },
+  "post": {
+    "errorDora": {
+      "title": "ドラ表示牌/手配を変更してください",
+      "content": "<p>ドラ表示牌を手配で使い切っています</p>",
+      "button": null
+    },
+    "errorCountCondition": {
+      "title": "戦況・コメントの文章を変更してください",
+      "content": "<p>上限の1000文字を超えています</p>",
+      "button": null
+    },
+    "errorCountCommentary": {
+      "title": "解説の文章を変更してください",
+      "content": "<p>上限の1000文字を超えています</p>",
+      "button": null
+    },
+    "errorPost": {
+      "title": "投稿エラー",
+      "content": "<p><strong>NANIKIRU</strong>の投稿に失敗しました</p>",
+      "button": null
+    },
+    "posted": {
+      "title": "投稿完了",
+      "content": "<p><strong>NANIKIRU</strong>を投稿しました</p>",
+      "button": null
+    }
+  },
+  "newPost": {
+    "requireLogin": {
+      "title": "ログインしてください",
+      "content": "<p>NANIKIRUの投稿にはTwitterアカウントによる承認が必要です</p>",
+      "button": "ログインする"
+    }
+  },
+  "general": {
+    "login": {
+      "title": "ログイン成功",
+      "content": "<p>ログインしました</p>",
+      "button": null
+    },
+    "logout": {
+      "title": "ログアウト成功",
+      "content": "<p>ログアウトしました</p>",
+      "button": null
+    }
+  }
+}

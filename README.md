@@ -33,6 +33,12 @@ npm run lint
 gulp
 ```
 
+### yaml to json
+```
+gulp yaml
+```
+
+
 ### Deploy
 ```
 // development project
