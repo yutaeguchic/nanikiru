@@ -64,8 +64,8 @@ export default {
   props: ['posts', 'users', 'currentUser', 'modalText'],
   data() {
     return {
-      postId: null,
       post: {},
+      postId: null,
       writer: {},
       answer: {
         postId: null,
@@ -77,7 +77,7 @@ export default {
   },
   watch: {
     posts() {
-      if(this.posts) {
+      if(Object.keys(this.posts).length) {
         this.setPost()
         this.setWriter()
       }
@@ -85,7 +85,7 @@ export default {
   },
   mounted() {
     this.postId = this.$route.params['id']
-    if(this.posts) {
+    if(Object.keys(this.posts).length) {
       this.setPost()
       this.setWriter()
     }
@@ -122,9 +122,9 @@ export default {
     confirm() {
       if(this.currentUser.login) {
         const time = firebase.firestore.FieldValue.serverTimestamp()
-        let data = {}
-        data[this.postId] = {}
-        data[this.postId][this.currentUser.uid] = {
+        let data = {
+          postId: this.postId,
+          uid: this.currentUser.uid,
           timestamp: time,
           card: this.answer.card
         }

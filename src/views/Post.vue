@@ -170,7 +170,7 @@ export default {
     return {
       state: 1, //ページ数
       directions: ['東', '南', '西', '北'],
-      numLabel: Array.from({length:31}, (_, i) => this.toFullwidth(String(i))),
+      numLabel: Array.from({length:31}, (_, i) => this.toFullwidth(i + '')),
       sortCardItems: ['m1', 'm2', 'm3', 'm4', 'm5', 'm5r', 'm6', 'm7', 'm8', 'm9', 'p1', 'p2', 'p3', 'p4', 'p5', 'p5r', 'p6', 'p7', 'p8', 'p9', 's1', 's2', 's3', 's4', 's5', 's5r', 's6', 's7', 's8', 's9', 'we', 'ws', 'ww', 'wn', 'dw', 'db', 'dr', null],
       numTour: { //巡目
         val: 1,
@@ -217,13 +217,13 @@ export default {
       if(this.numTour.val === this.numTour.max) return false
       const s = Number(this.toHalfwidth(this.post.k)) + 1
       this.numTour.val = s
-      this.post.k = this.toFullwidth(String(s))
+      this.post.k = this.toFullwidth(s + '')
     },
     countDown() {
       if(this.numTour.val === this.numTour.min) return false
       const s = Number(this.toHalfwidth(this.post.k)) - 1
       this.numTour.val = s
-      this.post.k = this.toFullwidth(String(s))
+      this.post.k = this.toFullwidth(s + '')
     },
     setDora(event) {
       this.post.l = event.toElement.attributes['data-value'].value
