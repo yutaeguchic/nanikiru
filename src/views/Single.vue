@@ -33,10 +33,17 @@
       <form class="m-box">
         <div class="m-box__title">解答を選択してください</div>
         <div class="m-box__note">※正解の牌が複数枚含まれている際、すべて正解となります、ただし赤ドラは別種として扱われます<br>(例えば正解を<i class="m-card m5"></i>とした際<i class="m-card m5r"></i>は不正解となります)</div>
-        <div class="m-box__cards">
-          <i v-for="(card, i) of post.f" :key="i" class="large select" :class="[card, {active: answer.card === card}]" :data-value="card" @click="setAnswer($event)"></i>
+        <div v-if="answered" class="m-box__cards">
+          <i v-for="(card, i) of post.f" :key="i" class="large" :class="[card, {active: answer.card === card}]"></i>
         </div>
-        <div v-if="post.a === currentUser.uid" class="single__submit">
+        <div v-else class="m-box__cards">
+          <i v-for="(card, i) of post.f" :key="i" class="large select" :class="[card, {active: answer.card === card}]" :data-value="card" @click="selectAnswer($event)"></i>
+        </div>
+        <div v-if="answered" class="single__submit">
+          <router-link tag="button" class="m-btn--able" :to="'/answer/'+postId" title="解答ページへ">解答を見る</router-link>
+          <div class="single__submit__note">※回答済みです</div>
+        </div>
+        <div v-else-if="post.a === currentUser.uid" class="single__submit">
           <button type="button" class="m-btn--disabled">解答する</button>
           <div class="single__submit__note">※出題者のため、解答はできません</div>
         </div>
@@ -61,7 +68,7 @@ export default {
     Breadcrumb,
     ReturnHome
   },
-  props: ['posts', 'users', 'currentUser', 'modalText'],
+  props: ['posts', 'users', 'currentUser', 'answers', 'modalText'],
   data() {
     return {
       post: {},
@@ -72,7 +79,8 @@ export default {
         timestamp: null,
         uid: null,
         card: null
-      }
+      },
+      answered: false
     }
   },
   watch: {
@@ -81,6 +89,9 @@ export default {
         this.setPost()
         this.setWriter()
       }
+    },
+    answers() {
+      Object.keys(this.answers).length && this.isAnswered()
     }
   },
   mounted() {
@@ -89,6 +100,7 @@ export default {
       this.setPost()
       this.setWriter()
     }
+    Object.keys(this.answers).length && this.isAnswered()
   },
   computed: {
     postDate: function() {
@@ -116,7 +128,13 @@ export default {
     setWriter() {
       this.writer = this.users[this.post.a]
     },
-    setAnswer(event) {
+    isAnswered() {
+      if(this.answers[this.postId] && this.answers[this.postId][this.currentUser.uid]) {
+        this.answer.card = this.answers[this.postId][this.currentUser.uid].card
+        this.answered = true
+      }
+    },
+    selectAnswer(event) {
       this.answer.card = event.toElement.attributes['data-value'].value
     },
     confirm() {

@@ -19,9 +19,6 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-.icon-info:before {
-  content: "\e902";
-}
 .icon-snow:before {
   content: "\e903";
 }
@@ -90,6 +87,21 @@
 .icon-radio-checked:before,
 .single__title:before {
   content: "\ea54";
+}
+.icon-bubble2:before {
+  content: "\e96e";
+}
+.icon-notification:before {
+  content: "\ea08";
+}
+.icon-question:before {
+  content: "\ea09";
+}
+.icon-info:before {
+  content: "\ea0c";
+}
+.icon-edge:before {
+  content: "\eadc";
 }
 .icon-plus:before {
   content: "\f067";
@@ -248,6 +260,9 @@ strong {
   background: linear-gradient(transparent 50%, #b9d7ea 60%, transparent 100%);
   font-weight: bold;
 }
+.m-tac {
+  text-align: center;
+}
 .m-icomoon,
 .m-ttl--page:before,
 .single__status > li:before,
@@ -326,7 +341,7 @@ strong {
   background-color: #769fcd;
   border: 2px solid transparent;
   border-radius: 50%;
-  color: #fff;
+  color: #f7fbfc;
   cursor: pointer;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -352,7 +367,7 @@ strong {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  background: #fff;
+  background: #f7fbfc;
   border: 1px solid #d6e6f2;
   border-radius: 8px;
   font-size: 16px;
@@ -367,7 +382,7 @@ strong {
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  background-color: #fff;
+  background-color: #f7fbfc;
   border: 1px solid #d6e6f2;
   cursor: pointer;
   display: -webkit-box;
@@ -403,7 +418,7 @@ strong {
 .m-select option {
   font-size: 16px;
   font-weight: bold;
-  background-color: #fff;
+  background-color: #f7fbfc;
 }
 .m-select option:checked {
   background-color: #b9d7ea !important;
@@ -844,7 +859,7 @@ strong {
   z-index: 1000000;
 }
 .m-modal {
-  background-color: #fff;
+  background-color: #f7fbfc;
   border: 2px solid #769fcd;
   border-radius: 8px;
   cursor: default;
@@ -901,6 +916,7 @@ strong {
   transform: translateZ(0);
 }
 .m-box,
+.m-box--center,
 .postSet,
 .postConfirm,
 .query__item {
@@ -910,6 +926,9 @@ strong {
   padding: 20px 2% 10px;
   -webkit-transition: all 0.2s ease-out;
   transition: all 0.2s ease-out;
+}
+.m-box--center {
+  text-align: center;
 }
 .m-box__status,
 .post__preview__status,
@@ -1003,7 +1022,7 @@ strong {
   width: 100%;
 }
 .m-box__title {
-  border-bottom: 2px dashed #fff;
+  border-bottom: 2px dashed #f7fbfc;
   font-size: 15px;
   font-weight: bold;
   letter-spacing: 0.04em;
@@ -1012,8 +1031,8 @@ strong {
   padding: 0 0 5px;
 }
 .m-box__strong {
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(50%, transparent), color-stop(60%, #fff), to(transparent));
-  background: linear-gradient(transparent 50%, #fff 60%, transparent 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(50%, transparent), color-stop(60%, #f7fbfc), to(transparent));
+  background: linear-gradient(transparent 50%, #f7fbfc 60%, transparent 100%);
   font-size: 15px;
   font-weight: bold;
   margin: 0 0 5px;
@@ -1133,6 +1152,8 @@ a:hover {
 }
 [class^="content-"] {
   background-color: rgba(255,255,255,0.7);
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
   min-height: 100%;
   margin: 0 auto;
   max-width: 640px;
@@ -1147,9 +1168,6 @@ a:hover {
 }
 .content__footer {
   margin-top: 80px;
-  text-align: center;
-}
-.content-notfound > .m-box {
   text-align: center;
 }
 .postSet {
@@ -1491,6 +1509,42 @@ a:hover {
 .single__submit__note {
   margin-top: 5px;
   font-size: 14px;
+}
+.answer__tabs {
+  background-color: #9bb9db;
+  border-radius: 6px;
+  bottom: 0;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  color: #f7fbfc;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  height: 58px;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  margin: 0 auto;
+  width: 100%;
+}
+.answer__tabs > li {
+  border-right: 2px dashed #f7fbfc;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 58px;
+  text-align: center;
+  width: 40%;
+}
+.answer__tabs > li:last-child {
+  border-right: none;
+  font-size: 26px;
+  position: relative;
+  top: 2px;
+  width: 20%;
+}
+.answer__tabContent {
+  padding: 10px 0;
 }
 .account {
   bottom: 10px;

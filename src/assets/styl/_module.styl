@@ -5,6 +5,9 @@ strong
   background linear-gradient(transparent 50%, $blue02 60%, transparent 100%)
   font-weight bold
 
+.m-tac
+  text-align center
+
 /*
   icomoon
 */
@@ -79,7 +82,7 @@ strong
   background-color $blue03
   border 2px solid transparent
   border-radius 50%
-  color #fff
+  color $white
   cursor pointer
   display flex
   justify-content center
@@ -93,7 +96,7 @@ strong
 .m-text,
 .m-textarea
   appearance none
-  background #fff
+  background $white
   border 1px solid $blue01
   border-radius 8px
   font-size 16px
@@ -108,7 +111,7 @@ strong
   display none
   & + label
     align-items center
-    background-color #fff
+    background-color $white
     border 1px solid $blue01
     cursor pointer
     display flex
@@ -141,7 +144,7 @@ strong
   option
     font-size 16px
     font-weight bold
-    background-color #fff
+    background-color $white
     &:checked
       background-color $blue02 !important
     &:hover
@@ -213,7 +216,7 @@ $characters = 'we' 'ws' 'ww' 'wn' 'dw' 'db' 'dr'
   m-modal
 */
 .m-modal
-  background-color #fff
+  background-color $white
   border 2px solid $blue03
   border-radius 8px
   cursor default
@@ -281,6 +284,10 @@ $characters = 'we' 'ws' 'ww' 'wn' 'dw' 'db' 'dr'
   padding 20px 2% 10px
   transition all 0.2s ease-out
 
+.m-box--center
+  @extend .m-box
+  text-align center
+
 .m-box__status
   align-items flex-end
   font-weight bold
@@ -342,7 +349,7 @@ $characters = 'we' 'ws' 'ww' 'wn' 'dw' 'db' 'dr'
       width 100%
 
 .m-box__title
-  border-bottom 2px dashed #fff
+  border-bottom 2px dashed $white
   font-size 15px
   font-weight bold
   letter-spacing .04em
@@ -351,7 +358,7 @@ $characters = 'we' 'ws' 'ww' 'wn' 'dw' 'db' 'dr'
   padding 0 0 5px
 
 .m-box__strong
-  background linear-gradient(transparent 50%, #fff 60%, transparent 100%)
+  background linear-gradient(transparent 50%, $white 60%, transparent 100%)
   font-size 15px
   font-weight bold
   margin 0 0 5px

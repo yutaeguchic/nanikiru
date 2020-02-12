@@ -12,6 +12,7 @@
         :currentUser="currentUser"
         :posts.sync="db.posts"
         :users.sync="db.users"
+        :answers.sync="db.answers"
         :modalText="modalText"
         @setDbPosts="setDbPosts()"
       />
@@ -109,7 +110,6 @@ export default {
   },
   mounted() {
     this.actionParam()
-    console.log(this.db.answers)
   },
   watch: {
     '$route': function(to, from) {
@@ -167,11 +167,11 @@ export default {
       const mergeDbUser = async (uid)=> {
         const docUser = this.db.docRef.users.doc(uid)
         const docSnapshot = await docUser.get()
-        if(docSnapshot.exists) { //DB登録済み
+        if(docSnapshot.exists) { //DBµÇåhœg¤ß
           const docData = await docSnapshot.data()
           this.currentUser.db.username = await docData.username
           this.currentUser.db.plofile = await docData.plofile
-          if(this.db.redirectResult) { //データ更新
+          if(this.db.redirectResult) { //¥Ç©`¥¿¸üÐÂ
             this.currentUser.db.username = await this.db.redirectResult.additionalUserInfo.username
             if(this.currentUser.db.username != docData.username || this.currentUser.db.displayName != docData.displayName || this.currentUser.db.photoURL != docData.photoURL) {
               const updateData = await {
@@ -180,7 +180,7 @@ export default {
               await docUser.set(updateData)
             }
           }
-        }else { //DB未登録
+        }else { //DBÎ´µÇåh
           if(this.db.redirectResult.user) {
             this.currentUser.db.username = await this.db.redirectResult.additionalUserInfo.username
           }
@@ -243,13 +243,18 @@ export default {
       })
     },
     postAnswer() {
-      let data = {
-        timestamp: this.currentAnswer.timestamp,
-        card: this.currentAnswer.card
+      const answer = this.currentAnswer
+      const data = {}
+      data[answer.uid] = {
+        timestamp: answer.timestamp,
+        card: answer.card
       }
-      this.db.answers[this.currentAnswer.postId] = this.db.answers[this.currentAnswer.postId] || {}
-      this.db.answers[this.currentAnswer.postId] = data
-      console.log(this.db.answers)
+      this.db.answers[answer.postId] = this.db.answers[answer.postId] || {}
+      this.db.answers[answer.postId][answer.uid] = data[answer.uid]
+      this.db.docRef.answers.doc(answer.postId).set(data,
+         {merge: true}).then(()=> {
+          this.$router.push('/answer/' + answer.postId)
+         })
     },
     loginModal() {
       this.modal = {

@@ -101,6 +101,7 @@ a
 */
 [class^="content-"]
   background-color rgba(255, 255, 255, 0.7)
+  box-sizing border-box
   min-height 100%
   margin 0 auto
   max-width 640px
@@ -113,10 +114,6 @@ a
 .content__footer
   margin-top 80px
   text-align center
-
-.content-notfound
-  > .m-box
-    text-align center
 
 /*
   post
@@ -380,6 +377,37 @@ a
 .single__submit__note
   margin-top 5px
   font-size 14px
+
+
+.answer__tabs
+  background-color lighten($blue03, 10)
+  border-radius 6px
+  bottom 0
+  box-sizing border-box
+  color $white
+  display flex
+  height 58px
+  justify-content center
+  margin 0 auto
+  width 100%
+  > li
+    border-right 2px dashed $white
+    cursor pointer
+    font-size 16px
+    font-weight bold
+    line-height 58px
+    text-align center
+    width 40%
+    &:last-child {
+      border-right none
+      font-size 26px
+      position relative
+      top 2px
+      width 20%
+    }
+
+.answer__tabContent
+  padding 10px 0
 
 /*
   account
