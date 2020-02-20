@@ -11,13 +11,13 @@
 </template>
 
 <script>
-import Cassette from '@/components/Cassette.vue'
+import Cassette from '@/components/cassette/Archive.vue'
 import Breadcrumb from '@/components/Breadcrumb.vue'
 export default {
   name: 'Home',
   components: {
-    Breadcrumb,
-    Cassette
+    Cassette,
+    Breadcrumb
   },
   props: ['posts', 'users', 'currentUser'],
   data() {

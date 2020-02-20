@@ -37,6 +37,10 @@ newPost:
     title: ログインしてください
     content: <p>NANIKIRUの投稿にはTwitterアカウントによる承認が必要です</p>
     button: ログインする
+commentForm:
+  noText:
+    title: 投稿できません
+    content: <p>コメントが未記入です</p>
 general:
   login:
     title: ログイン成功

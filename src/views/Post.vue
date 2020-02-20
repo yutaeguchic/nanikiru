@@ -226,10 +226,10 @@ export default {
       this.post.k = this.toFullwidth(s + '')
     },
     setDora(event) {
-      this.post.l = event.toElement.attributes['data-value'].value
+      this.post.l = event.target.attributes['data-value'].value
     },
     addCard(event) {
-      const val = event.toElement.attributes['data-value'].value
+      const val = event.target.attributes['data-value'].value
       if(!this.cardValidate(val) && !this.cardFull) {
         this.$set(this.post.f, this.post.f.indexOf(null), val)
         this.cardFull = (!this.post.f.some(e => e === null))
@@ -237,13 +237,13 @@ export default {
       }
     },
     removeCard(event) {
-      let index = event.toElement.attributes['data-index'].value
+      let index = event.target.attributes['data-index'].value
       this.post.f[index] = null
       this.sortCard()
       this.cardFull = false
     },
     setAnswerCard(event) {
-      this.post.n = event.toElement.attributes['data-value'].value
+      this.post.n = event.target.attributes['data-value'].value
     },
     sortCard() {
       this.post.f.sort((x, y) => {
