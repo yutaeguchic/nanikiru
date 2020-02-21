@@ -2,7 +2,7 @@
   <div id="app">
     <global-header/>
 
-    <global-new-post
+    <new-post
       :currentUser="currentUser"
     />
 
@@ -16,7 +16,7 @@
       />
     </transition>
 
-    <global-account
+    <account
       :currentUser="currentUser"
       @login="login()"
     />
@@ -137,11 +137,6 @@ export default {
         this.db.docRef.posts = firebase.firestore().collection('posts').orderBy("c", "desc")
         this.db.docRef.answers = firebase.firestore().collection('answers')
       }
-      const setDb = ()=> {
-        this.setDbUsers()
-        this.setDbPosts()
-        this.setDbAnswers()
-      }
       const setRedirectResult = async ()=> {
         const result = await firebase.auth().getRedirectResult().catch(error => console.log('error: ' + error))
         if(result.user) {
@@ -175,7 +170,10 @@ export default {
       }
       const handler = async (user)=> {
         await setDocRefs()
-        await setDb()
+        await this.setDb('users')
+        await this.setDb('posts')
+        await this.setDb('answers')
+        await console.log(this.db)
         if(user) {
           await setRedirectResult()
           this.currentUser = await {
@@ -194,37 +192,15 @@ export default {
       }
       firebase.auth().onAuthStateChanged(handler)
     },
-    setDbUsers() {
-      this.db.docRef.users.get().then(snapshot => {
-        let users = {}
+    setDb(name) {
+      this.db.docRef[name].get().then(snapshot => {
+        let data = {}
         if(!snapshot.empty) {
           snapshot.forEach(async doc => {
-            users[doc.id] = await doc.data()
+            data[doc.id] = await doc.data()
           })
         }
-      this.db.users = users
-      })
-    },
-    setDbPosts() {
-      let posts = {}
-      this.db.docRef.posts.get().then(snapshot => {
-        if(!snapshot.empty) {
-          snapshot.forEach(async doc => {
-            posts[doc.id] = await doc.data()
-          })
-        }
-      this.db.posts = posts
-      })
-    },
-    setDbAnswers() {
-      let answers = {}
-      this.db.docRef.answers.get().then(snapshot => {
-        if(!snapshot.empty) {
-          snapshot.forEach(async doc => {
-            answers[doc.id] = await doc.data()
-          })
-        }
-      this.db.answers = answers
+        this.db[name] = data
       })
     },
     postAnswer() {
