@@ -9,9 +9,9 @@
     <transition name="fadeIn">
       <router-view
         :currentUser="currentUser"
-        :posts.sync="db.posts"
-        :users.sync="db.users"
-        :answers.sync="db.answers"
+        :posts.sync="posts"
+        :users.sync="users"
+        :answers.sync="answers"
         @setDbPosts="setDbPosts()"
       />
     </transition>
@@ -61,16 +61,16 @@ export default {
   },
   data() {
     return {
+      users: {},
+      posts: {},
+      answers: {},
       db: {
         redirectResult: null,
         docRef: {
           users: null,
           posts: null,
           answers: null
-        },
-        users: {},
-        posts: {},
-        answers: {}
+        }
       },
       currentUser: {
         login: null,
@@ -160,7 +160,7 @@ export default {
               await docUser.set(updateData)
             }
           }
-        }else { //DBÎ´µÇåh
+        }else {
           if(this.db.redirectResult.user) {
             this.currentUser.db.username = await this.db.redirectResult.additionalUserInfo.username
           }
@@ -173,7 +173,6 @@ export default {
         await this.setDb('users')
         await this.setDb('posts')
         await this.setDb('answers')
-        await console.log(this.db)
         if(user) {
           await setRedirectResult()
           this.currentUser = await {
@@ -200,7 +199,7 @@ export default {
             data[doc.id] = await doc.data()
           })
         }
-        this.db[name] = data
+        this[name] = data
       })
     },
     postAnswer() {
@@ -210,8 +209,8 @@ export default {
         timestamp: answer.timestamp,
         card: answer.card
       }
-      this.db.answers[answer.postId] = this.db.answers[answer.postId] || {}
-      this.db.answers[answer.postId][answer.uid] = data[answer.uid]
+      this.answers[answer.postId] = this.answers[answer.postId] || {}
+      this.answers[answer.postId][answer.uid] = data[answer.uid]
       this.db.docRef.answers.doc(answer.postId).set(data,
          {merge: true}).then(()=> {
           this.$router.push('/answer/' + answer.postId)

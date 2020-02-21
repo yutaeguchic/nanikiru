@@ -40,24 +40,39 @@
     opacity 0
     transform translate3d(0, -20%, 0)
   100%
-    opacity: 1
+    opacity 1
     transform none
 
 @keyframes fadeInLeft
   0%
-    opacity: 0
-    transform: translate3d(-100%, 0, 0)
+    opacity 0
+    transform translate3d(-100%, 0, 0)
   100%
-    opacity: 1
-    transform: none
+    opacity 1
+    transform none
 
 @keyframes fadeInRight
   0%
-    opacity: 0
-    transform: translate3d(100%, 0, 0)
+    opacity 0
+    transform translate3d(100%, 0, 0)
   100%
-    opacity: 1
-    transform: none
+    opacity 1
+    transform none
+
+@keyframes shake
+  0%,100%
+    transform translate3d(0,0,0)
+  20%,60%
+    transform translate3d(-10px,0,0)
+  40%,80%
+    transform translate3d(10px,0,0)
+
+@keyframes  pourItUp
+  0%
+    height 0
+  100%
+    height 100%
+
 
 @keyframes loading
   0%,

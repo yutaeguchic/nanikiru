@@ -325,13 +325,14 @@ strong {
   background-color: #b9d7ea;
 }
 .m-btn--disabled {
-  cursor: not-allowed;
+  cursor: auto;
   background-color: #eee;
   border: 2px solid #ddd;
 }
 .m-iconBtn,
 .m-modal__close,
 .newPostBtn,
+.commentForm__switch,
 .account__btn,
 .account__display,
 .footer__menuBtn {
@@ -349,12 +350,14 @@ strong {
   -webkit-box-pack: center;
   -ms-flex-pack: center;
   justify-content: center;
+  outline: none;
   -webkit-transition: all 0.2s ease-out;
   transition: all 0.2s ease-out;
 }
 .m-iconBtn > i,
 .m-modal__close > i,
 .newPostBtn > i,
+.commentForm__switch > i,
 .account__btn > i,
 .account__display > i,
 .footer__menuBtn > i {
@@ -363,7 +366,8 @@ strong {
 .m-text,
 .m-textarea,
 .postSet--textarea,
-.postSet--text {
+.postSet--text,
+.commentForm__textarea {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -1525,6 +1529,7 @@ a:hover {
   -ms-flex-pack: center;
   justify-content: center;
   margin: 0 auto;
+  overflow: hidden;
   width: 100%;
 }
 .answer__tabs > li {
@@ -1539,12 +1544,148 @@ a:hover {
 .answer__tabs > li:last-child {
   border-right: none;
   font-size: 26px;
+  width: 20%;
+}
+.answer__tabs > li:last-child > i {
   position: relative;
   top: 2px;
-  width: 20%;
+}
+.answer__tabs > li.active {
+  background-color: #769fcd;
 }
 .answer__tabContent {
   padding: 10px 0;
+}
+.commentForm {
+  padding-bottom: 5px;
+  border-bottom: 2px dashed #d6e6f2;
+}
+.commentForm__switch {
+  font-size: 26px;
+  height: 60px;
+  margin: 10px 0;
+  width: 60px;
+}
+.commentForm__switch:hover {
+  border-color: #fff;
+}
+.commentForm__switch.active {
+  background-color: #9bb9db;
+  border-color: #769fcd;
+}
+.commentForm__textarea {
+  margin-bottom: 20px;
+  max-width: 96%;
+  min-height: 68px;
+  min-width: 96%;
+  height: 68px;
+}
+.commentForm__score {
+  margin-bottom: 20px;
+}
+.commentForm__score__select {
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  font-weight: bold;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+.commentForm__score__select > li {
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background-color: #f7fbfc;
+  border: 1px solid #d6e6f2;
+  border-radius: 50%;
+  cursor: pointer;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  text-align: center;
+  -webkit-transition: all 0.2s ease-out;
+  transition: all 0.2s ease-out;
+  width: 16%;
+}
+.commentForm__score__select > li:before {
+  content: "";
+  display: block;
+  padding-top: 100%;
+}
+.commentForm__score__select > li:hover {
+  background-color: #b9d7ea;
+}
+.commentForm__button,
+.commentForm__button--submit {
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #f5f9fc;
+  border: 2px solid #769fcd;
+  border-radius: 6px;
+  cursor: pointer;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  font-size: 16px;
+  height: 50px;
+  letter-spacing: 0.04em;
+  outline: none;
+  padding: 1px 0 0 50px;
+  position: relative;
+  -webkit-transition: all 0.2s ease-out;
+  transition: all 0.2s ease-out;
+  width: 230px;
+}
+.commentForm__button:hover,
+.commentForm__button--submit:hover {
+  background-color: #b9d7ea;
+}
+.commentForm__button i,
+.commentForm__button--submit i {
+  color: #769fcd;
+  font-size: 28px;
+  left: 10px;
+  margin-top: -14px;
+  position: absolute;
+  top: 50%;
+}
+.commentForm__button i:hover,
+.commentForm__button--submit i:hover {
+  background-color: #eee;
+}
+.commentForm__button--submit:active:not(:disabled) {
+  -webkit-animation: shake 0.5s 4;
+  animation: shake 0.5s 4;
+}
+.commentForm__button--submit:active:not(:disabled):before {
+  -webkit-animation: pourItUp 2s;
+  animation: pourItUp 2s;
+  background-color: #f7fbfc;
+  border-radius: 6px;
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  z-index: -1;
+}
+.commentForm__button--submit:disabled {
+  background-color: #eee;
+  border-color: #ddd;
+  cursor: auto;
 }
 .account {
   bottom: 10px;

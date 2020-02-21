@@ -15,10 +15,9 @@ body
   line-height 1.7
 
 h1,h2,h3,h4,h5,h6,
-ul, ol, li {
+ul, ol, li
   margin 0
   padding 0
-}
 
 a
   border-bottom 1px solid $blue03
@@ -378,7 +377,6 @@ a
   margin-top 5px
   font-size 14px
 
-
 .answer__tabs
   background-color lighten($blue03, 10)
   border-radius 6px
@@ -389,6 +387,7 @@ a
   height 58px
   justify-content center
   margin 0 auto
+  overflow hidden
   width 100%
   > li
     border-right 2px dashed $white
@@ -398,16 +397,118 @@ a
     line-height 58px
     text-align center
     width 40%
-    &:last-child {
+    &:last-child
       border-right none
       font-size 26px
-      position relative
-      top 2px
       width 20%
-    }
-
+      > i
+        position relative
+        top 2px
+    &.active
+      background-color $blue03
 .answer__tabContent
   padding 10px 0
+
+/*
+  comment form
+*/
+.commentForm
+  padding-bottom 5px
+  border-bottom 2px dashed $blue01
+
+.commentForm__switch
+  @extends .m-iconBtn
+  font-size 26px
+  height 60px
+  margin 10px 0
+  width 60px
+  &:hover
+    border-color #fff
+  &.active
+    background-color lighten($blue03, 10)
+    border-color $blue03
+
+.commentForm__textarea
+  @extends .m-textarea
+  margin-bottom 20px
+  max-width 96%
+  min-height 68px
+  min-width 96%
+  height 68px
+
+.commentForm__score
+  margin-bottom 20px
+
+.commentForm__score__select
+  align-items center
+  display flex
+  flex-wrap wrap
+  font-weight bold
+  justify-content center
+  > li
+    align-items center
+    background-color $white
+    border 1px solid $blue01
+    border-radius 50%
+    cursor pointer
+    display flex
+    justify-content center
+    text-align center
+    transition all 0.2s ease-out
+    width 16%
+    &:before
+      content ""
+      display block
+      padding-top 100%
+    &:hover
+      background-color $blue02
+
+.commentForm__button
+  align-items center
+  appearance none
+  background-color lighten($blue01, 8)
+  border 2px solid $blue03
+  border-radius 6px
+  cursor pointer
+  display flex
+  font-size 16px
+  height 50px
+  letter-spacing 0.04em
+  outline none
+  padding 1px 0 0 50px
+  position relative
+  transition all 0.2s ease-out
+  width 230px
+  &:hover
+    background-color $blue02
+  i
+    color $blue03
+    font-size 28px
+    left 10px
+    margin-top -14px
+    position absolute
+    top 50%
+    &:hover
+      background-color #eee
+
+.commentForm__button--submit
+  @extends .commentForm__button
+  &:active:not(:disabled)
+    animation shake .5s 4
+    &:before
+      animation pourItUp 2s
+      background-color $white
+      border-radius 6px
+      content ""
+      position absolute
+      left 0
+      top 0
+      width 100%
+      z-index -1
+  &:disabled
+    background-color #eee
+    border-color #ddd
+    cursor auto
 
 /*
   account

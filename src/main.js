@@ -2,13 +2,16 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import {firestorePlugin} from 'vuefire'
+import smoothScroll from 'vue-smoothscroll'
 import firebase from 'firebase'
 
 import './assets/css/style.css'
 import './assets/css/transition.css'
 
 Vue.config.productionTip = false
+Vue.use(smoothScroll)
 Vue.use(firestorePlugin)
+
 const firebaseConfig = {
   apiKey: process.env.VUE_APP_FB_API_KEY,
   authDomain: process.env.VUE_APP_FB_AUTH_DOMAIN,
