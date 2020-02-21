@@ -60,6 +60,8 @@
 
 <script>
 import firebase from 'firebase'
+import {EventBus} from '@/components/libs/EventBus.js'
+import modalText from '@/assets/data/modalText.json'
 import Breadcrumb from '@/components/Breadcrumb.vue'
 import ReturnHome from '@/components/btns/ReturnHome.vue'
 export default {
@@ -68,12 +70,13 @@ export default {
     Breadcrumb,
     ReturnHome
   },
-  props: ['posts', 'users', 'currentUser', 'answers', 'modalText'],
+  props: ['posts', 'users', 'currentUser', 'answers'],
   data() {
     return {
       post: {},
       postId: null,
       writer: {},
+      modalText: modalText,
       answer: {
         postId: null,
         timestamp: null,
@@ -147,7 +150,7 @@ export default {
           card: this.answer.card
         }
         this.$parent.currentAnswer = data
-        this.$parent.modal = {
+        const modalData = {
           able: true,
           text: {
             title: this.modalText.single.confirm.title,
@@ -156,18 +159,21 @@ export default {
           },
           funcName: 'postAnswer'
         }
+        EventBus.$emit('rawSetModal', modalData)
       }else if(this.post.a === this.currentUser.uid) {
-        this.$parent.modal = {
+        const modalData = {
           able: true,
-          text: this.modalText.single.errorWrite,
+          text: ['single', 'errorWrite'],
           funcName: null
         }
+        EventBus.$emit('setModal', modalData)
       }else if(!this.currentUser.login){
-        this.$parent.modal = {
+        const modalData = {
           able: true,
-          text: this.modalText.single.requireLogin,
+          text: ['single', 'requireLogin'],
           funcName: 'login'
         }
+        EventBus.$emit('setModal', modalData)
       }
     }
   }

@@ -4,7 +4,6 @@
 
     <global-new-post
       :currentUser="currentUser"
-      :modalText="modalText"
     />
 
     <transition name="fadeIn">
@@ -13,7 +12,6 @@
         :posts.sync="db.posts"
         :users.sync="db.users"
         :answers.sync="db.answers"
-        :modalText="modalText"
         @setDbPosts="setDbPosts()"
       />
     </transition>
@@ -28,13 +26,9 @@
       @logout="logout()"
     />
 
-    <transition name="fadeInDown">
-      <modal
-        v-show="modal.able"
-        :modal="modal"
-        @submit="callMethod(modal.funcName)"
-      />
-    </transition>
+    <modal
+      @submit="callMethod(modal.funcName)"
+    />
 
     <transition name="fadeInDown">
       <Loader
@@ -47,20 +41,20 @@
 
 <script>
 import firebase from 'firebase'
+import {EventBus} from '@/components/libs/EventBus.js'
 import GlobalHeader from '@/components/GlobalHeader.vue'
-import GlobalNewPost from '@/components/btns/GlobalNewPost.vue'
-import GlobalAccount from '@/components/btns/GlobalAccount.vue'
+import NewPost from '@/components/btns/NewPost.vue'
+import Account from '@/components/btns/Account.vue'
 import GlobalFooter from '@/components/GlobalFooter.vue'
 import Modal from '@/components/Modal.vue'
 import Loader from '@/components/Loader.vue'
-import modalText from '@/assets/data/modalText.json'
 
 export default {
   name: 'home',
   components: {
     GlobalHeader,
-    GlobalNewPost,
-    GlobalAccount,
+    NewPost,
+    Account,
     GlobalFooter,
     Modal,
     Loader
@@ -89,16 +83,6 @@ export default {
         }
       },
       currentAnswer: null,
-      modal: {
-        able: false,
-        text: {
-          title: null,
-          content: null,
-          submit: null
-        },
-        funcName: null
-      },
-      modalText: modalText,
       loader: {
         show: false
       }
@@ -139,11 +123,12 @@ export default {
             plofile: null
           }
         }
-        this.modal = {
+        const data = {
           able: true,
-          text: this.modalText.general.logout,
+          text: ['general', 'logout'],
           funcName: null
         }
+        EventBus.$emit('setModal', data)
       })
     },
     setCurrentUser() {
@@ -167,11 +152,11 @@ export default {
       const mergeDbUser = async (uid)=> {
         const docUser = this.db.docRef.users.doc(uid)
         const docSnapshot = await docUser.get()
-        if(docSnapshot.exists) { //DBµÇåhœg¤ß
+        if(docSnapshot.exists) {
           const docData = await docSnapshot.data()
           this.currentUser.db.username = await docData.username
           this.currentUser.db.plofile = await docData.plofile
-          if(this.db.redirectResult) { //¥Ç©`¥¿¸üÐÂ
+          if(this.db.redirectResult) {
             this.currentUser.db.username = await this.db.redirectResult.additionalUserInfo.username
             if(this.currentUser.db.username != docData.username || this.currentUser.db.displayName != docData.displayName || this.currentUser.db.photoURL != docData.photoURL) {
               const updateData = await {
@@ -257,15 +242,16 @@ export default {
          })
     },
     loginModal() {
-      this.modal = {
+      const data = {
         able: true,
-        text: this.modalText.general.login,
+        text: ['general', 'login'],
         funcName: null
       }
+      EventBus.$emit('setModal', data)
     },
     actionParam() {
       if(window.location.search === '?modal') {
-        this.modal.able = true
+        EventBus.$emit('showModal')
         history.replaceState('', '', '/')
       }
     }

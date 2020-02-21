@@ -159,6 +159,7 @@
 
 <script>
 import firebase from 'firebase'
+import {EventBus} from '@/components/libs/EventBus.js'
 import Breadcrumb from '@/components/Breadcrumb.vue'
 export default {
   name: 'post',
@@ -272,23 +273,26 @@ export default {
     },
     move(count) {
       if(this.post.l && this.cardValidate(this.post.l)) {
-        this.$parent.modal = {
+        const data = {
           able: true,
-          text: this.modalText.post.errorDora,
+          text: ['post', 'errorDora'],
           funcName: null
         }
+        EventBus.$emit('setModal', data)
       }else if(this.post.m && this.textValidate(this.post.m, this.maxlength.condition)) {
-        this.$parent.modal = {
+        const data = {
           able: true,
-          text: this.modalText.post.errorCountCondition,
+          text: ['post', 'errorCountCondition'],
           funcName: null
         }
+        EventBus.$emit('setModal', data)
       }else if(this.post.n && this.textValidate(this.post.o, this.maxlength.commentary)) {
-        this.$parent.modal = {
+        const data = {
           able: true,
-          text: this.modalText.post.errorCountCommentary,
+          text: ['post', 'errorCountCommentary'],
           funcName: null
         }
+        EventBus.$emit('setModal', data)
       }else {
         this.state = this.state + count
         this.$SmoothScroll(document.body, 400)
@@ -306,19 +310,21 @@ export default {
       const self = this
       firebase.firestore().collection('posts').add(self.post).then(() => {
         this.$emit('setDbPosts')
-        this.$parent.modal = {
+        const data = {
           able: true,
-          text: this.modalText.post.posted,
+          text: ['post', 'posted'],
           funcName: null
         }
+        EventBus.$emit('setModal', data)
         this.$router.push('/?modal')
       }).catch((err) => {
         console.log(err)
-        this.$parent.modal = {
+        const data = {
           able: true,
-          text: this.modalText.post.errorPost,
+          text: ['post', 'errorPost'],
           funcName: null
         }
+        EventBus.$emit('setModal', data)
       })
     }
   }

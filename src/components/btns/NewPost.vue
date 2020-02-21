@@ -3,19 +3,21 @@
 </template>
 
 <script>
+import {EventBus} from '@/components/libs/EventBus.js'
 export default {
   name: 'GlobalNewPost',
-  props: ['currentUser', 'modalText'],
+  props: ['currentUser'],
   methods: {
     goNewPost() {
       if(this.currentUser.login) {
         this.$router.push('/post/new')
       }else {
-        this.$parent.modal = {
+        const data = {
           able: true,
-          text: this.modalText.newPost.requireLogin,
+          text: ['newPost', 'requireLogin'],
           funcName: 'login'
         }
+        EventBus.$emit('setModal', data)
       }
     }
   }
