@@ -16,8 +16,8 @@ import Breadcrumb from '@/components/Breadcrumb.vue'
 export default {
   name: 'Home',
   components: {
-    Breadcrumb,
-    Cassette
+    Cassette,
+    Breadcrumb
   },
   props: ['posts', 'users', 'currentUser'],
   data() {
