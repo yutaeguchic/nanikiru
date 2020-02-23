@@ -5,7 +5,7 @@
         <h1 class="m-ttl">{{text.title}}</h1>
         <div class="m-modal__content" v-html="text.content"></div>
         <transition name="fadeInDown">
-          <div v-show="text.button" class="m-modal__btn"><button type="button" class="m-btn--able" @click="$emit('submit')">{{text.button}}</button></div>
+          <div v-show="text.button" class="m-modal__btn"><button type="button" class="m-btn--able" @click="$emit('submit', funcName)">{{text.button}}</button></div>
         </transition>
         <button class="m-modal__close" type="button" @click.stop="close()"><i class="icon-close"></i></button>
       </div>
@@ -38,6 +38,12 @@ export default {
     EventBus.$on('rawSetModal', (data)=> {
       this.rawSetModal(data)
     })
+    EventBus.$on('showModal', ()=> {
+      this.show()
+    })
+    EventBus.$on('closeModal', ()=> {
+      this.close()
+    })
   },
   methods: {
     rawSetModal(data) {
@@ -52,7 +58,7 @@ export default {
       this.button = data.button
       this.funcName = data.funcName
     },
-    showModal() {
+    show() {
       this.able = true
     },
     close() {

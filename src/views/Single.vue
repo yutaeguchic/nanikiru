@@ -55,7 +55,7 @@ export default {
     Cassette,
     ReturnHome
   },
-  props: ['posts', 'users', 'currentUser', 'answers'],
+  props: ['posts', 'users', 'currentUser', 'answers', 'comments'],
   data() {
     return {
       post: {},

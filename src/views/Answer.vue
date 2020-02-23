@@ -26,13 +26,13 @@
         <transition name="fadeIn">
           <div v-show="tabMode===3">
             <CommentForm
+              :users="users"
               :currentUser="currentUser"
               @comment="comment($event)"
             />
             <comments/>
           </div>
         </transition>
-
 
       </div>
 
@@ -77,7 +77,7 @@ export default {
     Comments,
     ReturnHome
   },
-  props: ['posts', 'users', 'currentUser', 'answers'],
+  props: ['posts', 'users', 'currentUser', 'answers', 'comments'],
   data() {
     return {
       post: {},
@@ -121,9 +121,6 @@ export default {
     changeTab(event) {
       this.tabMode = event
       this.$SmoothScroll(document.body, 400)
-    },
-    comment(event) {
-      console.log(event)
     }
   }
 }

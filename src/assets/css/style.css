@@ -1389,7 +1389,7 @@ a:hover {
 }
 .query__item__footer__detail {
   font-size: 13px;
-  width: 45%;
+  width: 50%;
 }
 .query__item__footer__detail > div {
   border-bottom: 2px dashed #b9d7ea;
@@ -1557,8 +1557,8 @@ a:hover {
   padding: 10px 0;
 }
 .commentForm {
-  padding-bottom: 5px;
   border-bottom: 2px dashed #d6e6f2;
+  margin-bottom: 40px;
 }
 .commentForm__switch {
   font-size: 26px;

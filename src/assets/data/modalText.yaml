@@ -28,8 +28,8 @@ post:
     title: 投稿エラー
     content: <p><strong>NANIKIRU</strong>の投稿に失敗しました</p>
     button:
-  posted:
-    title: '投稿完了'
+  submit:
+    title: 投稿完了
     content: <p><strong>NANIKIRU</strong>を投稿しました</p>
     button:
 newPost:
@@ -41,6 +41,9 @@ commentForm:
   noText:
     title: 投稿できません
     content: <p>コメントが未記入です</p>
+  submit:
+    title: 投稿完了
+    content: <p>コメントを投稿しました</p>
 general:
   login:
     title: ログイン成功

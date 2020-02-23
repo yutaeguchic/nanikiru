@@ -4,8 +4,16 @@
     <breadcrumb/>
 
     <h2 class="m-ttl--page">NANIKIRU 新着</h2>
+
     <div class="query">
-      <Cassette v-for="(key, i) of getPostKeys.slice(0, postCount)" :key="i" :post="posts[key]" :postId="key" :users="users"/>
+      <Cassette
+        v-for="(key, i) of getPostKeys.slice(0, postCount)"
+        :key="i"
+        :post="posts[key]"
+        :postId="key"
+        :users="users"
+        :isAnswer="(answers[key] && Object.keys(answers[key]).includes(currentUser.uid)) || false"
+      />
     </div>
   </div>
 </template>
@@ -19,10 +27,10 @@ export default {
     Cassette,
     Breadcrumb
   },
-  props: ['posts', 'users', 'currentUser'],
+  props: ['posts', 'users', 'currentUser', 'answers'],
   data() {
     return {
-      postCount: 10,
+      postCount: 10
     }
   },
   computed: {

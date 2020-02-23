@@ -54,6 +54,10 @@
     "noText": {
       "title": "投稿できません",
       "content": "<p>コメントが未記入です</p>"
+    },
+    "submit": {
+      "title": "投稿完了",
+      "content": "<p>コメントを投稿しました</p>"
     }
   },
   "general": {

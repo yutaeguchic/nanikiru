@@ -19,7 +19,7 @@
         <div><i class="icon-price-tag"></i><strong v-text="post.e?'問題':'相談'"></strong></div>
         <div>出題者コメント： <strong v-text="post.m?'あり':'なし'"></strong></div>
       </div>
-      <router-link tag="button" type="button" class="query__item__btn" :to="'/post/'+postId">挑戦（詳細）</router-link>
+      <router-link tag="button" type="button" class="query__item__btn" :to="'/post/'+postId" v-text="isAnswer?'回答済み':'挑戦'"></router-link>
     </footer>
   </div>
 </template>
@@ -27,7 +27,7 @@
 <script>
 export default {
   name: 'Post',
-  props: ['post', 'postId', 'users'],
+  props: ['post', 'postId', 'users', 'isAnswer'],
   methods: {
     getWriter(uid) {
       if(this.users[uid]) {

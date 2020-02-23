@@ -273,26 +273,11 @@ export default {
     },
     move(count) {
       if(this.post.l && this.cardValidate(this.post.l)) {
-        const data = {
-          able: true,
-          text: ['post', 'errorDora'],
-          funcName: null
-        }
-        EventBus.$emit('setModal', data)
+        this.showModal('errorDora')
       }else if(this.post.m && this.textValidate(this.post.m, this.maxlength.condition)) {
-        const data = {
-          able: true,
-          text: ['post', 'errorCountCondition'],
-          funcName: null
-        }
-        EventBus.$emit('setModal', data)
+        this.showModal('errorCountCondition')
       }else if(this.post.n && this.textValidate(this.post.o, this.maxlength.commentary)) {
-        const data = {
-          able: true,
-          text: ['post', 'errorCountCommentary'],
-          funcName: null
-        }
-        EventBus.$emit('setModal', data)
+        this.showModal('errorCountCommentary')
       }else {
         this.state = this.state + count
         this.$SmoothScroll(document.body, 400)
@@ -309,23 +294,29 @@ export default {
       this.post.o = this.post.e?this.post.o.trim():''
       const self = this
       firebase.firestore().collection('posts').add(self.post).then(() => {
-        this.$emit('setDbPosts')
-        const data = {
-          able: true,
-          text: ['post', 'posted'],
-          funcName: null
-        }
-        EventBus.$emit('setModal', data)
-        this.$router.push('/?modal')
+        this.$emit('setDb', 'posts')
+        this.TriggerModal('submit')
       }).catch((err) => {
         console.log(err)
-        const data = {
-          able: true,
-          text: ['post', 'errorPost'],
-          funcName: null
-        }
-        EventBus.$emit('setModal', data)
+        this.showModal('errorPost')
       })
+    },
+    showModal(label) {
+      const data = {
+        able: true,
+        text: ['post', label],
+        funcName: null
+      }
+      EventBus.$emit('setModal', data)
+    },
+    TriggerModal(label) {
+      const data = {
+        able: false,
+        text: ['post', label],
+        funcName: null
+      }
+      EventBus.$emit('setModal', data)
+      this.$router.push('/?modal')
     }
   }
 }
