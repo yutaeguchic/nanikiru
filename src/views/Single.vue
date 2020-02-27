@@ -147,8 +147,7 @@ export default {
       firebase.firestore().collection('answers').doc(this.postId).set(data, {merge: true}).then(()=> {
         this.$router.push('/answer/' + this.postId)
       })
-      this.$parent.answers[this.postId] = this.$parent.answers[this.postId] || {}
-      this.$parent.answers[this.postId][this.uid] = data
+      this.$emit('setDb', 'answers')
       EventBus.$emit('closeModal')
     }
   }

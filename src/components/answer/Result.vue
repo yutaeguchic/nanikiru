@@ -4,7 +4,7 @@
     <h3 class="single__postTitle">解答結果</h3>
 
     <template v-if="uid != post.a">
-      <div class="single__date">回答日時： {{time}}</div>
+      <div v-if="time" class="single__date">回答日時： {{time}}</div>
       <div v-if="post.e" class="result__label" v-text="post.n===postAnswers[uid].card?'正解':'不正解'"></div>
       <div class="single__section--flex">
         <div>
@@ -32,7 +32,7 @@
       <h3 class="single__title">みなさまの解答</h3>
       <h4 class="single__subTitle--user">総回答数: {{total}}</h4>
 
-      <template v-if="postAnswers">
+      <template v-if="Object.keys(postAnswers).length">
         <h4 class="single__subTitle--clip">手牌</h4>
         <div class="m-box__cards"><i v-for="(card, i) of post.f" :key="i" :class="card"></i></div>
         <h4 class="single__subTitle--clip">回答率</h4>
@@ -72,15 +72,18 @@ export default {
       answerCards: [],
       uniqueCards: [],
       probability: {},
+      time: '反映中'
     }
   },
   computed: {
-    time() {
-      return this.getDateLabel(this.postAnswers[this.uid].timestamp)
-    },
     total() {
       if(this.postAnswers) this.getAnswerCards()
       return this.answerCards.length
+    }
+  },
+  mounted() {
+    if(this.postAnswers[this.uid].timestamp.seconds) {
+      this.time = this.getDateLabel(this.postAnswers[this.uid].timestamp)
     }
   },
   methods: {
