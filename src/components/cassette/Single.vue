@@ -1,7 +1,6 @@
 <template>
   <div>
-
-    <div class="single__date">{{postDate}}</div>
+    <div class="single__date">{{time}}</div>
     <div class="single__writer"><i class="icon-pen"></i>{{writer.displayName}}<br>(<a :href="'https://twitter.com/'+writer.username" target="_blank" title="twitter">@{{writer.username}}</a>)</div>
 
     <h3 class="single__postTitle" v-text="post.d?post.d:'無題'"></h3>
@@ -26,25 +25,16 @@
 </template>
 
 <script>
+import DateLabel from '@/components/libs/DateLabel.js'
 export default {
   name: 'SingleCassette',
+  mixins: [DateLabel],
   props: ['post', 'writer'],
   computed: {
-    postDate: function() {
-      const d = (this.post.c)? this.getDate(this.post.c.seconds):false
+    time() {
+      const d = (this.post.c) ? this.getDateLabel(this.post.c) :false
       return d
     }
-  },
-  methods: {
-    getDate(seconds) {
-      const a = new Date(seconds * 1000)
-      const year = a.getFullYear()
-      const month = a.getMonth()+1
-      const date = a.getDate()
-      const hours = a.getHours()
-      const minutes = a.getMinutes()
-      return this.date = year + '/' + month + '/' + date + ' ' + hours + ':' + minutes
-    },
   }
 }
 </script>

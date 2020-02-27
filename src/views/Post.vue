@@ -35,8 +35,8 @@
         <h3 class="m-ttl--section">巡目を入力してください</h3>
         <div class="m-box">
           <div class="postSet--rangeWrap">
-            <input id="e" class="m-range" type="range" :min="numTour.min" :max="numTour.max" step="1" value="1" v-model="numTour.val" @change="post.k = toFullwidth($event.target.value)">
-            <label>{{post.k}}巡目<i class="icon-down" @click="countDown()"></i><i class="icon-up" @click="countUp()"></i></label>
+            <input id="e" class="m-range" type="range" :min="numTour.min" :max="numTour.max" step="1" v-model="numTour.val" @change="setTourVal()">
+            <label>{{post.k}}巡目<i class="icon-down" @click="tourCountDown()"></i><i class="icon-up" @click="tourCountUp()"></i></label>
           </div>
         </div>
       </div><!-- /.state1 -->
@@ -160,9 +160,11 @@
 <script>
 import firebase from 'firebase'
 import {EventBus} from '@/components/libs/EventBus.js'
+import FullWidthNumber from '@/components/libs/FullWidthNumber.js'
 import Breadcrumb from '@/components/Breadcrumb.vue'
 export default {
   name: 'post',
+  mixins: [FullWidthNumber],
   components: {
     Breadcrumb
   },
@@ -171,7 +173,7 @@ export default {
     return {
       state: 1, //ページ数
       directions: ['東', '南', '西', '北'],
-      numLabel: Array.from({length:31}, (_, i) => this.toFullwidth(i + '')),
+      numLabel: [],
       sortCardItems: ['m1', 'm2', 'm3', 'm4', 'm5', 'm5r', 'm6', 'm7', 'm8', 'm9', 'p1', 'p2', 'p3', 'p4', 'p5', 'p5r', 'p6', 'p7', 'p8', 'p9', 's1', 's2', 's3', 's4', 's5', 's5r', 's6', 's7', 's8', 's9', 'we', 'ws', 'ww', 'wn', 'dw', 'db', 'dr', null],
       numTour: { //巡目
         val: 1,
@@ -203,28 +205,27 @@ export default {
       }
     }
   },
+  created() {
+    this.numLabel = this.getFullWidthNumberArray(31)
+  },
   methods: {
     toFullwidth(str) {
       return str.replace(/[A-Za-z0-9]/g, function(s) {
         return String.fromCharCode(s.charCodeAt(0) + 65248)
       })
     },
-    toHalfwidth(str) {
-      return str.replace(/[Ａ-Ｚａ-ｚ０-９]/g, function(s) {
-        return String.fromCharCode(s.charCodeAt(0) - 65248)
-      })
-    },
-    countUp() {
+    tourCountUp() {
       if(this.numTour.val === this.numTour.max) return false
-      const s = Number(this.toHalfwidth(this.post.k)) + 1
-      this.numTour.val = s
-      this.post.k = this.toFullwidth(s + '')
+      this.numTour.val++
+      this.setTourVal()
     },
-    countDown() {
+    tourCountDown() {
       if(this.numTour.val === this.numTour.min) return false
-      const s = Number(this.toHalfwidth(this.post.k)) - 1
-      this.numTour.val = s
-      this.post.k = this.toFullwidth(s + '')
+      this.numTour.val--
+      this.setTourVal()
+    },
+    setTourVal() {
+      this.post.k = this.numLabel[this.numTour.val]
     },
     setDora(event) {
       this.post.l = event.target.attributes['data-value'].value

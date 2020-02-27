@@ -26,11 +26,16 @@
         <transition name="fadeIn">
           <div v-show="tabMode===3">
             <CommentForm
-              :users="users"
+              :postScores="postScores"
               :currentUser="currentUser"
               @comment="comment($event)"
             />
-            <comments/>
+            <comments
+              :comments="comments"
+              :postComments="postComments"
+              :users="users"
+              :masterUid="post.a"
+            />
           </div>
         </transition>
 
@@ -77,18 +82,21 @@ export default {
     Comments,
     ReturnHome
   },
-  props: ['posts', 'users', 'currentUser', 'answers', 'comments'],
+  props: [
+    'posts',
+    'users',
+    'scores',
+    'currentUser',
+    'answers',
+    'comments'
+  ],
   data() {
     return {
       post: {},
       postId: null,
       writer: {},
-      answer: {
-        postId: null,
-        timestamp: null,
-        uid: null,
-        card: null
-      },
+      postScores: null,
+      postComments: [],
       tabMode: 1
     }
   },
@@ -98,6 +106,16 @@ export default {
         this.setPost()
         this.setWriter()
       }
+    },
+    scores() {
+      if(Object.keys(this.scores).length) {
+        this.setPostScores()
+      }
+    },
+    comments() {
+      if(Object.keys(this.comments).length) {
+        this.setPostComments()
+      }
     }
   },
   mounted() {
@@ -105,6 +123,12 @@ export default {
     if(Object.keys(this.posts).length) {
       this.setPost()
       this.setWriter()
+    }
+    if(Object.keys(this.scores).length) {
+      this.setPostScores()
+    }
+    if(Object.keys(this.comments).length) {
+      this.setPostComments()
     }
   },
   methods: {
@@ -117,6 +141,16 @@ export default {
     },
     setWriter() {
       this.writer = this.users[this.post.a]
+    },
+    setPostScores() {
+      this.postScores = this.scores[this.postId]
+    },
+    setPostComments() {
+      this.postComments = Object.keys(this.comments).filter(id=>(this.comments[id].postId===this.postId)).sort((a, b)=> {
+        if( this.comments[a].timestamp > this.comments[b].timestamp ) return -1
+        if( this.comments[a].timestamp < this.comments[b].timestamp ) return 1
+        return 0
+      })
     },
     changeTab(event) {
       this.tabMode = event

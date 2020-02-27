@@ -3,7 +3,7 @@
     <h3 class="m-box__title" v-text="post.d?post.d:'無題'"></h3>
     <header class="query__item__header">
       <div class="qmery__item__header__detial">
-        <div class="qmery__item__writer"><i class="icon-pen"></i><span v-text="getWriter(post.a)"></span></div>
+        <div class="qmery__item__writer"><i class="icon-pen"></i>{{writer}}</div>
         <ul class="m-box__status">
           <li>{{post.g}}{{post.h}}</li>
           <li>{{post.i}}本場</li>
@@ -28,21 +28,10 @@
 export default {
   name: 'Post',
   props: ['post', 'postId', 'users', 'isAnswer'],
-  methods: {
-    getWriter(uid) {
-      if(this.users[uid]) {
-        return this.users[uid].displayName + ' （@' + this.users[uid].username + '）'
-      }
-    },
-    setDate() {
-      const seconds = this.post.c.seconds
-      const a = new Date(seconds * 1000)
-      const year = a.getFullYear()
-      const month = a.getMonth()+1
-      const date = a.getDate()
-      const hours = a.getHours()
-      const minutes = a.getMinutes()
-      this.date = year + '/' + month + '/' + date + ' ' + hours + ':' + minutes
+  computed: {
+    writer() {
+      const uid = this.post.a
+      return this.users[uid].displayName + ' （@' + this.users[uid].username + '）'
     }
   }
 }

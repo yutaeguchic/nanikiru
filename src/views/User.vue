@@ -23,12 +23,12 @@ export default {
   },
   watch: {
     users() {
-      if(this.currentUser.login&&this.users) this.judgeMypage()
+      if(this.currentUser.login && this.users) this.judgeMypage()
     }
   },
   mounted() {
     this.pageId = this.$route.params['uid']
-    if(this.currentUser.login&&this.users) this.judgeMypage()
+    if(this.currentUser.login && this.users) this.judgeMypage()
   },
   methods: {
     judgeMypage() {

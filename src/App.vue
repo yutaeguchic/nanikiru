@@ -13,6 +13,7 @@
         :users.sync="users"
         :answers.sync="answers"
         :comments.sync="comments"
+        :scores.sync = 'scores'
         @setDb="setDb($event)"
       />
     </transition>
@@ -51,7 +52,7 @@ import Modal from '@/components/Modal.vue'
 import Loader from '@/components/Loader.vue'
 
 export default {
-  name: 'home',
+  name: 'App',
   components: {
     GlobalHeader,
     NewPost,
@@ -66,12 +67,9 @@ export default {
       posts: {},
       answers: {},
       comments: {},
+      scores: {},
       redirectResult: null,
-      docRef: {
-        users: null,
-        posts: null,
-        answers: null
-      },
+      docRef: {},
       currentUser: {
         login: null,
         uid: null,
@@ -80,10 +78,8 @@ export default {
           displayName: null,
           photoURL: null,
           plofile: null,
-          score: {}
         }
       },
-      currentAnswer: null,
       loader: {
         show: false
       }
@@ -94,6 +90,12 @@ export default {
     this.setCurrentUser()
   },
   mounted() {
+    EventBus.$on('login', ()=> {
+      this.login()
+    })
+    EventBus.$on('setDb', (name)=> {
+      this.setDb(name)
+    })
     this.actionParam()
   },
   watch: {
@@ -115,14 +117,13 @@ export default {
     logout() {
       firebase.auth().signOut().then(()=> {
         this.currentUser = {
-          login: null,
+          login: false,
           uid: null,
           db: {
             username: null,
             displayName: null,
             photoURL: null,
-            plofile: null,
-            score: {}
+            plofile: null
           }
         }
         const data = {
@@ -134,13 +135,6 @@ export default {
       })
     },
     setCurrentUser() {
-      const setDocRefs = ()=> {
-        const db = firebase.firestore()
-        this.docRef.users = db.collection('users')
-        this.docRef.posts = db.collection('posts').orderBy("c", "desc")
-        this.docRef.answers = db.collection('answers')
-        this.docRef.comments = db.collection('comments')
-      }
       const setRedirectResult = async ()=> {
         const result = await firebase.auth().getRedirectResult().catch(error => console.log('error: ' + error))
         if(result.user) {
@@ -155,7 +149,6 @@ export default {
           const docData = await docSnapshot.data()
           this.currentUser.db.username = await docData.username
           this.currentUser.db.plofile = await docData.plofile
-          this.currentUser.db.score = await docData.score
           if(this.redirectResult) {
             this.currentUser.db.username = await this.redirectResult.additionalUserInfo.username
             await this.updateDbUser(docUser, docData)
@@ -169,24 +162,16 @@ export default {
         this.currentUser.login = await true
       }
       const handler = async (user)=> {
-        await setDocRefs()
         await this.setDb('users')
         await this.setDb('posts')
         await this.setDb('answers')
         await this.setDb('comments')
+        await this.setDb('scores')
         if(user) {
           await setRedirectResult()
-          this.currentUser = await {
-            login: false,
-            uid: user.uid + '',
-            db: {
-              username: null,
-              displayName: user.displayName,
-              photoURL: user.photoURL.replace('_normal', ''),
-              plofile: null,
-              score: {}
-            }
-          }
+          this.currentUser.uid = await user.uid + ''
+          this.currentUser.db.displayName = await user.displayName
+          this.currentUser.db.photoURL = await user.photoURL.replace('_normal', '')
           await mergeDbUser(this.currentUser.uid)
         }
         this.loader.show = await false
@@ -194,6 +179,7 @@ export default {
       firebase.auth().onAuthStateChanged(handler)
     },
     setDb(name) {
+      this.docRef[name] = firebase.firestore().collection(name)
       this.docRef[name].get().then(snapshot => {
         let data = {}
         if(!snapshot.empty) {
@@ -212,21 +198,6 @@ export default {
       }else if(this.currentUser.db.photoURL != docData.photoURL) {
         await docUser.doc('photoURL').set(this.currentUser.db.photoURL)
       }
-    },
-    postAnswer() {
-      const answer = this.currentAnswer
-      const data = {}
-      data[answer.uid] = {
-        timestamp: answer.timestamp,
-        card: answer.card
-      }
-      this.answers[answer.postId] = this.answers[answer.postId] || {}
-      this.answers[answer.postId][answer.uid] = data[answer.uid]
-      this.docRef.answers.doc(answer.postId).set(data,
-         {merge: true}).then(()=> {
-          this.$router.push('/answer/' + answer.postId)
-         })
-      EventBus.$emit('closeModal')
     },
     loginModal() {
       const data = {

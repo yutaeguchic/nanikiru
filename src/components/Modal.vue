@@ -5,7 +5,7 @@
         <h1 class="m-ttl">{{text.title}}</h1>
         <div class="m-modal__content" v-html="text.content"></div>
         <transition name="fadeInDown">
-          <div v-show="text.button" class="m-modal__btn"><button type="button" class="m-btn--able" @click="$emit('submit', funcName)">{{text.button}}</button></div>
+          <div v-show="text.button" class="m-modal__btn"><button type="button" class="m-btn--able" @click="submit(funcName)">{{text.button}}</button></div>
         </transition>
         <button class="m-modal__close" type="button" @click.stop="close()"><i class="icon-close"></i></button>
       </div>
@@ -18,7 +18,6 @@ import {EventBus} from '@/components/libs/EventBus.js'
 import modalText from '@/assets/data/modalText.json'
 export default {
   name: 'Modal',
-  props: ['modal'],
   data() {
     return {
       modalText: modalText,
@@ -64,6 +63,9 @@ export default {
     close() {
       this.able = false
       this.funcName = null
+    },
+    submit(funcName) {
+      EventBus.$emit(funcName)
     }
   }
 }

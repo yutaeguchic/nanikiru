@@ -38,38 +38,42 @@
 import firebase from 'firebase'
 import LongPress from 'vue-directive-long-press'
 import {EventBus} from '@/components/libs/EventBus.js'
+import FullWidthNumber from '@/components/libs/FullWidthNumber.js'
 export default {
   name: 'AnswerCommentForm',
   directives: {
     'long-press': LongPress
   },
-  props: ['users', 'currentUser'],
+  mixins: [FullWidthNumber],
+  props: [
+    'postScores',
+    'currentUser'
+  ],
   data() {
     return {
       postId: null,
-      numLabel: Array.from({length:11}, (_, i) => this.toFullwidth(i + '')),
+      uid: this.currentUser.uid,
+      numLabel: [],
       show: false,
       text: null,
       score: {
         able: false,
+        label: null,
         val: null,
-        before: null,
-        label: null
+        before: null
       },
       maxlength: {
         text: 200
       }
     }
   },
+  created() {
+    this.numLabel = this.getFullWidthNumberArray(11)
+  },
   mounted() {
     this.postId = this.$route.params['id']
   },
   methods: {
-    toFullwidth(str) {
-      return str.replace(/[A-Za-z0-9]/g, function(s) {
-        return String.fromCharCode(s.charCodeAt(0) + 65248)
-      })
-    },
     setScore(num) {
       this.score.val = num
       this.score.able = !this.score.able
@@ -82,25 +86,57 @@ export default {
       }
     },
     async comment() {
-      const timestamp = await firebase.firestore.FieldValue.serverTimestamp()
-      console.log(timestamp)
-      if(this.score) {
-        await this.setPostScore(this.score)
-        this.score.before = this.currentUser.db.score[this.postId]
-          ? this.currentUser.db.score[this.postId]
-          : null
-        this.score.label = (this.score.before && this.score.before != this.score.val)
-          ? this.score.before + 'to' + this.score.val
-          : this.score.val
-      }
-      await this.addComment()
+      await this.getLabel()
+      await this.PostScore()
+      await this.postComment()
+      await this.reset()
       await this.showModal('submit')
     },
-    setPostScore() {
-      console.log('setPostScore')
+    getLabel() {
+      this.score.before = this.postScores && this.postScores[this.uid] ? this.postScores[this.uid] : null
+      if(this.score.before) {
+        if(this.score.val) {
+          if(this.score.before === this.score.val) {
+            this.score.label = this.score.val
+          }else {
+            this.score.label = this.score.before + 'to' + this.score.val
+          }
+        }else {
+          this.score.label = this.score.before
+        }
+      }else {
+        this.score.label = this.score.val
+      }
     },
-    addComment() {
-      console.log('addComment')
+    PostScore() {
+      const data = {}
+      data[this.uid] = this.score.val
+      firebase.firestore().collection('scores').doc(this.postId).set(data, {merge: true}).then(()=> {
+        EventBus.$emit('setDb', 'scores')
+      })
+    },
+    postComment() {
+      const time = firebase.firestore.FieldValue.serverTimestamp()
+      const data = {
+        timestamp: time,
+        postId: this.postId,
+        uid: this.uid,
+        text: this.text,
+        score: this.score.label
+      }
+      firebase.firestore().collection('comments').add(data).then(()=> {
+        EventBus.$emit('setDb', 'comments')
+      })
+    },
+    reset() {
+      this.show = false
+      this.text = null
+      this.score = {
+        able: false,
+        label: null,
+        val: null,
+        before: null
+      }
     },
     showModal(label) {
       const data = {
