@@ -395,42 +395,9 @@ a
   margin-top 5px
   font-size 14px
 
-.answer__tabs
-  background-color lighten($blue03, 10)
-  border-radius 6px
-  bottom 0
-  box-sizing border-box
-  color $white
-  display flex
-  height 58px
-  justify-content center
-  margin 0 auto
-  overflow hidden
-  width 100%
-  > li
-    border-right 2px dashed $white
-    cursor pointer
-    font-size 16px
-    font-weight bold
-    line-height 58px
-    text-align center
-    width 40%
-    &:last-child
-      border-right none
-      font-size 26px
-      width 20%
-      > i
-        position relative
-        top 2px
-    &.active
-      background-color $blue03
-.answer__tabContent
-  padding 10px 0
-
 /*
   result
 */
-
 .result__label
   text-align center
   font-size 30px
@@ -454,6 +421,33 @@ a
   > span
     font-size 20px
     font-weight bold
+
+/*
+  userPage
+*/
+
+.userPage__profile
+  align-items center
+  display flex
+  justify-content center
+  margin-bottom 25px
+
+.userPage__profile__icon
+  border 2px solid $blue02
+  border-radius 50%
+  height 120px
+  margin-right 20px
+  transition all 0.2s
+  overflow hidden
+  width 120px
+  img
+    height 100%
+    width 100%
+  &:hover
+    border-color $blue03
+
+.userPage__profile__name
+  font-size 15px
 
 /*
   comment form
@@ -559,7 +553,6 @@ a
 /*
   comment
 */
-
 .comments
   padding-left 40px
   margin 35px 0 25px

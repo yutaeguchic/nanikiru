@@ -369,3 +369,39 @@ $characters = 'we' 'ws' 'ww' 'wn' 'dw' 'db' 'dr'
   > .m-card
     position relative
     top 2px
+
+/*
+  tabs
+*/
+
+.m-tabs
+  background-color lighten($blue03, 10)
+  border-radius 6px
+  bottom 0
+  box-sizing border-box
+  color $white
+  display flex
+  height 58px
+  justify-content center
+  margin 0 auto
+  overflow hidden
+  width 100%
+  > li
+    border-right 2px dashed $white
+    cursor pointer
+    font-size 16px
+    font-weight bold
+    line-height 58px
+    text-align center
+    width 40%
+    &:last-child
+      border-right none
+      font-size 26px
+      width 20%
+      > i
+        position relative
+        top 2px
+    &.active
+      background-color $blue03
+.m-tabContent
+  padding 10px 0

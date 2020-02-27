@@ -12,7 +12,7 @@
         @change="changeTab($event)"
       />
 
-      <div class="answer__tabContent">
+      <div class="m-tabContent">
 
         <transition name="fadeIn">
           <div v-show="tabMode===1">
