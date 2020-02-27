@@ -36,8 +36,8 @@ export default {
   computed: {
     getPostKeys() {
       return Object.keys(this.posts).sort((a, b)=> {
-        if( this.posts[a].c > this.posts[b].c ) return -1
-        if( this.posts[a].c < this.posts[b].c ) return 1
+        if(this.posts[a].c > this.posts[b].c) return -1
+        if(this.posts[a].c < this.posts[b].c) return 1
         return 0
       })
     }

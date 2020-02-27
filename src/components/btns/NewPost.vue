@@ -6,10 +6,10 @@
 import {EventBus} from '@/components/libs/EventBus.js'
 export default {
   name: 'GlobalNewPost',
-  props: ['currentUser'],
+  props: ['isLogin'],
   methods: {
     jump() {
-      if(this.currentUser.login) {
+      if(this.isLogin) {
         const target = '/post/new'
         if(target != this.$route.path) this.$router.push('/post/new')
       }else {

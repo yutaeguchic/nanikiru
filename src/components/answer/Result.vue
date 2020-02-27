@@ -77,8 +77,8 @@ export default {
         this.probability[unique[i]] = ((count/this.answerCards.length)*100).toFixed(6)
       }
       this.uniqueCards = unique.sort((a, b)=> {
-        if( this.probability[a] > this.probability[b] ) return -1
-        if( this.probability[a] < this.probability[b] ) return 1
+        if(this.probability[a] > this.probability[b]) return -1
+        if(this.probability[a] < this.probability[b]) return 1
         return 0
       })
     }

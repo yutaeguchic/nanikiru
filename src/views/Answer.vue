@@ -159,8 +159,8 @@ export default {
     },
     setPostComments() {
       this.postComments = Object.keys(this.comments).filter(id=>(this.comments[id].postId===this.postId)).sort((a, b)=> {
-        if( this.comments[a].timestamp > this.comments[b].timestamp ) return -1
-        if( this.comments[a].timestamp < this.comments[b].timestamp ) return 1
+        if(this.comments[a].timestamp > this.comments[b].timestamp) return -1
+        if(this.comments[a].timestamp < this.comments[b].timestamp) return 1
         return 0
       })
     },

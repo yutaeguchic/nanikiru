@@ -3,7 +3,7 @@
     <global-header/>
 
     <new-post
-      :currentUser="currentUser"
+      :isLogin="currentUser.login"
     />
 
     <transition name="fadeIn">

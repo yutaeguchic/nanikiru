@@ -87,7 +87,7 @@ export default {
     },
     async comment() {
       await this.getLabel()
-      await this.PostScore()
+      if(this.score.val) await this.PostScore()
       await this.postComment()
       await this.reset()
       await this.showModal('submit')
