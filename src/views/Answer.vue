@@ -19,7 +19,7 @@
             <result
               :post="post"
               :uid="currentUser.uid"
-              :postAnswers="answers[postId]"
+              :postAnswers="answers[postId] || false"
             />
           </div>
         </transition>
