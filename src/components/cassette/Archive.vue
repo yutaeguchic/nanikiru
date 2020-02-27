@@ -7,7 +7,7 @@
         <ul class="m-box__status">
           <li>{{post.g}}{{post.h}}</li>
           <li>{{post.i}}本場</li>
-          <li>{{post.h}}家</li>
+          <li>{{post.j}}家</li>
           <li>{{post.k}}巡目</li>
         </ul>
       </div>
