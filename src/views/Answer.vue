@@ -15,6 +15,16 @@
       <div class="answer__tabContent">
 
         <transition name="fadeIn">
+          <div v-show="tabMode===1">
+            <result
+              :post="post"
+              :uid="currentUser.uid"
+              :postAnswers="answers[postId]"
+            />
+          </div>
+        </transition>
+
+        <transition name="fadeIn">
           <div v-show="tabMode===2">
             <cassette
               :post.sync="post"
@@ -67,6 +77,7 @@
 
 <script>
 import Breadcrumb from '@/components/Breadcrumb.vue'
+import Result from '@/components/answer/Result.vue'
 import Cassette from '@/components/cassette/Single.vue'
 import Tabs from '@/components/answer/Tabs.vue'
 import CommentForm from '@/components/answer/CommentForm.vue'
@@ -76,6 +87,7 @@ export default {
   name: 'answer',
   components: {
     Breadcrumb,
+    Result,
     Cassette,
     Tabs,
     CommentForm,

@@ -32,9 +32,6 @@ const routes = [
   {
     path: '/answer/:id',
     name: 'answer',
-    meta: {
-      requiresAuth: true
-    },
     component: () => import('../views/Answer.vue')
   },
   {

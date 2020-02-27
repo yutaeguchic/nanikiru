@@ -10,7 +10,7 @@
     <div class="footer__overlay--blue" :class="{'active': menu}"></div>
 
     <transition name="fadeInLeft">
-      <div v-show="menu" class="footer__copy">© 2019 - {{ new Date().getFullYear() }} hatobane</div>
+      <div v-show="menu" class="footer__copy">© 2019 - {{ new Date().getFullYear() }} NANIKIRU</div>
     </transition>
 
     <transition name="fadeInLeft">

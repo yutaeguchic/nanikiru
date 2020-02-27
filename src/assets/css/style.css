@@ -57,7 +57,7 @@
 }
 .icon-clip:before,
 .single__status > li:before,
-.single__subTitle:before {
+.single__subTitle--clip:before {
   content: "\e9cd";
 }
 .icon-facebook:before {
@@ -124,7 +124,8 @@
 .icon-star-o:before {
   content: "\f006";
 }
-.icon-user:before {
+.icon-user:before,
+.single__subTitle--user:before {
   content: "\f007";
 }
 .icon-bookmark:before {
@@ -267,7 +268,7 @@ strong {
 .m-ttl--page:before,
 .single__status > li:before,
 .single__title:before,
-.single__subTitle:before {
+[class^="single__subTitle"]:before {
   font-family: 'icomoon' !important;
   font-style: normal;
   -moz-osx-font-smoothing: grayscale;
@@ -437,7 +438,8 @@ strong {
 .m-box__cards > i,
 .post__preview__status .m-box__card > i,
 .query__item__status .m-box__card > i,
-.single__card > i {
+.single__card > i,
+.result__probability__card > i {
   background-image: url("../img/cards.png");
   background-size: 1000% 400%;
   display: inline-block;
@@ -455,7 +457,8 @@ strong {
 .m-box__cards > i:after,
 .post__preview__status .m-box__card > i:after,
 .query__item__status .m-box__card > i:after,
-.single__card > i:after {
+.single__card > i:after,
+.result__probability__card > i:after {
   content: "";
   display: block;
   padding-top: 152.380952381%;
@@ -467,7 +470,8 @@ strong {
 .m-box__cards > i.m1,
 .post__preview__status .m-box__card > i.m1,
 .query__item__status .m-box__card > i.m1,
-.single__card > i.m1 {
+.single__card > i.m1,
+.result__probability__card > i.m1 {
   background-position: 0% 0;
 }
 .m-cards > i.s1,
@@ -477,7 +481,8 @@ strong {
 .m-box__cards > i.s1,
 .post__preview__status .m-box__card > i.s1,
 .query__item__status .m-box__card > i.s1,
-.single__card > i.s1 {
+.single__card > i.s1,
+.result__probability__card > i.s1 {
   background-position: 0% 33.3333333333%;
 }
 .m-cards > i.p1,
@@ -487,7 +492,8 @@ strong {
 .m-box__cards > i.p1,
 .post__preview__status .m-box__card > i.p1,
 .query__item__status .m-box__card > i.p1,
-.single__card > i.p1 {
+.single__card > i.p1,
+.result__probability__card > i.p1 {
   background-position: 0% 66.6666666666%;
 }
 .m-cards > i.m2,
@@ -497,7 +503,8 @@ strong {
 .m-box__cards > i.m2,
 .post__preview__status .m-box__card > i.m2,
 .query__item__status .m-box__card > i.m2,
-.single__card > i.m2 {
+.single__card > i.m2,
+.result__probability__card > i.m2 {
   background-position: 11.11111111111111% 0;
 }
 .m-cards > i.s2,
@@ -507,7 +514,8 @@ strong {
 .m-box__cards > i.s2,
 .post__preview__status .m-box__card > i.s2,
 .query__item__status .m-box__card > i.s2,
-.single__card > i.s2 {
+.single__card > i.s2,
+.result__probability__card > i.s2 {
   background-position: 11.11111111111111% 33.3333333333%;
 }
 .m-cards > i.p2,
@@ -517,7 +525,8 @@ strong {
 .m-box__cards > i.p2,
 .post__preview__status .m-box__card > i.p2,
 .query__item__status .m-box__card > i.p2,
-.single__card > i.p2 {
+.single__card > i.p2,
+.result__probability__card > i.p2 {
   background-position: 11.11111111111111% 66.6666666666%;
 }
 .m-cards > i.m3,
@@ -527,7 +536,8 @@ strong {
 .m-box__cards > i.m3,
 .post__preview__status .m-box__card > i.m3,
 .query__item__status .m-box__card > i.m3,
-.single__card > i.m3 {
+.single__card > i.m3,
+.result__probability__card > i.m3 {
   background-position: 22.22222222222222% 0;
 }
 .m-cards > i.s3,
@@ -537,7 +547,8 @@ strong {
 .m-box__cards > i.s3,
 .post__preview__status .m-box__card > i.s3,
 .query__item__status .m-box__card > i.s3,
-.single__card > i.s3 {
+.single__card > i.s3,
+.result__probability__card > i.s3 {
   background-position: 22.22222222222222% 33.3333333333%;
 }
 .m-cards > i.p3,
@@ -547,7 +558,8 @@ strong {
 .m-box__cards > i.p3,
 .post__preview__status .m-box__card > i.p3,
 .query__item__status .m-box__card > i.p3,
-.single__card > i.p3 {
+.single__card > i.p3,
+.result__probability__card > i.p3 {
   background-position: 22.22222222222222% 66.6666666666%;
 }
 .m-cards > i.m4,
@@ -557,7 +569,8 @@ strong {
 .m-box__cards > i.m4,
 .post__preview__status .m-box__card > i.m4,
 .query__item__status .m-box__card > i.m4,
-.single__card > i.m4 {
+.single__card > i.m4,
+.result__probability__card > i.m4 {
   background-position: 33.333333333333336% 0;
 }
 .m-cards > i.s4,
@@ -567,7 +580,8 @@ strong {
 .m-box__cards > i.s4,
 .post__preview__status .m-box__card > i.s4,
 .query__item__status .m-box__card > i.s4,
-.single__card > i.s4 {
+.single__card > i.s4,
+.result__probability__card > i.s4 {
   background-position: 33.333333333333336% 33.3333333333%;
 }
 .m-cards > i.p4,
@@ -577,7 +591,8 @@ strong {
 .m-box__cards > i.p4,
 .post__preview__status .m-box__card > i.p4,
 .query__item__status .m-box__card > i.p4,
-.single__card > i.p4 {
+.single__card > i.p4,
+.result__probability__card > i.p4 {
   background-position: 33.333333333333336% 66.6666666666%;
 }
 .m-cards > i.m5,
@@ -587,7 +602,8 @@ strong {
 .m-box__cards > i.m5,
 .post__preview__status .m-box__card > i.m5,
 .query__item__status .m-box__card > i.m5,
-.single__card > i.m5 {
+.single__card > i.m5,
+.result__probability__card > i.m5 {
   background-position: 44.44444444444444% 0;
 }
 .m-cards > i.s5,
@@ -597,7 +613,8 @@ strong {
 .m-box__cards > i.s5,
 .post__preview__status .m-box__card > i.s5,
 .query__item__status .m-box__card > i.s5,
-.single__card > i.s5 {
+.single__card > i.s5,
+.result__probability__card > i.s5 {
   background-position: 44.44444444444444% 33.3333333333%;
 }
 .m-cards > i.p5,
@@ -607,7 +624,8 @@ strong {
 .m-box__cards > i.p5,
 .post__preview__status .m-box__card > i.p5,
 .query__item__status .m-box__card > i.p5,
-.single__card > i.p5 {
+.single__card > i.p5,
+.result__probability__card > i.p5 {
   background-position: 44.44444444444444% 66.6666666666%;
 }
 .m-cards > i.m6,
@@ -617,7 +635,8 @@ strong {
 .m-box__cards > i.m6,
 .post__preview__status .m-box__card > i.m6,
 .query__item__status .m-box__card > i.m6,
-.single__card > i.m6 {
+.single__card > i.m6,
+.result__probability__card > i.m6 {
   background-position: 55.55555555555556% 0;
 }
 .m-cards > i.s6,
@@ -627,7 +646,8 @@ strong {
 .m-box__cards > i.s6,
 .post__preview__status .m-box__card > i.s6,
 .query__item__status .m-box__card > i.s6,
-.single__card > i.s6 {
+.single__card > i.s6,
+.result__probability__card > i.s6 {
   background-position: 55.55555555555556% 33.3333333333%;
 }
 .m-cards > i.p6,
@@ -637,7 +657,8 @@ strong {
 .m-box__cards > i.p6,
 .post__preview__status .m-box__card > i.p6,
 .query__item__status .m-box__card > i.p6,
-.single__card > i.p6 {
+.single__card > i.p6,
+.result__probability__card > i.p6 {
   background-position: 55.55555555555556% 66.6666666666%;
 }
 .m-cards > i.m7,
@@ -647,7 +668,8 @@ strong {
 .m-box__cards > i.m7,
 .post__preview__status .m-box__card > i.m7,
 .query__item__status .m-box__card > i.m7,
-.single__card > i.m7 {
+.single__card > i.m7,
+.result__probability__card > i.m7 {
   background-position: 66.66666666666667% 0;
 }
 .m-cards > i.s7,
@@ -657,7 +679,8 @@ strong {
 .m-box__cards > i.s7,
 .post__preview__status .m-box__card > i.s7,
 .query__item__status .m-box__card > i.s7,
-.single__card > i.s7 {
+.single__card > i.s7,
+.result__probability__card > i.s7 {
   background-position: 66.66666666666667% 33.3333333333%;
 }
 .m-cards > i.p7,
@@ -667,7 +690,8 @@ strong {
 .m-box__cards > i.p7,
 .post__preview__status .m-box__card > i.p7,
 .query__item__status .m-box__card > i.p7,
-.single__card > i.p7 {
+.single__card > i.p7,
+.result__probability__card > i.p7 {
   background-position: 66.66666666666667% 66.6666666666%;
 }
 .m-cards > i.m8,
@@ -677,7 +701,8 @@ strong {
 .m-box__cards > i.m8,
 .post__preview__status .m-box__card > i.m8,
 .query__item__status .m-box__card > i.m8,
-.single__card > i.m8 {
+.single__card > i.m8,
+.result__probability__card > i.m8 {
   background-position: 77.77777777777777% 0;
 }
 .m-cards > i.s8,
@@ -687,7 +712,8 @@ strong {
 .m-box__cards > i.s8,
 .post__preview__status .m-box__card > i.s8,
 .query__item__status .m-box__card > i.s8,
-.single__card > i.s8 {
+.single__card > i.s8,
+.result__probability__card > i.s8 {
   background-position: 77.77777777777777% 33.3333333333%;
 }
 .m-cards > i.p8,
@@ -697,7 +723,8 @@ strong {
 .m-box__cards > i.p8,
 .post__preview__status .m-box__card > i.p8,
 .query__item__status .m-box__card > i.p8,
-.single__card > i.p8 {
+.single__card > i.p8,
+.result__probability__card > i.p8 {
   background-position: 77.77777777777777% 66.6666666666%;
 }
 .m-cards > i.m9,
@@ -707,7 +734,8 @@ strong {
 .m-box__cards > i.m9,
 .post__preview__status .m-box__card > i.m9,
 .query__item__status .m-box__card > i.m9,
-.single__card > i.m9 {
+.single__card > i.m9,
+.result__probability__card > i.m9 {
   background-position: 88.88888888888889% 0;
 }
 .m-cards > i.s9,
@@ -717,7 +745,8 @@ strong {
 .m-box__cards > i.s9,
 .post__preview__status .m-box__card > i.s9,
 .query__item__status .m-box__card > i.s9,
-.single__card > i.s9 {
+.single__card > i.s9,
+.result__probability__card > i.s9 {
   background-position: 88.88888888888889% 33.3333333333%;
 }
 .m-cards > i.p9,
@@ -727,7 +756,8 @@ strong {
 .m-box__cards > i.p9,
 .post__preview__status .m-box__card > i.p9,
 .query__item__status .m-box__card > i.p9,
-.single__card > i.p9 {
+.single__card > i.p9,
+.result__probability__card > i.p9 {
   background-position: 88.88888888888889% 66.6666666666%;
 }
 .m-cards > i.m5r,
@@ -737,7 +767,8 @@ strong {
 .m-box__cards > i.m5r,
 .post__preview__status .m-box__card > i.m5r,
 .query__item__status .m-box__card > i.m5r,
-.single__card > i.m5r {
+.single__card > i.m5r,
+.result__probability__card > i.m5r {
   background-position: 100% 0;
 }
 .m-cards > i.s5r,
@@ -747,7 +778,8 @@ strong {
 .m-box__cards > i.s5r,
 .post__preview__status .m-box__card > i.s5r,
 .query__item__status .m-box__card > i.s5r,
-.single__card > i.s5r {
+.single__card > i.s5r,
+.result__probability__card > i.s5r {
   background-position: 100% 33.3333333333%;
 }
 .m-cards > i.p5r,
@@ -757,7 +789,8 @@ strong {
 .m-box__cards > i.p5r,
 .post__preview__status .m-box__card > i.p5r,
 .query__item__status .m-box__card > i.p5r,
-.single__card > i.p5r {
+.single__card > i.p5r,
+.result__probability__card > i.p5r {
   background-position: 100% 66.6666666666%;
 }
 .m-cards > i.we,
@@ -767,7 +800,8 @@ strong {
 .m-box__cards > i.we,
 .post__preview__status .m-box__card > i.we,
 .query__item__status .m-box__card > i.we,
-.single__card > i.we {
+.single__card > i.we,
+.result__probability__card > i.we {
   background-position: 0% 99.9999999999%;
 }
 .m-cards > i.ws,
@@ -777,7 +811,8 @@ strong {
 .m-box__cards > i.ws,
 .post__preview__status .m-box__card > i.ws,
 .query__item__status .m-box__card > i.ws,
-.single__card > i.ws {
+.single__card > i.ws,
+.result__probability__card > i.ws {
   background-position: 11.11111111111111% 99.9999999999%;
 }
 .m-cards > i.ww,
@@ -787,7 +822,8 @@ strong {
 .m-box__cards > i.ww,
 .post__preview__status .m-box__card > i.ww,
 .query__item__status .m-box__card > i.ww,
-.single__card > i.ww {
+.single__card > i.ww,
+.result__probability__card > i.ww {
   background-position: 22.22222222222222% 99.9999999999%;
 }
 .m-cards > i.wn,
@@ -797,7 +833,8 @@ strong {
 .m-box__cards > i.wn,
 .post__preview__status .m-box__card > i.wn,
 .query__item__status .m-box__card > i.wn,
-.single__card > i.wn {
+.single__card > i.wn,
+.result__probability__card > i.wn {
   background-position: 33.333333333333336% 99.9999999999%;
 }
 .m-cards > i.dw,
@@ -807,7 +844,8 @@ strong {
 .m-box__cards > i.dw,
 .post__preview__status .m-box__card > i.dw,
 .query__item__status .m-box__card > i.dw,
-.single__card > i.dw {
+.single__card > i.dw,
+.result__probability__card > i.dw {
   background-position: 44.44444444444444% 99.9999999999%;
 }
 .m-cards > i.db,
@@ -817,7 +855,8 @@ strong {
 .m-box__cards > i.db,
 .post__preview__status .m-box__card > i.db,
 .query__item__status .m-box__card > i.db,
-.single__card > i.db {
+.single__card > i.db,
+.result__probability__card > i.db {
   background-position: 55.55555555555556% 99.9999999999%;
 }
 .m-cards > i.dr,
@@ -827,7 +866,8 @@ strong {
 .m-box__cards > i.dr,
 .post__preview__status .m-box__card > i.dr,
 .query__item__status .m-box__card > i.dr,
-.single__card > i.dr {
+.single__card > i.dr,
+.result__probability__card > i.dr {
   background-position: 66.66666666666667% 99.9999999999%;
 }
 .m-cards {
@@ -838,7 +878,8 @@ strong {
 .m-box__status .m-box__card > i,
 .post__preview__status .m-box__card > i,
 .query__item__status .m-box__card > i,
-.single__card > i {
+.single__card > i,
+.result__probability__card > i {
   height: 32px;
   margin: 0 3px;
   width: 21px;
@@ -1441,6 +1482,18 @@ a:hover {
 .single__section {
   margin-bottom: 35px;
 }
+.single__section--flex {
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-bottom: 35px;
+}
+.single__section--flex > div {
+  margin-right: 20px;
+}
 .single__date {
   font-size: 14px;
   margin-bottom: 5px;
@@ -1476,7 +1529,7 @@ a:hover {
   color: #769fcd;
   margin-right: 2px;
 }
-.single__condition {
+.single__entry {
   white-space: pre-wrap;
 }
 .single__card {
@@ -1484,7 +1537,7 @@ a:hover {
 }
 .single__card > i {
   height: auto;
-  width: 6.7%;
+  width: 42px;
 }
 .single__title {
   font-size: 18px;
@@ -1498,13 +1551,19 @@ a:hover {
   position: relative;
   top: 1px;
 }
-.single__subTitle {
+[class^="single__subTitle"] {
   font-weight: bold;
   margin-bottom: 2px;
 }
-.single__subTitle:before {
+[class^="single__subTitle"]:before {
   color: #769fcd;
   margin-right: 2px;
+}
+.single__subTitle--user:before {
+  font-size: 15px;
+  margin-right: 4px;
+  position: relative;
+  top: 1px;
 }
 .single__submit {
   margin: 25px 0 10px;
@@ -1555,6 +1614,32 @@ a:hover {
 }
 .answer__tabContent {
   padding: 10px 0;
+}
+.result__label {
+  text-align: center;
+  font-size: 30px;
+  font-weight: bold;
+  letter-spacing: 0.4em;
+  margin: 20px 0;
+  padding-left: 0.2em;
+}
+.result__probability {
+  margin-bottom: 25px;
+}
+.result__probability > h4 {
+  margin: 20px 0 5px;
+}
+.result__probability__card {
+  margin-bottom: 8px;
+}
+.result__probability__card > i {
+  height: auto;
+  margin-right: 5px;
+  width: 42px;
+}
+.result__probability__card > span {
+  font-size: 20px;
+  font-weight: bold;
 }
 .commentForm {
   border-bottom: 2px dashed #d6e6f2;

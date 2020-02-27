@@ -19,7 +19,7 @@
           <div class="comment__count">0</div>
           <div class="comment__status">
             <h4>NANIKIRU<span>(管理者)</span><br>(<a href="https://twitter.com/NANIKIRU3" target="_blank" title="twitter">@NANIKIRU3</a>)</h4>
-            <div class="comment__icon"><a href="https://twitter.com/NANIKIRU3" target="_blank" title="twitter"><img src="https://pbs.twimg.com/profile_images/1206809975256801280/QuHde0s0.jpg" :alt="NANIKIRU"></a></div>
+            <div class="comment__icon"><a href="https://twitter.com/NANIKIRU3" target="_blank" title="twitter"><img src="https://pbs.twimg.com/profile_images/1206809975256801280/QuHde0s0.jpg" alt="NANIKIRU"></a></div>
           </div>
           <div class="comment__text">このNANIKIRUにコメントはありません。<br>お気軽にコメントくださいませ。<br>※上部の「吹き出しアイコン」を押すとコメントフォームが表示されます。</div>
           <footer>

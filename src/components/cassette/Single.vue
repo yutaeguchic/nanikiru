@@ -11,15 +11,15 @@
         <li>{{post.j}}家</li>
         <li>{{post.k}}巡目</li>
       </ul>
-      <h4 class="single__subTitle">ドラ表示牌</h4>
+      <h4 class="single__subTitle--clip">ドラ表示牌</h4>
       <div class="single__card"><i :class="post.l"></i></div>
-      <h4 class="single__subTitle">手牌</h4>
+      <h4 class="single__subTitle--clip">手牌</h4>
       <div class="m-box__cards"><i v-for="(card, i) of post.f" :key="i" :class="card"></i></div>
     </div>
 
     <div class="single__section">
       <h3 class="single__title">戦況・出題者コメント</h3>
-      <div class="single__condition" v-text="post.m?post.m:'なし'"></div>
+      <div class="single__entry" v-text="post.m?post.m:'なし'"></div>
     </div>
   </div>
 </template>

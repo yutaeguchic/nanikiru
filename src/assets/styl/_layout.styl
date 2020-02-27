@@ -303,6 +303,13 @@ a
 .single__section
   margin-bottom 35px
 
+.single__section--flex
+  align-items center
+  display flex
+  margin-bottom 35px
+  & > div
+    margin-right 20px
+
 .single__date
   font-size 14px
   margin-bottom 5px
@@ -337,7 +344,7 @@ a
       color $blue03
       margin-right 2px
 
-.single__condition
+.single__entry
   white-space pre-wrap
 
 .single__card
@@ -345,7 +352,7 @@ a
   > i
     @extends .m-card
     height auto
-    width 6.7%
+    width 42px
 
 .single__title
   font-size 18px
@@ -360,14 +367,25 @@ a
     position relative
     top 1px
 
-.single__subTitle
+[class^="single__subTitle"]
   font-weight bold
   margin-bottom 2px
   &:before
     @extends .m-icomoon
-    @extends .icon-clip:before
     color $blue03
     margin-right 2px
+
+.single__subTitle--clip
+  &:before
+    @extends .icon-clip:before
+
+.single__subTitle--user
+  &:before
+    @extends .icon-user:before
+    font-size 15px
+    margin-right 4px
+    position relative
+    top 1px
 
 .single__submit
   margin 25px 0 10px
@@ -408,6 +426,34 @@ a
       background-color $blue03
 .answer__tabContent
   padding 10px 0
+
+/*
+  result
+*/
+
+.result__label
+  text-align center
+  font-size 30px
+  font-weight bold
+  letter-spacing 0.4em
+  margin 20px 0
+  padding-left 0.2em
+
+.result__probability
+  margin-bottom 25px
+  & > h4
+    margin 20px 0 5px
+
+.result__probability__card
+  margin-bottom 8px
+  > i
+    @extends .m-card
+    height auto
+    margin-right 5px
+    width 42px
+  > span
+    font-size 20px
+    font-weight bold
 
 /*
   comment form
