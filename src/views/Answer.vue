@@ -5,7 +5,7 @@
     />
 
     <h2 class="m-ttl--page">NANIKIRU 解答</h2>
-    <div v-if="answers[postId] && answers[postId][currentUser.uid]">
+    <div v-if="(answers[postId] && answers[postId][currentUser.uid]) || currentUser.uid === post.a">
 
       <tabs
         :mode="tabMode"

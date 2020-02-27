@@ -1,5 +1,5 @@
 <template>
-  <div class="newPostBtn" @click="goNewPost()" title="add post"><i class="icon-pen"></i></div>
+  <div class="newPostBtn" @click="jump()" title="add post"><i class="icon-pen"></i></div>
 </template>
 
 <script>
@@ -8,9 +8,10 @@ export default {
   name: 'GlobalNewPost',
   props: ['currentUser'],
   methods: {
-    goNewPost() {
+    jump() {
       if(this.currentUser.login) {
-        this.$router.push('/post/new')
+        const target = '/post/new'
+        if(target != this.$route.path) this.$router.push('/post/new')
       }else {
         const data = {
           able: true,

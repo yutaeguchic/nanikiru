@@ -27,7 +27,7 @@
           <div class="single__submit__note">※回答済みです</div>
         </div>
         <div v-else-if="post.a === this.uid" class="single__submit">
-          <button type="button" class="m-btn--disabled">解答する</button>
+          <router-link tag="button" class="m-btn--able" :to="'/answer/'+postId" title="解答ページへ">解答ページへ</router-link>
           <div class="single__submit__note">※出題者のため、解答はできません</div>
         </div>
         <div v-else class="single__submit"><button type="button" :class="answerCard?'m-btn--able':'m-btn--disabled'" :disabled="!answerCard" @click="confirm()">解答する</button></div>

@@ -37,7 +37,7 @@
       "content": "<p><strong>NANIKIRU</strong>の投稿に失敗しました</p>",
       "button": null
     },
-    "posted": {
+    "submit": {
       "title": "投稿完了",
       "content": "<p><strong>NANIKIRU</strong>を投稿しました</p>",
       "button": null

@@ -1,26 +1,28 @@
 <template>
   <div class="result">
 
-    <h3 class="single__postTitle">解答結果</h3>
-    <div class="single__date">回答日時： {{time}}</div>
+    <template v-if="uid != post.a">
+      <h3 class="single__postTitle">解答結果</h3>
+      <div class="single__date">回答日時： {{time}}</div>
 
-    <div v-if="post.e" class="result__label" v-text="post.n===postAnswers[uid].card?'正解':'不正解'"></div>
+      <div v-if="post.e" class="result__label" v-text="post.n===postAnswers[uid].card?'正解':'不正解'"></div>
 
-    <div class="single__section--flex">
-      <div>
-        <h3 class="single__title">あなたの解答</h3>
-        <div class="single__card"><i :class="postAnswers[uid].card"></i></div>
+      <div class="single__section--flex">
+        <div>
+          <h3 class="single__title">あなたの解答</h3>
+          <div class="single__card"><i :class="postAnswers[uid].card"></i></div>
+        </div>
+        <div v-if="post.e">
+          <h3 class="single__title">出題者の正答</h3>
+          <div class="single__card"><i :class="post.n"></i></div>
+        </div>
       </div>
-      <div v-if="post.e">
-        <h3 class="single__title">出題者の正答</h3>
-        <div class="single__card"><i :class="post.n"></i></div>
-      </div>
-    </div>
 
-    <div class="single__section" v-if="post.e">
-      <h3 class="single__title">出題者の解説</h3>
-      <div class="single__entry" v-text="post.o"></div>
-    </div>
+      <div class="single__section" v-if="post.e">
+        <h3 class="single__title">出題者の解説</h3>
+        <div class="single__entry" v-text="post.o"></div>
+      </div>
+    </template>
 
     <div class="result__probability">
       <h3 class="single__title">みなさまの解答</h3>
