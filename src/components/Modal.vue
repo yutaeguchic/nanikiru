@@ -43,7 +43,6 @@ export default {
     EventBus.$on('closeModal', ()=> {
       this.close()
     })
-    console.log(modalText)
   },
   methods: {
     rawSetModal(data) {
@@ -52,7 +51,6 @@ export default {
       this.funcName = data.funcName
     },
     setModal(data) {
-      console.log(data)
       this.able = data.able
       this.text = this.modalText[data.text[0]][data.text[1]]
       this.funcName = data.funcName
