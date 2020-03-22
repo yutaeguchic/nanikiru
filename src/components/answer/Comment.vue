@@ -15,19 +15,21 @@
 
 <script>
 import DateLabel from '@/components/libs/DateLabel.js'
-import FullWidthNumber from '@/components/libs/FullWidthNumber.js'
+import FullWidthNumbers from '@/assets/data/FullWidthNumbers.json'
 export default {
   name: "Comment",
-  mixins: [
-    DateLabel,
-    FullWidthNumber
-  ],
+  mixins: [DateLabel],
   props: [
     'comment',
     'masterUid',
     'number',
     'commentUser'
   ],
+  data(){
+    return {
+      numLabel: FullWidthNumbers
+    }
+  },
   computed: {
     time() {
       return this.getDateLabel(this.comment.timestamp)
@@ -36,9 +38,9 @@ export default {
       if(this.comment.score) {
         if(/to/.test(this.comment.score)) {
           const a = this.comment.score.split('to')
-          return this.toFullwidth(a[0]) + '→ ' + this.toFullwidth(a[1])
+          return this.numLabel[a[0]] + '→ ' + this.numLabel[a[1]]
         }else {
-          return this.comment.score
+          return this.numLabel[this.comment.score]
         }
       }else {
         return '---'

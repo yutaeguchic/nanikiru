@@ -13,7 +13,7 @@
         :users.sync="users"
         :answers.sync="answers"
         :comments.sync="comments"
-        :scores.sync = 'scores'
+        :scores.sync = "scores"
         @setDb="setDb($event)"
       />
     </transition>

@@ -38,13 +38,12 @@
 import firebase from 'firebase'
 import LongPress from 'vue-directive-long-press'
 import {EventBus} from '@/components/libs/EventBus.js'
-import FullWidthNumber from '@/components/libs/FullWidthNumber.js'
+import FullWidthNumbers from '@/assets/data/FullWidthNumbers.json'
 export default {
   name: 'AnswerCommentForm',
   directives: {
     'long-press': LongPress
   },
-  mixins: [FullWidthNumber],
   props: [
     'postScores',
     'currentUser'
@@ -53,7 +52,7 @@ export default {
     return {
       postId: null,
       uid: this.currentUser.uid,
-      numLabel: [],
+      numLabel: FullWidthNumbers,
       show: false,
       text: null,
       score: {
@@ -66,9 +65,6 @@ export default {
         text: 200
       }
     }
-  },
-  created() {
-    this.numLabel = this.getFullWidthNumberArray(11)
   },
   mounted() {
     this.postId = this.$route.params['id']

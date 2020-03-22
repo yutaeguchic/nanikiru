@@ -48,7 +48,7 @@
           <div class="m-box__note">※手牌と合わせ同種の牌は最大４枚、赤ドラは最大１枚です<br>(ページ遷移時に判定されます)</div>
           <div class="postSet--cardWrap">
             <div class="m-box__cards">
-              <i v-for="i of 37" :key="i" class="large select" :class="[sortCardItems[i-1], {active: post.l === sortCardItems[i-1]}]" :data-value="sortCardItems[i-1]" @click="setDora($event)"></i>
+              <i v-for="i of 37" :key="i" class="large select" :class="[cardItems[i-1], {active: post.l === cardItems[i-1]}]" :data-value="cardItems[i-1]" @click="setDora($event)"></i>
             </div>
           </div>
         </div>
@@ -58,7 +58,7 @@
           <div class=m-box__note>※同種の牌はドラ表示牌を含めて最大４枚、赤ドラは最大１枚です</div>
           <div class=m-box__note><strong>※下記の牌クリックで追加、画面下部の手牌クリックで削除</strong></div>
           <div class="m-box__cards">
-            <i v-for="i of 37" :key="i" class="large select" :class="sortCardItems[i-1]" :data-value="sortCardItems[i-1]" @click="addCard($event)"></i>
+            <i v-for="i of 37" :key="i" class="large select" :class="cardItems[i-1]" :data-value="cardItems[i-1]" @click="addCard($event)"></i>
           </div>
         </div>
 
@@ -160,11 +160,12 @@
 <script>
 import firebase from 'firebase'
 import {EventBus} from '@/components/libs/EventBus.js'
-import FullWidthNumber from '@/components/libs/FullWidthNumber.js'
 import Breadcrumb from '@/components/Breadcrumb.vue'
+import Mahjong from '@/assets/data/Mahjong.json'
+import FullWidthNumbers from '@/assets/data/FullWidthNumbers.json'
+
 export default {
   name: 'post',
-  mixins: [FullWidthNumber],
   components: {
     Breadcrumb
   },
@@ -172,9 +173,9 @@ export default {
   data() {
     return {
       state: 1, //ページ数
-      directions: ['東', '南', '西', '北'],
-      numLabel: [],
-      sortCardItems: ['m1', 'm2', 'm3', 'm4', 'm5', 'm5r', 'm6', 'm7', 'm8', 'm9', 'p1', 'p2', 'p3', 'p4', 'p5', 'p5r', 'p6', 'p7', 'p8', 'p9', 's1', 's2', 's3', 's4', 's5', 's5r', 's6', 's7', 's8', 's9', 'we', 'ws', 'ww', 'wn', 'dw', 'db', 'dr', null],
+      numLabel: FullWidthNumbers,
+      directions: Mahjong.directions,
+      cardItems: Mahjong.cardItems,
       numTour: { //巡目
         val: 1,
         min: 1,
@@ -205,15 +206,7 @@ export default {
       }
     }
   },
-  created() {
-    this.numLabel = this.getFullWidthNumberArray(31)
-  },
   methods: {
-    toFullwidth(str) {
-      return str.replace(/[A-Za-z0-9]/g, function(s) {
-        return String.fromCharCode(s.charCodeAt(0) + 65248)
-      })
-    },
     tourCountUp() {
       if(this.numTour.val === this.numTour.max) return false
       this.numTour.val++
@@ -249,7 +242,7 @@ export default {
     },
     sortCard() {
       this.post.f.sort((x, y) => {
-        return this.sortCardItems.indexOf(x) - this.sortCardItems.indexOf(y)
+        return this.cardItems.indexOf(x) - this.cardItems.indexOf(y)
       })
     },
     textValidate(s, max) { //trueにて弾く
