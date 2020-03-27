@@ -31,24 +31,18 @@ export default {
     }
   },
   mounted() {
-    EventBus.$on('setModal', (data)=> {
-      this.setModal(data)
-    })
-    EventBus.$on('rawSetModal', (data)=> {
-      this.rawSetModal(data)
-    })
-    EventBus.$on('showModal', ()=> {
-      this.show()
-    })
-    EventBus.$on('closeModal', ()=> {
-      this.close()
-    })
+    EventBus.$on('setModal', (data)=> this.setModal(data))
+    EventBus.$on('rawSetModal', (data)=> this.rawSetModal(data))
+    EventBus.$on('showModal', ()=> this.show())
+    EventBus.$on('closeModal', ()=> this.close())
   },
   methods: {
     rawSetModal(data) {
       this.able = data.able
       this.text = data.text
-      this.funcName = data.funcName
+      if(data.funcName) {
+        this.funcName = data.funcName
+      }
     },
     setModal(data) {
       this.able = data.able

@@ -26,24 +26,30 @@
       <li v-show="menu" key="history">更新履歴/予定</li>
       <li v-show="menu" key="terms">利用規約</li>
       <li v-show="menu" key="privacy">プライバシーポリシー</li>
-      <li v-show="menu&&currentUser.login" key="logout" @click="logout()">ログアウト</li>
+      <li v-show="menu&&logined" key="logout" @click="logout()">ログアウト</li>
     </transition-group>
   </footer>
 </template>
 
 <script>
+import {Database} from '@/components/libs/Database.js'
+
 export default {
-  name: 'Footer',
-  props: ['currentUser'],
-  data: function() {
+  name: 'TheFooter',
+  data() {
     return {
       menu: false
+    }
+  },
+  computed: {
+    logined() {
+      return Database.logined
     }
   },
   methods: {
     logout() {
       this.menu = false
-      this.$emit('logout')
+      Database.logout()
     }
   }
 }

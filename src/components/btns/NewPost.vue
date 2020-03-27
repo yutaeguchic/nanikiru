@@ -1,17 +1,17 @@
 <template>
-  <div class="newPostBtn" @click="jump()" title="add post"><i class="icon-pen"></i></div>
+  <div class="newPostBtn" @click="submit()" title="add post"><i class="icon-pen"></i></div>
 </template>
 
 <script>
 import {EventBus} from '@/components/libs/EventBus.js'
+import {Database} from '@/components/libs/Database.js'
+
 export default {
   name: 'GlobalNewPost',
-  props: ['isLogin'],
   methods: {
-    jump() {
-      if(this.isLogin) {
-        const target = '/post/new'
-        if(target != this.$route.path) this.$router.push('/post/new')
+    submit() {
+      if(Database.logined) {
+        this.$router.push('/post/new').catch(()=> {})
       }else {
         const data = {
           able: true,

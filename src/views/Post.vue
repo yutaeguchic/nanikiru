@@ -107,7 +107,7 @@
           <h4 class="m-box__strong">タイトル</h4>
           <div v-text="post.d.trim()?post.d:'無題'"></div>
           <h4 class="m-box__strong">投稿者</h4>
-          <div>{{currentUser.db.displayName}}(@{{currentUser.db.username}})</div>
+          <div>{{user.displayName}}(@{{user.username}})</div>
           <h4 class="m-box__strong">手牌</h4>
           <div>
             <ul class="m-box__status">
@@ -146,12 +146,23 @@
           <li class="m-box__card" v-show="post.l">ドラ表示牌<i :class="post.l"></i></li>
           <li class="m-box__card" v-show="post.n && post.e">正答 <i :class="post.n"></i></li>
         </ul>
-        <div v-show="state===2" class="m-box__cards">
-          <i v-for="i of 14" :key="i" v-show="post.f[i-1]" class="removeBtn" :class="post.f[i-1]" :data-index="i-1" @click="removeCard($event)"></i>
-        </div>
-        <div v-show="state!=2" class="m-box__cards">
-          <i v-for="i of 14" :key="i" v-show="post.f[i-1]" :class="post.f[i-1]"></i>
-        </div>
+
+        <template v-if="state===2">
+          <card
+            :className = "'m-box__cards--removable'"
+            :items = "post.f"
+            :dataIndex = "true"
+            :clickEvent = "true"
+            @event = "removeCard($event)"
+          />
+        </template>
+        <template v-else>
+          <card
+            :className = "'m-box__cards'"
+            :items = "post.f"
+          />
+        </template>
+
       </div>
     </div>
   </div>
@@ -160,16 +171,18 @@
 <script>
 import firebase from 'firebase'
 import {EventBus} from '@/components/libs/EventBus.js'
+import {Database} from '@/components/libs/Database.js'
 import Breadcrumb from '@/components/Breadcrumb.vue'
+import Card from '@/components/card/Hand.vue'
 import Mahjong from '@/assets/data/Mahjong.json'
 import FullWidthNumbers from '@/assets/data/FullWidthNumbers.json'
 
 export default {
   name: 'post',
   components: {
-    Breadcrumb
+    Breadcrumb,
+    Card
   },
-  props: ['currentUser', 'modalText'],
   data() {
     return {
       state: 1, //ページ数
@@ -206,6 +219,14 @@ export default {
       }
     }
   },
+  computed: {
+    user() {
+      return Database.user
+    },
+    uid() {
+      return Database.uid
+    }
+  },
   methods: {
     tourCountUp() {
       if(this.numTour.val === this.numTour.max) return false
@@ -231,8 +252,8 @@ export default {
         this.sortCard()
       }
     },
-    removeCard(event) {
-      let index = event.target.attributes['data-index'].value
+    removeCard($event) {
+      let index = $event.target.dataset.index
       this.post.f[index] = null
       this.sortCard()
       this.cardFull = false
@@ -281,14 +302,14 @@ export default {
     submit() {
       this.$SmoothScroll(document.body, 400)
       const time = firebase.firestore.FieldValue.serverTimestamp()
-      this.post.a = this.currentUser.uid
+      this.post.a = this.uid
       this.post.c = time
       this.post.d = this.post.d.trim()
       this.post.m = this.post.m.trim()
       this.post.o = this.post.e?this.post.o.trim():''
       const self = this
       firebase.firestore().collection('posts').add(self.post).then(() => {
-        this.$emit('setDb', 'posts')
+        Database.setDb('posts')
         this.TriggerModal('submit')
       }).catch((err) => {
         console.log(err)

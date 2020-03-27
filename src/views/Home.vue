@@ -11,29 +11,32 @@
         :key="i"
         :post="posts[key]"
         :postId="key"
-        :users="users"
-        :isAnswer="(answers[key] && Object.keys(answers[key]).includes(currentUser.uid)) || false"
       />
     </div>
   </div>
 </template>
 
 <script>
+
+const POST_COUNT = 20
+
 import Cassette from '@/components/cassette/Archive.vue'
 import Breadcrumb from '@/components/Breadcrumb.vue'
+import {Database} from '@/components/libs/Database.js'
+
 export default {
   name: 'Home',
   components: {
     Cassette,
     Breadcrumb
   },
-  props: ['posts', 'users', 'currentUser', 'answers'],
-  data() {
-    return {
-      postCount: 10
-    }
-  },
   computed: {
+    postCount() {
+      return POST_COUNT
+    },
+    posts() {
+      return Database.posts
+    },
     getPostKeys() {
       return Object.keys(this.posts).sort((a, b)=> {
         if(this.posts[a].c > this.posts[b].c) return -1

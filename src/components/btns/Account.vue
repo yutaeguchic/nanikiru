@@ -1,23 +1,29 @@
 <template>
   <div class="account">
-    <div v-if="currentUser.login" class="account__display" @click="jump()"><img :src="currentUser.db.photoURL" :alt="currentUser.db.displayName"></div>
-    <div v-else class="account__btn" title="login" @click="$emit('login')"><i class="icon-twitter"></i></div>
+    <div v-if="logined" class="account__display" @click="submit()"><img :src="user.photoURL" :alt="user.displayName"></div>
+    <div v-else class="account__btn" title="login" @click="login()"><i class="icon-twitter"></i></div>
   </div>
 </template>
 
 <script>
+import {Database} from '@/components/libs/Database.js'
+
 export default {
   name: 'account',
-  props: ['currentUser'],
-  data() {
-    return {
-      uid : false
+  computed: {
+    logined() {
+      return Database.logined
+    },
+    user() {
+      return Database.user
     }
   },
   methods: {
-    jump() {
-      const target = '/user/'+this.currentUser.uid
-      if(target != this.$route.path) this.$router.push('/user/'+this.currentUser.uid)
+    login() {
+      Database.login()
+    },
+    submit() {
+      this.$router.push('/user/'+Database.uid).catch(()=> {})
     }
   }
 }

@@ -331,7 +331,10 @@ $characters = 'we' 'ws' 'ww' 'wn' 'dw' 'db' 'dr'
     height 100%
     width 100%
     z-index 1
-  & > i.removeBtn
+
+.m-box__cards--removable
+  @extends .m-box__cards
+  & > i
     cursor pointer
     position relative
     &:hover:before

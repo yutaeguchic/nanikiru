@@ -436,6 +436,7 @@ strong {
 .m-modal__card > i,
 .m-box__status .m-box__card > i,
 .m-box__cards > i,
+.m-box__cards--removable > i,
 .post__preview__status .m-box__card > i,
 .query__item__status .m-box__card > i,
 .single__card > i,
@@ -455,6 +456,7 @@ strong {
 .m-modal__card > i:after,
 .m-box__status .m-box__card > i:after,
 .m-box__cards > i:after,
+.m-box__cards--removable > i:after,
 .post__preview__status .m-box__card > i:after,
 .query__item__status .m-box__card > i:after,
 .single__card > i:after,
@@ -468,6 +470,7 @@ strong {
 .m-modal__card > i.m1,
 .m-box__status .m-box__card > i.m1,
 .m-box__cards > i.m1,
+.m-box__cards--removable > i.m1,
 .post__preview__status .m-box__card > i.m1,
 .query__item__status .m-box__card > i.m1,
 .single__card > i.m1,
@@ -479,6 +482,7 @@ strong {
 .m-modal__card > i.s1,
 .m-box__status .m-box__card > i.s1,
 .m-box__cards > i.s1,
+.m-box__cards--removable > i.s1,
 .post__preview__status .m-box__card > i.s1,
 .query__item__status .m-box__card > i.s1,
 .single__card > i.s1,
@@ -490,6 +494,7 @@ strong {
 .m-modal__card > i.p1,
 .m-box__status .m-box__card > i.p1,
 .m-box__cards > i.p1,
+.m-box__cards--removable > i.p1,
 .post__preview__status .m-box__card > i.p1,
 .query__item__status .m-box__card > i.p1,
 .single__card > i.p1,
@@ -501,6 +506,7 @@ strong {
 .m-modal__card > i.m2,
 .m-box__status .m-box__card > i.m2,
 .m-box__cards > i.m2,
+.m-box__cards--removable > i.m2,
 .post__preview__status .m-box__card > i.m2,
 .query__item__status .m-box__card > i.m2,
 .single__card > i.m2,
@@ -512,6 +518,7 @@ strong {
 .m-modal__card > i.s2,
 .m-box__status .m-box__card > i.s2,
 .m-box__cards > i.s2,
+.m-box__cards--removable > i.s2,
 .post__preview__status .m-box__card > i.s2,
 .query__item__status .m-box__card > i.s2,
 .single__card > i.s2,
@@ -523,6 +530,7 @@ strong {
 .m-modal__card > i.p2,
 .m-box__status .m-box__card > i.p2,
 .m-box__cards > i.p2,
+.m-box__cards--removable > i.p2,
 .post__preview__status .m-box__card > i.p2,
 .query__item__status .m-box__card > i.p2,
 .single__card > i.p2,
@@ -534,6 +542,7 @@ strong {
 .m-modal__card > i.m3,
 .m-box__status .m-box__card > i.m3,
 .m-box__cards > i.m3,
+.m-box__cards--removable > i.m3,
 .post__preview__status .m-box__card > i.m3,
 .query__item__status .m-box__card > i.m3,
 .single__card > i.m3,
@@ -545,6 +554,7 @@ strong {
 .m-modal__card > i.s3,
 .m-box__status .m-box__card > i.s3,
 .m-box__cards > i.s3,
+.m-box__cards--removable > i.s3,
 .post__preview__status .m-box__card > i.s3,
 .query__item__status .m-box__card > i.s3,
 .single__card > i.s3,
@@ -556,6 +566,7 @@ strong {
 .m-modal__card > i.p3,
 .m-box__status .m-box__card > i.p3,
 .m-box__cards > i.p3,
+.m-box__cards--removable > i.p3,
 .post__preview__status .m-box__card > i.p3,
 .query__item__status .m-box__card > i.p3,
 .single__card > i.p3,
@@ -567,6 +578,7 @@ strong {
 .m-modal__card > i.m4,
 .m-box__status .m-box__card > i.m4,
 .m-box__cards > i.m4,
+.m-box__cards--removable > i.m4,
 .post__preview__status .m-box__card > i.m4,
 .query__item__status .m-box__card > i.m4,
 .single__card > i.m4,
@@ -578,6 +590,7 @@ strong {
 .m-modal__card > i.s4,
 .m-box__status .m-box__card > i.s4,
 .m-box__cards > i.s4,
+.m-box__cards--removable > i.s4,
 .post__preview__status .m-box__card > i.s4,
 .query__item__status .m-box__card > i.s4,
 .single__card > i.s4,
@@ -589,6 +602,7 @@ strong {
 .m-modal__card > i.p4,
 .m-box__status .m-box__card > i.p4,
 .m-box__cards > i.p4,
+.m-box__cards--removable > i.p4,
 .post__preview__status .m-box__card > i.p4,
 .query__item__status .m-box__card > i.p4,
 .single__card > i.p4,
@@ -600,6 +614,7 @@ strong {
 .m-modal__card > i.m5,
 .m-box__status .m-box__card > i.m5,
 .m-box__cards > i.m5,
+.m-box__cards--removable > i.m5,
 .post__preview__status .m-box__card > i.m5,
 .query__item__status .m-box__card > i.m5,
 .single__card > i.m5,
@@ -611,6 +626,7 @@ strong {
 .m-modal__card > i.s5,
 .m-box__status .m-box__card > i.s5,
 .m-box__cards > i.s5,
+.m-box__cards--removable > i.s5,
 .post__preview__status .m-box__card > i.s5,
 .query__item__status .m-box__card > i.s5,
 .single__card > i.s5,
@@ -622,6 +638,7 @@ strong {
 .m-modal__card > i.p5,
 .m-box__status .m-box__card > i.p5,
 .m-box__cards > i.p5,
+.m-box__cards--removable > i.p5,
 .post__preview__status .m-box__card > i.p5,
 .query__item__status .m-box__card > i.p5,
 .single__card > i.p5,
@@ -633,6 +650,7 @@ strong {
 .m-modal__card > i.m6,
 .m-box__status .m-box__card > i.m6,
 .m-box__cards > i.m6,
+.m-box__cards--removable > i.m6,
 .post__preview__status .m-box__card > i.m6,
 .query__item__status .m-box__card > i.m6,
 .single__card > i.m6,
@@ -644,6 +662,7 @@ strong {
 .m-modal__card > i.s6,
 .m-box__status .m-box__card > i.s6,
 .m-box__cards > i.s6,
+.m-box__cards--removable > i.s6,
 .post__preview__status .m-box__card > i.s6,
 .query__item__status .m-box__card > i.s6,
 .single__card > i.s6,
@@ -655,6 +674,7 @@ strong {
 .m-modal__card > i.p6,
 .m-box__status .m-box__card > i.p6,
 .m-box__cards > i.p6,
+.m-box__cards--removable > i.p6,
 .post__preview__status .m-box__card > i.p6,
 .query__item__status .m-box__card > i.p6,
 .single__card > i.p6,
@@ -666,6 +686,7 @@ strong {
 .m-modal__card > i.m7,
 .m-box__status .m-box__card > i.m7,
 .m-box__cards > i.m7,
+.m-box__cards--removable > i.m7,
 .post__preview__status .m-box__card > i.m7,
 .query__item__status .m-box__card > i.m7,
 .single__card > i.m7,
@@ -677,6 +698,7 @@ strong {
 .m-modal__card > i.s7,
 .m-box__status .m-box__card > i.s7,
 .m-box__cards > i.s7,
+.m-box__cards--removable > i.s7,
 .post__preview__status .m-box__card > i.s7,
 .query__item__status .m-box__card > i.s7,
 .single__card > i.s7,
@@ -688,6 +710,7 @@ strong {
 .m-modal__card > i.p7,
 .m-box__status .m-box__card > i.p7,
 .m-box__cards > i.p7,
+.m-box__cards--removable > i.p7,
 .post__preview__status .m-box__card > i.p7,
 .query__item__status .m-box__card > i.p7,
 .single__card > i.p7,
@@ -699,6 +722,7 @@ strong {
 .m-modal__card > i.m8,
 .m-box__status .m-box__card > i.m8,
 .m-box__cards > i.m8,
+.m-box__cards--removable > i.m8,
 .post__preview__status .m-box__card > i.m8,
 .query__item__status .m-box__card > i.m8,
 .single__card > i.m8,
@@ -710,6 +734,7 @@ strong {
 .m-modal__card > i.s8,
 .m-box__status .m-box__card > i.s8,
 .m-box__cards > i.s8,
+.m-box__cards--removable > i.s8,
 .post__preview__status .m-box__card > i.s8,
 .query__item__status .m-box__card > i.s8,
 .single__card > i.s8,
@@ -721,6 +746,7 @@ strong {
 .m-modal__card > i.p8,
 .m-box__status .m-box__card > i.p8,
 .m-box__cards > i.p8,
+.m-box__cards--removable > i.p8,
 .post__preview__status .m-box__card > i.p8,
 .query__item__status .m-box__card > i.p8,
 .single__card > i.p8,
@@ -732,6 +758,7 @@ strong {
 .m-modal__card > i.m9,
 .m-box__status .m-box__card > i.m9,
 .m-box__cards > i.m9,
+.m-box__cards--removable > i.m9,
 .post__preview__status .m-box__card > i.m9,
 .query__item__status .m-box__card > i.m9,
 .single__card > i.m9,
@@ -743,6 +770,7 @@ strong {
 .m-modal__card > i.s9,
 .m-box__status .m-box__card > i.s9,
 .m-box__cards > i.s9,
+.m-box__cards--removable > i.s9,
 .post__preview__status .m-box__card > i.s9,
 .query__item__status .m-box__card > i.s9,
 .single__card > i.s9,
@@ -754,6 +782,7 @@ strong {
 .m-modal__card > i.p9,
 .m-box__status .m-box__card > i.p9,
 .m-box__cards > i.p9,
+.m-box__cards--removable > i.p9,
 .post__preview__status .m-box__card > i.p9,
 .query__item__status .m-box__card > i.p9,
 .single__card > i.p9,
@@ -765,6 +794,7 @@ strong {
 .m-modal__card > i.m5r,
 .m-box__status .m-box__card > i.m5r,
 .m-box__cards > i.m5r,
+.m-box__cards--removable > i.m5r,
 .post__preview__status .m-box__card > i.m5r,
 .query__item__status .m-box__card > i.m5r,
 .single__card > i.m5r,
@@ -776,6 +806,7 @@ strong {
 .m-modal__card > i.s5r,
 .m-box__status .m-box__card > i.s5r,
 .m-box__cards > i.s5r,
+.m-box__cards--removable > i.s5r,
 .post__preview__status .m-box__card > i.s5r,
 .query__item__status .m-box__card > i.s5r,
 .single__card > i.s5r,
@@ -787,6 +818,7 @@ strong {
 .m-modal__card > i.p5r,
 .m-box__status .m-box__card > i.p5r,
 .m-box__cards > i.p5r,
+.m-box__cards--removable > i.p5r,
 .post__preview__status .m-box__card > i.p5r,
 .query__item__status .m-box__card > i.p5r,
 .single__card > i.p5r,
@@ -798,6 +830,7 @@ strong {
 .m-modal__card > i.we,
 .m-box__status .m-box__card > i.we,
 .m-box__cards > i.we,
+.m-box__cards--removable > i.we,
 .post__preview__status .m-box__card > i.we,
 .query__item__status .m-box__card > i.we,
 .single__card > i.we,
@@ -809,6 +842,7 @@ strong {
 .m-modal__card > i.ws,
 .m-box__status .m-box__card > i.ws,
 .m-box__cards > i.ws,
+.m-box__cards--removable > i.ws,
 .post__preview__status .m-box__card > i.ws,
 .query__item__status .m-box__card > i.ws,
 .single__card > i.ws,
@@ -820,6 +854,7 @@ strong {
 .m-modal__card > i.ww,
 .m-box__status .m-box__card > i.ww,
 .m-box__cards > i.ww,
+.m-box__cards--removable > i.ww,
 .post__preview__status .m-box__card > i.ww,
 .query__item__status .m-box__card > i.ww,
 .single__card > i.ww,
@@ -831,6 +866,7 @@ strong {
 .m-modal__card > i.wn,
 .m-box__status .m-box__card > i.wn,
 .m-box__cards > i.wn,
+.m-box__cards--removable > i.wn,
 .post__preview__status .m-box__card > i.wn,
 .query__item__status .m-box__card > i.wn,
 .single__card > i.wn,
@@ -842,6 +878,7 @@ strong {
 .m-modal__card > i.dw,
 .m-box__status .m-box__card > i.dw,
 .m-box__cards > i.dw,
+.m-box__cards--removable > i.dw,
 .post__preview__status .m-box__card > i.dw,
 .query__item__status .m-box__card > i.dw,
 .single__card > i.dw,
@@ -853,6 +890,7 @@ strong {
 .m-modal__card > i.db,
 .m-box__status .m-box__card > i.db,
 .m-box__cards > i.db,
+.m-box__cards--removable > i.db,
 .post__preview__status .m-box__card > i.db,
 .query__item__status .m-box__card > i.db,
 .single__card > i.db,
@@ -864,6 +902,7 @@ strong {
 .m-modal__card > i.dr,
 .m-box__status .m-box__card > i.dr,
 .m-box__cards > i.dr,
+.m-box__cards--removable > i.dr,
 .post__preview__status .m-box__card > i.dr,
 .query__item__status .m-box__card > i.dr,
 .single__card > i.dr,
@@ -1023,17 +1062,22 @@ strong {
   margin-left: 5px;
   width: 31.5px;
 }
-.m-box__cards {
+.m-box__cards,
+.m-box__cards--removable {
   font-size: 0;
 }
-.m-box__cards > i.large {
+.m-box__cards > i.large,
+.m-box__cards--removable > i.large {
   width: 58px;
 }
-.m-box__cards > i.select {
+.m-box__cards > i.select,
+.m-box__cards--removable > i.select {
   cursor: pointer;
 }
 .m-box__cards i.active:after,
-.m-box__cards i.select:hover:after {
+.m-box__cards--removable i.active:after,
+.m-box__cards i.select:hover:after,
+.m-box__cards--removable i.select:hover:after {
   background-color: rgba(255,0,0,0.2);
   content: "";
   display: block;
@@ -1041,11 +1085,11 @@ strong {
   width: 100%;
   z-index: 1;
 }
-.m-box__cards > i.removeBtn {
+.m-box__cards--removable > i {
   cursor: pointer;
   position: relative;
 }
-.m-box__cards > i.removeBtn:hover:before {
+.m-box__cards--removable > i:hover:before {
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;

@@ -13,25 +13,50 @@
       </div>
       <div class="query__item__dora">ドラ表示牌 <i class="m-card" :class="post.l"></i></div>
     </header>
-    <div class="m-box__cards"><i v-for="i of 14" :key="i" :class="post.f[i-1]"></i></div>
+
+    <card
+      :className = "'m-box__cards'"
+      :items = "post.f"
+    />
+
     <footer class="query__item__footer">
       <div class="query__item__footer__detail">
         <div><i class="icon-price-tag"></i><strong v-text="post.e?'問題':'相談'"></strong></div>
         <div>出題者コメント： <strong v-text="post.m?'あり':'なし'"></strong></div>
       </div>
-      <router-link tag="button" type="button" class="query__item__btn" :to="'/post/'+postId" v-text="isAnswer?'回答済み':'挑戦'"></router-link>
+      <router-link tag="button" type="button" class="query__item__btn" :to="'/post/'+postId" v-text="isAnswer(postId)?'回答済み':'挑戦'"></router-link>
     </footer>
   </div>
 </template>
 
 <script>
+import {Database} from '@/components/libs/Database.js'
+import Card from '@/components/card/Hand.vue'
+
 export default {
   name: 'Post',
-  props: ['post', 'postId', 'users', 'isAnswer'],
+  components: {
+    Card
+  },
+  props: [
+    'post',
+    'postId',
+  ],
   computed: {
+    users() {
+      return Database.users
+    },
+    answers() {
+      return Database.answers
+    },
     writer() {
       const uid = this.post.a
       return this.users[uid].displayName + ' （@' + this.users[uid].username + '）'
+    }
+  },
+  methods: {
+    isAnswer(id) {
+      return this.answers[id] && Object.keys(this.answers[id]).includes(Database.uid)
     }
   }
 }
