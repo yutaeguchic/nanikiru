@@ -34,6 +34,7 @@
 </template>
 
 <script>
+import {Database} from '@/components/libs/Database.js'
 import Comment from '@/components/answer/Comment.vue'
 export default {
   name:'Comments',
@@ -43,17 +44,15 @@ export default {
   props: [
     'comments',
     'postComments',
-    'users',
     'masterUid'
   ],
   computed: {
+    users() {
+      return Database.users
+    },
     time(timestamp) {
       const d = (this.post.c) ? this.getDateLabel(timestamp) :false
       return d
-    }
-  },
-  data() {
-    return {
     }
   }
 }

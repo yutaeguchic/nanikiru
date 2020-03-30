@@ -12,9 +12,9 @@ const routes = [
     component: Home
   },
   {
-    path: '/404',
+    path: '/notfound',
     name: 'notfound',
-    component: () => import('../views/404.vue')
+    component: () => import('../views/Notfound.vue')
   },
   {
     path: '/about',
@@ -47,7 +47,7 @@ const routes = [
   {
     path: '/*',
     name: 'notfound',
-    component: () => import('../views/404.vue')
+    component: () => import('../views/Notfound.vue')
   }
 ]
 

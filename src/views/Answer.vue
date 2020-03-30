@@ -1,11 +1,11 @@
 <template>
-  <div class="content-answer">
+  <div v-if="post" class="content-answer">
     <breadcrumb
       text="NANIKIRU 解答"
     />
 
     <h2 class="m-ttl--page">NANIKIRU 解答</h2>
-    <div v-if="(answers[postId] && answers[postId][currentUser.uid]) || currentUser.uid === post.a">
+    <div v-if="answer || uid === post.a">
 
       <tabs
         :mode="tabMode"
@@ -17,9 +17,9 @@
         <transition name="fadeIn">
           <div v-show="tabMode===1">
             <result
-              :post="post"
-              :uid="currentUser.uid"
-              :postAnswers="answers[postId] || false"
+              :post.sync="post"
+              :postAnswers.sync="postAnswers"
+              :answer.sync="answer"
             />
           </div>
         </transition>
@@ -36,14 +36,13 @@
         <transition name="fadeIn">
           <div v-show="tabMode===3">
             <CommentForm
+              :postId="postId"
               :postScores="postScores"
-              :currentUser="currentUser"
               @comment="comment($event)"
             />
             <comments
               :comments="comments"
               :postComments="postComments"
-              :users="users"
               :masterUid="post.a"
             />
           </div>
@@ -76,6 +75,8 @@
 </template>
 
 <script>
+import {EventBus} from '@/components/libs/EventBus.js'
+import {Database} from '@/components/libs/Database.js'
 import Breadcrumb from '@/components/Breadcrumb.vue'
 import Result from '@/components/answer/Result.vue'
 import Cassette from '@/components/cassette/Single.vue'
@@ -94,74 +95,65 @@ export default {
     Comments,
     ReturnHome
   },
-  props: [
-    'posts',
-    'users',
-    'scores',
-    'currentUser',
-    'answers',
-    'comments'
-  ],
   data() {
     return {
-      post: {},
-      postId: null,
-      writer: {},
-      postScores: null,
       postComments: [],
       tabMode: 1
     }
   },
   watch: {
-    posts() {
-      if(Object.keys(this.posts).length) {
-        this.setPost()
-        this.setWriter()
+    'posts': {
+      immediate: true,
+      handler() {
+        if(Object.keys(this.posts).length) this.existPost()
       }
     },
-    scores() {
-      if(Object.keys(this.scores).length) {
-        this.setPostScores()
-      }
-    },
-    comments() {
-      if(Object.keys(this.comments).length) {
-        this.setPostComments()
+    'comments': {
+      immediate: true,
+      handler() {
+        if(Object.keys(this.comments).length) this.setPostComments()
       }
     }
   },
-  mounted() {
-    this.postId = this.$route.params['id']
-    if(Object.keys(this.posts).length) {
-      this.setPost()
-      this.setWriter()
-    }
-    if(Object.keys(this.scores).length) {
-      this.setPostScores()
-    }
-    if(Object.keys(this.comments).length) {
-      this.setPostComments()
+  computed: {
+    uid() {
+      return Database.uid
+    },
+    postId() {
+      return this.$route.params['id']
+    },
+    posts() {
+      return Database.posts
+    },
+    post() {
+      return this.posts[this.postId]
+    },
+    writer() {
+      return Database.users[this.post.a]
+    },
+    postAnswers() {
+      return (Database.answers[this.postId]) ? Database.answers[this.postId] : false
+    },
+    answer() {
+      return (this.postAnswers && this.postAnswers[this.uid]) ? this.postAnswers[this.uid] : false
+    },
+    comments() {
+      return Database.comments
+    },
+    postScores() {
+      return Database.scores[this.postId]
     }
   },
   methods: {
-    setPost() {
-      if(this.posts[this.postId]) {
-        this.post = this.posts[this.postId]
-      }else {
-        this.$router.push('/notfound')
-      }
-    },
-    setWriter() {
-      this.writer = this.users[this.post.a]
-    },
-    setPostScores() {
-      this.postScores = this.scores[this.postId]
+    existPost() {
+      if(!this.posts[this.postId]) EventBus.$emit('toNotfound', this.$route.fullPath)
     },
     setPostComments() {
       this.postComments = Object.keys(this.comments).filter(id=>(this.comments[id].postId===this.postId)).sort((a, b)=> {
-        if(this.comments[a].timestamp > this.comments[b].timestamp) return -1
-        if(this.comments[a].timestamp < this.comments[b].timestamp) return 1
-        return 0
+        const _a = this.comments[a].timestamp
+        const _b = this.comments[b].timestamp
+        if (_a === _b) return 0
+        return (_a > _b) ? -1 : 1
       })
     },
     changeTab(event) {

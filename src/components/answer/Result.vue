@@ -4,12 +4,13 @@
     <h3 class="single__postTitle">解答結果</h3>
 
     <template v-if="uid != post.a">
-      <div v-if="time" class="single__date">回答日時： {{time}}</div>
-      <div v-if="post.e" class="result__label" v-text="post.n===postAnswers[uid].card?'正解':'不正解'"></div>
+      <div class="single__date">回答日時： {{time}}</div>
+      <div v-if="post.e" class="result__label" v-text="post.n===answer.card?'正解':'不正解'"></div>
+
       <div class="single__section--flex">
         <div>
           <h3 class="single__title">あなたの解答</h3>
-          <div class="single__card"><i :class="postAnswers[uid].card"></i></div>
+          <div class="single__card"><i :class="answer.card"></i></div>
         </div>
         <div v-if="post.e">
           <h3 class="single__title">出題者の正答</h3>
@@ -29,19 +30,20 @@
     </template>
 
     <div class="result__probability">
+
       <h3 class="single__title">みなさまの解答</h3>
       <h4 class="single__subTitle--user">総回答数: {{total}}</h4>
 
-      <template v-if="Object.keys(postAnswers).length">
+      <template v-if="answerCards">
         <h4 class="single__subTitle--clip">手牌</h4>
         <div class="m-box__cards"><i v-for="(card, i) of post.f" :key="i" :class="card"></i></div>
-        <h4 class="single__subTitle--clip">回答率</h4>
+        <h4 class="single__subTitle--clip">回答の割合</h4>
         <div
-          v-for="card of uniqueCards"
-          :key="card"
+          v-for="(card, index) of answerCards"
+          :key="index"
         >
           <div class="result__probability__card">
-            <i :class="card"></i><span>{{probability[card]}}%</span>
+            <i :class="card[0]"></i><span>{{card[1]}}%</span>
           </div>
         </div>
       </template>
@@ -56,6 +58,7 @@
 </template>
 
 <script>
+import {Database} from '@/components/libs/Database.js'
 import DateLabel from '@/components/libs/DateLabel.js'
 export default {
   name: 'Result',
@@ -64,43 +67,48 @@ export default {
   ],
   props: [
     'post',
-    'uid',
-    'postAnswers'
+    'postAnswers',
+    'answer'
   ],
   data() {
     return {
-      answerCards: [],
-      uniqueCards: [],
-      probability: {},
-      time: '反映中'
+      answerCards: [] //[[card, probability], ...]
+    }
+  },
+  watch: {
+    'postAnswers': {
+      immediate: true,
+      handler() {
+        if(Object.keys(this.postAnswers).length) this.getAnswerCards()
+      }
     }
   },
   computed: {
+    uid() {
+      return Database.uid
+    },
+    time() {
+      return (this.postAnswers[this.uid].timestamp.seconds) ? this.getDateLabel(this.postAnswers[this.uid].timestamp) : '反映中'
+    },
     total() {
-      if(this.postAnswers) this.getAnswerCards()
-      return this.answerCards.length
-    }
-  },
-  mounted() {
-    if(this.postAnswers[this.uid].timestamp.seconds) {
-      this.time = this.getDateLabel(this.postAnswers[this.uid].timestamp)
+      return Object.keys(this.postAnswers).length
     }
   },
   methods: {
     getAnswerCards() {
-      this.answerCards = Object.keys(this.postAnswers).map(id => this.postAnswers[id].card)
-      this.getProbability()
-    },
-    getProbability() {
-      let unique = Array.from(new Set(this.answerCards))
-      for(let i=0; i < unique.length; i++) {
-        let count = this.answerCards.filter(e => e===unique[i]).length
-        this.probability[unique[i]] = ((count/this.answerCards.length)*100).toFixed(6)
+      const data = []
+      const cards = Object.keys(this.postAnswers).map(id => this.postAnswers[id].card)
+      const uniqueCards = Array.from(new Set(cards))
+      for(let i=0; i < uniqueCards.length; i++) {
+        const count = cards.filter(e => e===uniqueCards[i]).length
+        const probability = ((count/this.total)*100).toFixed(6)
+        data[i] = [uniqueCards[i], probability]
       }
-      this.uniqueCards = unique.sort((a, b)=> {
-        if(this.probability[a] > this.probability[b]) return -1
-        if(this.probability[a] < this.probability[b]) return 1
-        return 0
+      this.answerCards = data.sort((a, b)=> {
+        const _a = a[1]
+        const _b = b[1]
+        if (_a === _b) return 0
+        return (_a > _b) ? -1 : 1
       })
     }
   }

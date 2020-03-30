@@ -39,9 +39,10 @@ export default {
     },
     getPostKeys() {
       return Object.keys(this.posts).sort((a, b)=> {
-        if(this.posts[a].c > this.posts[b].c) return -1
-        if(this.posts[a].c < this.posts[b].c) return 1
-        return 0
+        const _a = this.posts[a].c
+        const _b = this.posts[b].c
+        if (_a === _b) return 0
+        return (_a > _b) ? -1 : 1
       })
     }
   }

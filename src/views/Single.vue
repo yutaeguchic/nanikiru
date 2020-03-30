@@ -66,17 +66,24 @@ export default {
     }
   },
   watch: {
+    'posts': {
+      immediate: true,
+      handler() {
+        if(Object.keys(this.posts).length) this.existPost()
+      }
+    },
     'answers': {
       immediate: true,
       handler() {
-        if (Object.keys(this.answers).length > 0) this.isAnswered()
-        if(this.answered) {
-          this.answerCard = Database.answers[this.postId][this.uid].card
-        }
+        if(Object.keys(this.answers).length) this.isAnswered()
+        if(this.answered) this.getAnswerCard()
       }
     }
   },
   computed: {
+    uid() {
+      return Database.uid
+    },
     postId() {
       return this.$route.params['id']
     },
@@ -85,9 +92,6 @@ export default {
     },
     post() {
       return this.posts[this.postId]
-    },
-    uid() {
-      return Database.uid
     },
     writer() {
       return Database.users[this.post.a]
@@ -100,9 +104,15 @@ export default {
     EventBus.$on('postAnswer', ()=> this.postAnswer())
   },
   methods: {
+    existPost() {
+      if(!this.posts[this.postId]) EventBus.$emit('toNotfound', this.$route.fullPath)
+    },
     isAnswered() {
       this.answered = this.answers[this.postId] &&
                       this.answers[this.postId][this.uid]
+    },
+    getAnswerCard() {
+      this.answerCard = Database.answers[this.postId][this.uid].card
     },
     selectAnswer(event) {
       this.answerCard = event.target.dataset.val

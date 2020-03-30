@@ -6,7 +6,7 @@
 
     <transition name="fadeIn">
       <router-view
-        @setDb="setDb($event)"
+        :notfound="notfound"
       />
     </transition>
 
@@ -49,6 +49,9 @@ export default {
     return {
       loader: {
         show: true
+      },
+      notfound: {
+        url: false
       }
     }
   },
@@ -68,6 +71,8 @@ export default {
   },
   mounted() {
     EventBus.$on('loading', (boolean)=> this.loading(boolean))
+    EventBus.$on('toNotfound', (url)=> this.toNotfound(url))
+    EventBus.$on('resetNotfound', (url)=> this.resetNotfound(url))
   },
   methods: {
     //callMethod(name) {this[name]()},
@@ -82,6 +87,15 @@ export default {
     },
     loading(boolean) {
       this.loader.show = boolean
+    },
+    toNotfound(url) {
+      if(url) {
+        this.notfound.url = url
+      }
+      this.$router.replace('/notfound')
+    },
+    resetNotfound() {
+      this.notfound.url = null
     }
   }
 }

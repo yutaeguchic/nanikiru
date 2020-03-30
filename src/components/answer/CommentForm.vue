@@ -36,22 +36,26 @@
 
 <script>
 import firebase from 'firebase'
-import LongPress from 'vue-directive-long-press'
+import {Database} from '@/components/libs/Database.js'
 import {EventBus} from '@/components/libs/EventBus.js'
 import FullWidthNumbers from '@/assets/data/FullWidthNumbers.json'
+import LongPress from 'vue-directive-long-press'
 export default {
   name: 'AnswerCommentForm',
   directives: {
     'long-press': LongPress
   },
   props: [
-    'postScores',
-    'currentUser'
+    'postId',
+    'postScores'
   ],
+  computed: {
+    uid() {
+      return Database.uid
+    }
+  },
   data() {
     return {
-      postId: null,
-      uid: this.currentUser.uid,
       numLabel: FullWidthNumbers,
       show: false,
       text: null,
@@ -65,9 +69,6 @@ export default {
         text: 200
       }
     }
-  },
-  mounted() {
-    this.postId = this.$route.params['id']
   },
   methods: {
     setScore(num) {
@@ -121,7 +122,7 @@ export default {
         score: this.score.label
       }
       firebase.firestore().collection('comments').add(data).then(()=> {
-        EventBus.$emit('setDb', 'comments')
+        Database.setDb('comments')
       })
     },
     reset() {
