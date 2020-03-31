@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import DateLabel from '@/components/libs/DateLabel.js'
+import DateLabel from '@/components/mixin/DateLabel.js'
 import FullWidthNumbers from '@/assets/data/FullWidthNumbers.json'
 export default {
   name: "Comment",
@@ -32,7 +32,7 @@ export default {
   },
   computed: {
     time() {
-      return this.getDateLabel(this.comment.timestamp)
+      return this.$_getDateLabel(this.comment.timestamp)
     },
     score() {
       if(this.comment.score) {

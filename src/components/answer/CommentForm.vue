@@ -36,7 +36,6 @@
 
 <script>
 import firebase from 'firebase'
-import {Database} from '@/components/libs/Database.js'
 import {EventBus} from '@/components/libs/EventBus.js'
 import FullWidthNumbers from '@/assets/data/FullWidthNumbers.json'
 import LongPress from 'vue-directive-long-press'
@@ -46,14 +45,10 @@ export default {
     'long-press': LongPress
   },
   props: [
-    'postId',
+    'uid',
+    'pageId',
     'postScores'
   ],
-  computed: {
-    uid() {
-      return Database.uid
-    }
-  },
   data() {
     return {
       numLabel: FullWidthNumbers,
@@ -108,7 +103,7 @@ export default {
     PostScore() {
       const data = {}
       data[this.uid] = this.score.val
-      firebase.firestore().collection('scores').doc(this.postId).set(data, {merge: true}).then(()=> {
+      firebase.firestore().collection('scores').doc(this.pageId).set(data, {merge: true}).then(()=> {
         EventBus.$emit('setDb', 'scores')
       })
     },
@@ -116,13 +111,13 @@ export default {
       const time = firebase.firestore.FieldValue.serverTimestamp()
       const data = {
         timestamp: time,
-        postId: this.postId,
+        postId: this.pageId,
         uid: this.uid,
         text: this.text,
         score: this.score.label
       }
       firebase.firestore().collection('comments').add(data).then(()=> {
-        Database.setDb('comments')
+        EventBus.$emit('setDb', 'comments')
       })
     },
     reset() {

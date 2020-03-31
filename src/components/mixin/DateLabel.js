@@ -1,6 +1,6 @@
 export default {
   methods: {
-    getDateLabel(timestamp) {
+    $_getDateLabel(timestamp) {
       const seconds = timestamp.seconds
       const a = new Date(seconds * 1000)
       const year = a.getFullYear()

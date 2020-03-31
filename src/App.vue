@@ -2,17 +2,38 @@
   <div id="app">
     <the-header/>
 
-    <new-post/>
+    <new-post
+      :logined="$_logined"
+    />
 
     <transition name="fadeIn">
       <router-view
+        :users="$_users"
+        :user="$_user"
+        :posts="$_posts"
+        :answers="$_answers"
+        :comments="$_comments"
+        :scores="$_scores"
+        :uid="$_uid"
+        :pageId="$_pageId"
+        :logined="$_logined"
         :notfound="notfound"
+        @existId="$_existId($event)"
+        @setDb="$_setDb($event)"
       />
     </transition>
 
-    <account/>
+    <account
+      :user="$_user"
+      :uid="$_uid"
+      :logined="$_logined"
+      @login="$_login()"
+    />
 
-    <the-footer/>
+    <the-footer
+      :logined="$_logined"
+      @logout="$_logout()"
+    />
 
     <modal
       @login="$_login()"
@@ -28,8 +49,8 @@
 </template>
 
 <script>
+import Data from '@/components/mixin/Data.js'
 import {EventBus} from '@/components/libs/EventBus.js'
-import {Database} from '@/components/libs/Database.js'
 import TheHeader from '@/components/TheHeader.vue'
 import NewPost from '@/components/btns/NewPost.vue'
 import Account from '@/components/btns/Account.vue'
@@ -45,6 +66,7 @@ export default {
     TheFooter,
     Modal,
   },
+  mixins: [Data],
   data() {
     return {
       loader: {
@@ -64,11 +86,6 @@ export default {
       }
     }
   },
-  async created() {
-    await Database.initDb()
-    await Database.setLoginResult()
-    await Database.initUser()
-  },
   mounted() {
     EventBus.$on('loading', (boolean)=> this.loading(boolean))
     EventBus.$on('toNotfound', (url)=> this.toNotfound(url))
@@ -82,16 +99,11 @@ export default {
         history.replaceState('', '', '/')
       }
     },
-    login() {
-      Database.login()
-    },
     loading(boolean) {
       this.loader.show = boolean
     },
     toNotfound(url) {
-      if(url) {
-        this.notfound.url = url
-      }
+      this.notfound.url = url
       this.$router.replace('/notfound')
     },
     resetNotfound() {

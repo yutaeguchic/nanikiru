@@ -58,14 +58,14 @@
 </template>
 
 <script>
-import {Database} from '@/components/libs/Database.js'
-import DateLabel from '@/components/libs/DateLabel.js'
+import DateLabel from '@/components/mixin/DateLabel.js'
 export default {
   name: 'Result',
   mixins: [
     DateLabel
   ],
   props: [
+    'uid',
     'post',
     'postAnswers',
     'answer'
@@ -84,11 +84,8 @@ export default {
     }
   },
   computed: {
-    uid() {
-      return Database.uid
-    },
     time() {
-      return (this.postAnswers[this.uid].timestamp.seconds) ? this.getDateLabel(this.postAnswers[this.uid].timestamp) : '反映中'
+      return (this.postAnswers[this.uid].timestamp.seconds) ? this.$_getDateLabel(this.postAnswers[this.uid].timestamp) : '反映中'
     },
     total() {
       return Object.keys(this.postAnswers).length

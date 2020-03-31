@@ -4,13 +4,13 @@
 
 <script>
 import {EventBus} from '@/components/libs/EventBus.js'
-import {Database} from '@/components/libs/Database.js'
 
 export default {
   name: 'GlobalNewPost',
+  props: ['logined'],
   methods: {
     submit() {
-      if(Database.logined) {
+      if(this.logined) {
         this.$router.push('/post/new').catch(()=> {})
       }else {
         const data = {

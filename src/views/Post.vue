@@ -171,7 +171,6 @@
 <script>
 import firebase from 'firebase'
 import {EventBus} from '@/components/libs/EventBus.js'
-import {Database} from '@/components/libs/Database.js'
 import Breadcrumb from '@/components/Breadcrumb.vue'
 import Card from '@/components/card/Hand.vue'
 import Mahjong from '@/assets/data/Mahjong.json'
@@ -183,6 +182,10 @@ export default {
     Breadcrumb,
     Card
   },
+  props: [
+    'user',
+    'uid'
+  ],
   data() {
     return {
       state: 1, //ページ数
@@ -217,14 +220,6 @@ export default {
         n: '',
         o: ''
       }
-    }
-  },
-  computed: {
-    user() {
-      return Database.user
-    },
-    uid() {
-      return Database.uid
     }
   },
   methods: {
@@ -309,7 +304,7 @@ export default {
       this.post.o = this.post.e?this.post.o.trim():''
       const self = this
       firebase.firestore().collection('posts').add(self.post).then(() => {
-        Database.setDb('posts')
+        this.$emit('setDb', 'posts')
         this.TriggerModal('submit')
       }).catch((err) => {
         console.log(err)

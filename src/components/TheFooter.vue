@@ -32,24 +32,20 @@
 </template>
 
 <script>
-import {Database} from '@/components/libs/Database.js'
-
 export default {
   name: 'TheFooter',
+  props: [
+    'logined'
+  ],
   data() {
     return {
       menu: false
     }
   },
-  computed: {
-    logined() {
-      return Database.logined
-    }
-  },
   methods: {
     logout() {
       this.menu = false
-      Database.logout()
+      this.$emit('logout')
     }
   }
 }

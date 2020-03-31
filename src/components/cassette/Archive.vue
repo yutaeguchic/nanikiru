@@ -30,7 +30,6 @@
 </template>
 
 <script>
-import {Database} from '@/components/libs/Database.js'
 import Card from '@/components/card/Hand.vue'
 
 export default {
@@ -39,24 +38,21 @@ export default {
     Card
   },
   props: [
+    'users',
+    'uid',
     'post',
     'postId',
+    'answers'
   ],
   computed: {
-    users() {
-      return Database.users
-    },
-    answers() {
-      return Database.answers
-    },
     writer() {
-      const uid = this.post.a
-      return this.users[uid].displayName + ' （@' + this.users[uid].username + '）'
+      const writerId = this.post.a
+      return this.users[writerId].displayName + ' （@' + this.users[writerId].username + '）'
     }
   },
   methods: {
     isAnswer(id) {
-      return this.answers[id] && Object.keys(this.answers[id]).includes(Database.uid)
+      return this.answers[id] && Object.keys(this.answers[id]).includes(this.uid)
     }
   }
 }

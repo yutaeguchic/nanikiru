@@ -1,5 +1,6 @@
 <template>
   <div>
+
     <h3 class="single__postTitle">コメント一覧</h3>
     <template v-if="postComments.length">
       <ul class="comments">
@@ -34,7 +35,6 @@
 </template>
 
 <script>
-import {Database} from '@/components/libs/Database.js'
 import Comment from '@/components/answer/Comment.vue'
 export default {
   name:'Comments',
@@ -42,16 +42,14 @@ export default {
     Comment
   },
   props: [
+    'users',
     'comments',
     'postComments',
     'masterUid'
   ],
   computed: {
-    users() {
-      return Database.users
-    },
     time(timestamp) {
-      const d = (this.post.c) ? this.getDateLabel(timestamp) :false
+      const d = (this.post.c) ? this.$_getDateLabel(timestamp) :false
       return d
     }
   }

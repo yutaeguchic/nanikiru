@@ -24,11 +24,11 @@
           <i v-for="(card, i) of post.f" :key="i" class="large select" :class="[card, {active: answerCard === card}]" :data-val="card" @click="selectAnswer($event)"></i>
         </div>
         <div v-if="answered" class="single__submit">
-          <router-link tag="button" class="m-btn--able" :to="'/answer/'+postId" title="解答ページへ">解答を見る</router-link>
+          <router-link tag="button" class="m-btn--able" :to="'/answer/'+pageId" title="解答ページへ">解答を見る</router-link>
           <div class="single__submit__note">※回答済みです</div>
         </div>
         <div v-else-if="post.a === this.uid" class="single__submit">
-          <router-link tag="button" class="m-btn--able" :to="'/answer/'+postId" title="解答ページへ">解答ページへ</router-link>
+          <router-link tag="button" class="m-btn--able" :to="'/answer/'+pageId" title="解答ページへ">解答ページへ</router-link>
           <div class="single__submit__note">※出題者のため、解答はできません</div>
         </div>
         <div v-else class="single__submit"><button type="button" :class="answerCard?'m-btn--able':'m-btn--disabled'" :disabled="!answerCard" @click="confirm()">解答する</button></div>
@@ -46,7 +46,6 @@
 <script>
 import firebase from 'firebase'
 import {EventBus} from '@/components/libs/EventBus.js'
-import {Database} from '@/components/libs/Database.js'
 import modalText from '@/assets/data/modalText.json'
 import Breadcrumb from '@/components/Breadcrumb.vue'
 import Cassette from '@/components/cassette/Single.vue'
@@ -58,6 +57,14 @@ export default {
     Cassette,
     ReturnHome
   },
+  props: [
+    'users',
+    'uid',
+    'posts',
+    'pageId',
+    'answers',
+    'logined'
+  ],
   data() {
     return {
       modalText: modalText,
@@ -65,11 +72,19 @@ export default {
       answerCard: null
     }
   },
+  computed: {
+    post() {
+      return this.posts[this.pageId]
+    },
+    writer() {
+      return this.users[this.post.a]
+    }
+  },
   watch: {
     'posts': {
       immediate: true,
       handler() {
-        if(Object.keys(this.posts).length) this.existPost()
+        if(Object.keys(this.posts).length) this.$emit('existId', 'posts')
       }
     },
     'answers': {
@@ -80,45 +95,22 @@ export default {
       }
     }
   },
-  computed: {
-    uid() {
-      return Database.uid
-    },
-    postId() {
-      return this.$route.params['id']
-    },
-    posts() {
-      return Database.posts
-    },
-    post() {
-      return this.posts[this.postId]
-    },
-    writer() {
-      return Database.users[this.post.a]
-    },
-    answers() {
-      return Database.answers
-    }
-  },
   mounted() {
     EventBus.$on('postAnswer', ()=> this.postAnswer())
   },
   methods: {
-    existPost() {
-      if(!this.posts[this.postId]) EventBus.$emit('toNotfound', this.$route.fullPath)
-    },
     isAnswered() {
-      this.answered = this.answers[this.postId] &&
-                      this.answers[this.postId][this.uid]
+      this.answered = this.answers[this.pageId] &&
+                      this.answers[this.pageId][this.uid]
     },
     getAnswerCard() {
-      this.answerCard = Database.answers[this.postId][this.uid].card
+      this.answerCard = this.answers[this.pageId][this.uid].card
     },
     selectAnswer(event) {
       this.answerCard = event.target.dataset.val
     },
     confirm() {
-      if(Database.logined) {
+      if(this.logined) {
         EventBus.$emit('rawSetModal', {
           able: true,
           text: {
@@ -133,7 +125,7 @@ export default {
           able: true,
           text: ['single', 'errorWrite']
         })
-      }else if(!Database.logined) {
+      }else if(!this.logined) {
         EventBus.$emit('setModal', {
           able: true,
           text: ['single', 'requireLogin'],
@@ -148,8 +140,8 @@ export default {
         timestamp: time,
         card: this.answerCard
       }
-      firebase.firestore().collection('answers').doc(this.postId).set(data, {merge: true}).then(()=> {
-        this.$router.push('/answer/' + this.postId)
+      firebase.firestore().collection('answers').doc(this.pageId).set(data, {merge: true}).then(()=> {
+        this.$router.push('/answer/' + this.pageId)
       })
       this.$emit('setDb', 'answers')
       EventBus.$emit('closeModal')

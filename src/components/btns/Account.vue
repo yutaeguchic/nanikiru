@@ -6,24 +6,19 @@
 </template>
 
 <script>
-import {Database} from '@/components/libs/Database.js'
-
 export default {
   name: 'account',
-  computed: {
-    logined() {
-      return Database.logined
-    },
-    user() {
-      return Database.user
-    }
-  },
+  props: [
+    'user',
+    'uid',
+    'logined'
+  ],
   methods: {
     login() {
-      Database.login()
+      this.$emit('login')
     },
     submit() {
-      this.$router.push('/user/'+Database.uid).catch(()=> {})
+      this.$router.push('/user/'+this.uid).catch(()=> {})
     }
   }
 }

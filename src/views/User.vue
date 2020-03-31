@@ -5,29 +5,37 @@
     />
 
     <h2 class="m-ttl--page" v-text="myPage?'マイページ':'ユーザーページ'"></h2>
+    <div class="userPage" v-if="pageUser">
 
-    <transition name="fadeIn">
-      <div class="userPage" v-if="pageUser">
+      <tabs
+        :mode="tabMode"
+        @change="changeTab($event)"
+      />
 
-        <tabs
-          :mode="tabMode"
-          @change="changeTab($event)"
-        />
+      <div class="m-tabContent">
 
         <transition name="fadeIn">
-          <div v-show="tabMode===1"></div>
+          <div v-show="tabMode===1">
+            <h3 class="single__postTitle">{{pageUser.username}}さんのNANIKIRU</h3>
+            <div class="userPage__profile">
+              <div class="userPage__profile__icon"><a :href="twUrl" target="_blank" title="twitter"><img :src="pageUser.photoURL" :alt="pageUser.displayName"></a></div>
+              <div class="userPage__profile__name">{{pageUser.displayName}}<br>(<a :href="twUrl" target="_blank" title="twitter">@{{pageUser.username}}</a>)</div>
+            </div>
+          </div>
         </transition>
 
         <transition name="fadeIn">
-          <div v-show="tabMode===2"></div>
+          <div v-show="tabMode===2">
+            <h3 class="single__postTitle">回答済みのNANIKIRU</h3>
+          </div>
         </transition>
 
         <transition name="fadeIn">
           <div v-show="tabMode===3">
             <h3 class="single__postTitle">ユーザー情報</h3>
             <div class="userPage__profile">
-              <div class="userPage__profile__icon"><a :href="twitterUrl" target="_blank" title="twitter"><img :src="pageUser.photoURL" :alt="pageUser.displayName"></a></div>
-              <div class="userPage__profile__name">{{pageUser.displayName}}<br>(<a :href="twitterUrl" target="_blank" title="twitter">@{{pageUser.username}}</a>)</div>
+              <div class="userPage__profile__icon"><a :href="twUrl" target="_blank" title="twitter"><img :src="pageUser.photoURL" :alt="pageUser.displayName"></a></div>
+              <div class="userPage__profile__name">{{pageUser.displayName}}<br>(<a :href="twUrl" target="_blank" title="twitter">@{{pageUser.username}}</a>)</div>
             </div>
           </div>
         </transition>
@@ -38,7 +46,8 @@
         />
 
       </div>
-    </transition>
+
+    </div>
 
     <div class="content__footer">
       <return-home/>
@@ -59,46 +68,36 @@ export default {
     ReturnHome
   },
   props: [
-    'posts',
     'users',
-    'currentUser',
-    'answers',
-    'comments'
+    'uid',
+    'pageId',
+    'posts'
   ],
   data() {
     return {
-      pageId: '',
-      myPage: false,
-      tabMode: 3,
-      pageUser: false
+      tabMode: 3
     }
   },
   computed: {
-    twitterUrl() {
+    pageUser() {
+      return this.users[this.pageId]
+    },
+    myPage() {
+      return (this.uid === this.pageId)
+    },
+    twUrl() {
       return 'https://twitter.com/' + this.pageUser.username
     }
   },
   watch: {
-    'currentUser.login'() {
-      if(this.currentUser.login && this.users) this.isMyPage()
-    },
-    users() {
-      console.log('users')
-      if(this.users) this.setPageUser()
+    'users': {
+      immediate: true,
+      handler() {
+        if(Object.keys(this.users).length) this.$emit('existId', 'users')
+      }
     }
   },
-  mounted() {
-    this.pageId = this.$route.params['uid']
-    if(this.currentUser.login && this.users) this.isMyPage()
-    if(this.users) this.setPageUser()
-  },
   methods: {
-    isMyPage() {
-      this.myPage = (this.currentUser.uid === this.pageId)
-    },
-    setPageUser() {
-      this.pageUser = this.users[this.pageId]
-    },
     changeTab(event) {
       this.tabMode = event
       this.$SmoothScroll(document.body, 400)

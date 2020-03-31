@@ -17,9 +17,10 @@
         <transition name="fadeIn">
           <div v-show="tabMode===1">
             <result
-              :post.sync="post"
-              :postAnswers.sync="postAnswers"
-              :answer.sync="answer"
+              :uid="uid"
+              :post="post"
+              :postAnswers="postAnswers"
+              :answer="answer"
             />
           </div>
         </transition>
@@ -27,8 +28,8 @@
         <transition name="fadeIn">
           <div v-show="tabMode===2">
             <cassette
-              :post.sync="post"
-              :writer.sync="writer"
+              :post="post"
+              :writer="writer"
             />
           </div>
         </transition>
@@ -36,11 +37,13 @@
         <transition name="fadeIn">
           <div v-show="tabMode===3">
             <CommentForm
-              :postId="postId"
+              :uid="uid"
+              :pageId="pageId"
               :postScores="postScores"
               @comment="comment($event)"
             />
             <comments
+              :users="users"
               :comments="comments"
               :postComments="postComments"
               :masterUid="post.a"
@@ -63,7 +66,7 @@
         <p>解答者のみ閲覧できます</p>
       </div>
       <div class="m-tac">
-        <router-link tag="button" class="m-btn--able" :to="'/post/'+postId" title="NANIKIRUページへ">NANIKIRUへ</router-link>
+        <router-link tag="button" class="m-btn--able" :to="'/post/'+pageId" title="NANIKIRUページへ">NANIKIRUへ</router-link>
       </div>
     </div>
 
@@ -76,7 +79,6 @@
 
 <script>
 import {EventBus} from '@/components/libs/EventBus.js'
-import {Database} from '@/components/libs/Database.js'
 import Breadcrumb from '@/components/Breadcrumb.vue'
 import Result from '@/components/answer/Result.vue'
 import Cassette from '@/components/cassette/Single.vue'
@@ -95,6 +97,15 @@ export default {
     Comments,
     ReturnHome
   },
+  props: [
+    'users',
+    'uid',
+    'posts',
+    'pageId',
+    'answers',
+    'comments',
+    'scores'
+  ],
   data() {
     return {
       postComments: [],
@@ -116,40 +127,28 @@ export default {
     }
   },
   computed: {
-    uid() {
-      return Database.uid
-    },
-    postId() {
-      return this.$route.params['id']
-    },
-    posts() {
-      return Database.posts
-    },
     post() {
-      return this.posts[this.postId]
+      return this.posts[this.pageId]
     },
     writer() {
-      return Database.users[this.post.a]
+      return this.users[this.post.a]
     },
     postAnswers() {
-      return (Database.answers[this.postId]) ? Database.answers[this.postId] : false
+      return (this.answers[this.pageId]) ? this.answers[this.pageId] : false
     },
     answer() {
       return (this.postAnswers && this.postAnswers[this.uid]) ? this.postAnswers[this.uid] : false
     },
-    comments() {
-      return Database.comments
-    },
     postScores() {
-      return Database.scores[this.postId]
+      return this.scores[this.pageId]
     }
   },
   methods: {
     existPost() {
-      if(!this.posts[this.postId]) EventBus.$emit('toNotfound', this.$route.fullPath)
+      if(!this.posts[this.pageId]) EventBus.$emit('toNotfound', this.$route.fullPath)
     },
     setPostComments() {
-      this.postComments = Object.keys(this.comments).filter(id=>(this.comments[id].postId===this.postId)).sort((a, b)=> {
+      this.postComments = Object.keys(this.comments).filter(id=>(this.comments[id].postId===this.pageId)).sort((a, b)=> {
         const _a = this.comments[a].timestamp
         const _b = this.comments[b].timestamp
         if (_a === _b) return 0

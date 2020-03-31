@@ -39,17 +39,17 @@ export default {
       url: null
     }
   },
+  computed: {
+    hostname() {
+      return location.hostname
+    }
+  },
   watch: {
     '$route': {
       immediate: true,
       handler() {
         this.notfoundInit()
       }
-    }
-  },
-  computed: {
-    hostname() {
-      return location.hostname
     }
   },
   methods: {

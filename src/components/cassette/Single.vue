@@ -25,14 +25,14 @@
 </template>
 
 <script>
-import DateLabel from '@/components/libs/DateLabel.js'
+import DateLabel from '@/components/mixin/DateLabel.js'
 export default {
   name: 'SingleCassette',
   mixins: [DateLabel],
   props: ['post', 'writer'],
   computed: {
     time() {
-      const d = (this.post.c) ? this.getDateLabel(this.post.c) :false
+      const d = (this.post.c) ? this.$_getDateLabel(this.post.c) :false
       return d
     }
   }

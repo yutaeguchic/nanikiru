@@ -11,6 +11,9 @@
         :key="i"
         :post="posts[key]"
         :postId="key"
+        :users="users"
+        :uid="uid"
+        :answers="answers"
       />
     </div>
   </div>
@@ -22,7 +25,6 @@ const POST_COUNT = 20
 
 import Cassette from '@/components/cassette/Archive.vue'
 import Breadcrumb from '@/components/Breadcrumb.vue'
-import {Database} from '@/components/libs/Database.js'
 
 export default {
   name: 'Home',
@@ -30,12 +32,15 @@ export default {
     Cassette,
     Breadcrumb
   },
+  props: [
+    'users',
+    'uid',
+    'posts',
+    'answers'
+  ],
   computed: {
     postCount() {
       return POST_COUNT
-    },
-    posts() {
-      return Database.posts
     },
     getPostKeys() {
       return Object.keys(this.posts).sort((a, b)=> {
