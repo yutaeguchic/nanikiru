@@ -7,7 +7,7 @@
       <div class="single__date">回答日時： {{time}}</div>
       <div v-if="post.e" class="result__label" v-text="post.n===answer.card?'正解':'不正解'"></div>
 
-      <div class="single__section--flex">
+      <div class="m-section--flex">
         <div>
           <h3 class="single__title">あなたの解答</h3>
           <div class="single__card"><i :class="answer.card"></i></div>
@@ -17,14 +17,14 @@
           <div class="single__card"><i :class="post.n"></i></div>
         </div>
       </div>
-      <div class="single__section" v-if="post.e">
+      <div class="m-section" v-if="post.e">
         <h3 class="single__title">出題者の解説</h3>
         <div class="single__entry" v-text="post.o"></div>
       </div>
     </template>
 
     <template v-else>
-      <div class="single__section">
+      <div class="m-section">
         <div>あなたはNANIKIRUの出題者です。</div>
       </div>
     </template>

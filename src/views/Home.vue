@@ -7,7 +7,7 @@
 
     <div class="query">
       <Cassette
-        v-for="(key, i) of getPostKeys.slice(0, postCount)"
+        v-for="(key, i) of postKeys.slice(0, postCount)"
         :key="i"
         :post="posts[key]"
         :postId="key"
@@ -42,7 +42,7 @@ export default {
     postCount() {
       return POST_COUNT
     },
-    getPostKeys() {
+    postKeys() {
       return Object.keys(this.posts).sort((a, b)=> {
         const _a = this.posts[a].c
         const _b = this.posts[b].c

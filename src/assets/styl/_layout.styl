@@ -217,6 +217,11 @@ a
   background-repeat no-repeat
   background-position top 16% left 60%
   padding-top 12px
+  & a
+    border-bottom none
+    color $black
+    &:hover
+      color darken($blue03, 20)
 
 .query__item__header
   font-size 13px
@@ -299,16 +304,6 @@ a
 .single
   font-size 16px
   line-height 1.6
-
-.single__section
-  margin-bottom 35px
-
-.single__section--flex
-  align-items center
-  display flex
-  margin-bottom 35px
-  & > div
-    margin-right 20px
 
 .single__date
   font-size 14px
@@ -423,16 +418,16 @@ a
     font-weight bold
 
 /*
-  userPage
+  profile
 */
 
-.userPage__profile
+.profile
   align-items center
   display flex
   justify-content center
   margin-bottom 25px
 
-.userPage__profile__icon
+.profile__icon
   border 2px solid $blue02
   border-radius 50%
   height 120px
@@ -446,7 +441,7 @@ a
   &:hover
     border-color $blue03
 
-.userPage__profile__name
+.profile__name
   font-size 15px
 
 /*

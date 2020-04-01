@@ -1,12 +1,17 @@
 <template>
-  <div class="content-user">
+  <div v-if="pageUser" class="content-user">
     <breadcrumb
       :text="myPage?'マイページ':'ユーザーページ'"
     />
 
-    <h2 class="m-ttl--page" v-text="myPage?'マイページ':'ユーザーページ'"></h2>
-    <div class="userPage" v-if="pageUser">
+    <template v-if="myPage">
+      <h2 class="m-ttl--page">マイページ</h2>
+    </template>
+    <template v-else>
+      <h2 class="m-ttl--page">{{pageUser.username}}さんのユーザーページ</h2>
+    </template>
 
+    <div class="m-section">
       <tabs
         :mode="tabMode"
         @change="changeTab($event)"
@@ -16,27 +21,39 @@
 
         <transition name="fadeIn">
           <div v-show="tabMode===1">
-            <h3 class="single__postTitle">{{pageUser.username}}さんのNANIKIRU</h3>
-            <div class="userPage__profile">
-              <div class="userPage__profile__icon"><a :href="twUrl" target="_blank" title="twitter"><img :src="pageUser.photoURL" :alt="pageUser.displayName"></a></div>
-              <div class="userPage__profile__name">{{pageUser.displayName}}<br>(<a :href="twUrl" target="_blank" title="twitter">@{{pageUser.username}}</a>)</div>
-            </div>
+            <h3 class="single__postTitle">投稿済み（@{{pageUser.displayName}}）</h3>
+            <posted
+              :users="users"
+              :uid="uid"
+              :posts="posts"
+              :pageId="pageId"
+              :answers="answers"
+            />
           </div>
         </transition>
 
         <transition name="fadeIn">
           <div v-show="tabMode===2">
-            <h3 class="single__postTitle">回答済みのNANIKIRU</h3>
+            <h3 class="single__postTitle">回答済み（@{{pageUser.displayName}}）</h3>
+            <template v-if="myPage">
+              <answered
+                :users="users"
+                :uid="uid"
+                :posts="posts"
+                :pageId="pageId"
+                :answers="answers"
+              />
+            </template>
+            <template v-else>
+              <div class="m-section">本人のみ閲覧可です。</div>
+            </template>
           </div>
         </transition>
 
         <transition name="fadeIn">
           <div v-show="tabMode===3">
-            <h3 class="single__postTitle">ユーザー情報</h3>
-            <div class="userPage__profile">
-              <div class="userPage__profile__icon"><a :href="twUrl" target="_blank" title="twitter"><img :src="pageUser.photoURL" :alt="pageUser.displayName"></a></div>
-              <div class="userPage__profile__name">{{pageUser.displayName}}<br>(<a :href="twUrl" target="_blank" title="twitter">@{{pageUser.username}}</a>)</div>
-            </div>
+            <h3 class="single__postTitle">お気に入り</h3>
+            <div class="m-section">お気に入り機能は実装中です。</div>
           </div>
         </transition>
 
@@ -46,7 +63,14 @@
         />
 
       </div>
+    </div>
 
+    <div class="m-section">
+      <h2 class="m-ttl--page">ユーザー情報</h2>
+      <plofile
+        :user="pageUser"
+        :uid="pageId"
+      />
     </div>
 
     <div class="content__footer">
@@ -59,23 +83,30 @@
 <script>
 import Breadcrumb from '@/components/Breadcrumb.vue'
 import Tabs from '@/components/user/Tabs.vue'
+import Posted from '@/components/user/Posted.vue'
+import Answered from '@/components/user/Answered.vue'
+import Plofile from '@/components/user/Plofile.vue'
 import ReturnHome from '@/components/btns/ReturnHome.vue'
 export default {
   name: 'User',
   components: {
     Breadcrumb,
     Tabs,
+    Posted,
+    Answered,
+    Plofile,
     ReturnHome
   },
   props: [
     'users',
     'uid',
     'pageId',
-    'posts'
+    'posts',
+    'answers'
   ],
   data() {
     return {
-      tabMode: 3
+      tabMode: 1
     }
   },
   computed: {
@@ -84,9 +115,6 @@ export default {
     },
     myPage() {
       return (this.uid === this.pageId)
-    },
-    twUrl() {
-      return 'https://twitter.com/' + this.pageUser.username
     }
   },
   watch: {

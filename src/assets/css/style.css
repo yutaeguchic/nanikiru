@@ -1173,7 +1173,22 @@ strong {
   background-color: #769fcd;
 }
 .m-tabContent {
-  padding: 10px 0;
+  padding: 30px 0;
+}
+.m-section {
+  margin-bottom: 35px;
+}
+.m-section--flex {
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-bottom: 35px;
+}
+.m-section--flex > div {
+  margin-right: 20px;
 }
 html,
 body,
@@ -1456,6 +1471,13 @@ a:hover {
   background-position: top 16% left 60%;
   padding-top: 12px;
 }
+.query__item a {
+  border-bottom: none;
+  color: #4a4a4a;
+}
+.query__item a:hover {
+  color: #3b6ca2;
+}
 .query__item__header {
   font-size: 13px;
   display: -webkit-box;
@@ -1565,21 +1587,6 @@ a:hover {
   font-size: 16px;
   line-height: 1.6;
 }
-.single__section {
-  margin-bottom: 35px;
-}
-.single__section--flex {
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  margin-bottom: 35px;
-}
-.single__section--flex > div {
-  margin-right: 20px;
-}
 .single__date {
   font-size: 14px;
   margin-bottom: 5px;
@@ -1685,7 +1692,7 @@ a:hover {
   font-size: 20px;
   font-weight: bold;
 }
-.userPage__profile {
+.profile {
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
@@ -1697,7 +1704,7 @@ a:hover {
   justify-content: center;
   margin-bottom: 25px;
 }
-.userPage__profile__icon {
+.profile__icon {
   border: 2px solid #b9d7ea;
   border-radius: 50%;
   height: 120px;
@@ -1707,14 +1714,14 @@ a:hover {
   overflow: hidden;
   width: 120px;
 }
-.userPage__profile__icon img {
+.profile__icon img {
   height: 100%;
   width: 100%;
 }
-.userPage__profile__icon:hover {
+.profile__icon:hover {
   border-color: #769fcd;
 }
-.userPage__profile__name {
+.profile__name {
   font-size: 15px;
 }
 .commentForm {

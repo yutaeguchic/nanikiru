@@ -11,6 +11,7 @@
           :comment="comments[c]"
           :masterUid="masterUid"
           :commentUser="users[comments[c].uid]"
+          :commentUid="comments[c].uid"
         />
       </ul>
     </template>

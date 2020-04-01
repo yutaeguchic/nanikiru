@@ -3,7 +3,7 @@
     <div class="comment__count">{{number}}</div>
     <div class="comment__status">
       <h4>{{commentUser.displayName}}<span v-if="masterUid===comment.uid">(出題者)</span><br>(<a :href="'https://twitter.com/'+commentUser.username" target="_blank" title="twitter">@{{commentUser.username}}</a>)</h4>
-      <div class="comment__icon"><a :href="'https://twitter.com/'+commentUser.username" target="_blank" title="twitter"><img :src="commentUser.photoURL" :alt="commentUser.displayName"></a></div>
+      <div class="comment__icon"><router-link tag="a" :to="'/user/'+commentUid" title="user page"><img :src="commentUser.photoURL" :alt="commentUser.displayName"></router-link></div>
     </div>
     <div class="comment__text">{{comment.text}}</div>
     <footer>
@@ -23,7 +23,8 @@ export default {
     'comment',
     'masterUid',
     'number',
-    'commentUser'
+    'commentUser',
+    'commentUid'
   ],
   data(){
     return {

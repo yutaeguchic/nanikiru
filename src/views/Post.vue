@@ -265,7 +265,7 @@ export default {
       return s.length > max
     },
     cardValidate(val) { //trueにて弾く
-      return ((val === 'm5r' || val === 'p5r' || val === 's5r') && (this.post.f.some(e => e === val)) || this.post.f.filter(function(e){return e === val || e === val.replace('r', '')}).length >= 4) || (this.post.f.filter(function(e){return e === val || e === val+'r'}).length >= 4)
+      return ((val === 'm5r' || val === 'p5r' || val === 's5r') && (this.post.f.some(e => e === val)) || this.post.f.filter((e)=> {return e === val || e === val.replace('r', '')}).length >= 4) || (this.post.f.filter((e)=> {return e === val || e === val+'r'}).length >= 4)
     },
     isPrev() {
       return this.state != 1

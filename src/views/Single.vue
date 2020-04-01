@@ -7,11 +7,11 @@
     <h2 class="m-ttl--page">NANIKIRU <span v-text="post.e?'問題':'相談'"></span></h2>
 
     <cassette
-      :post.sync="post"
-      :writer.sync="writer"
+      :post="post"
+      :writer="writer"
     />
 
-    <div class="single__section">
+    <div class="m-section">
       <h3 class="single__title">解答</h3>
 
       <form class="m-box">
@@ -36,6 +36,14 @@
 
     </div>
 
+    <div class="m-section">
+      <h2 class="m-ttl--page">出題者情報</h2>
+      <plofile
+        :user="writer"
+        :uid="post.a"
+      />
+    </div>
+
     <div class="content__footer">
       <return-home/>
     </div>
@@ -49,12 +57,14 @@ import {EventBus} from '@/components/libs/EventBus.js'
 import modalText from '@/assets/data/modalText.json'
 import Breadcrumb from '@/components/Breadcrumb.vue'
 import Cassette from '@/components/cassette/Single.vue'
+import Plofile from '@/components/user/Plofile.vue'
 import ReturnHome from '@/components/btns/ReturnHome.vue'
 export default {
   name: 'Single',
   components: {
     Breadcrumb,
     Cassette,
+    Plofile,
     ReturnHome
   },
   props: [

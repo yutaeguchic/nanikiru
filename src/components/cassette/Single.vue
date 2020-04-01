@@ -4,7 +4,7 @@
     <div class="single__writer"><i class="icon-pen"></i>{{writer.displayName}}<br>(<a :href="'https://twitter.com/'+writer.username" target="_blank" title="twitter">@{{writer.username}}</a>)</div>
 
     <h3 class="single__postTitle" v-text="post.d?post.d:'無題'"></h3>
-    <div class="single__section">
+    <div class="m-section">
       <ul class="single__status">
         <li>{{post.g}}{{post.h}}</li>
         <li>{{post.i}}本場</li>
@@ -17,7 +17,7 @@
       <div class="m-box__cards"><i v-for="(card, i) of post.f" :key="i" :class="card"></i></div>
     </div>
 
-    <div class="single__section">
+    <div class="m-section">
       <h3 class="single__title">戦況・出題者コメント</h3>
       <div class="single__entry" v-text="post.m?post.m:'なし'"></div>
     </div>
