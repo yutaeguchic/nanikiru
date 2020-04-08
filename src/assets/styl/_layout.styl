@@ -42,11 +42,10 @@ a
   width 100%
   z-index $indexLevel1
   &:after
+    size(100%, 2px)
     background $blue02
     content ""
     display block
-    height 2px
-    width 100%
   & > h1
     font-size 28px
     font-weight bold
@@ -61,12 +60,11 @@ a
 */
 .newPostBtn
   @extends .m-iconBtn
+  size(55px)
   top 10px
   font-size 32px
-  height 55px
   right 10px
   position fixed
-  width 55px
   z-index $indexLevel1
   &:hover
     border-color #fff
@@ -75,9 +73,8 @@ a
   breadcrumb
 */
 .breadcrumb
-  align-items center
+  @extends .m-flex
   font-size 14px
-  display flex
   margin-bottom 11px
   > li:first-child
     color darken($blue03, 10)
@@ -123,14 +120,12 @@ a
   margin-bottom 30px
 
 .postSet--radioWrap
-  display flex
-  flex-wrap wrap
+  @extends .m-flex
   label
+    size(80px)
     border-radius 50%
-    height 80px
     margin-bottom 10px
     margin-right 10px
-    width 80px
 
 .postSet--radioWrap + .postSet--radioWrap
   border-top 2px dashed #fff
@@ -138,20 +133,16 @@ a
 
 .postSet--rangeWrap
   label
-    align-items center
-    display flex
+    @extends .m-flex
     i
-      align-items center
-      background-color #fff
+      @extends .m-flex--center
+      size(50px)
+      background-color $white
       border 1px solid $blue01
       color $blue03
       cursor pointer
-      display flex
-      height 50px
-      justify-content center
       margin-left 20px
       transition all 0.2s ease-out
-      width 50px
       & + i
         margin-left 5px
       &:hover
@@ -224,9 +215,8 @@ a
       color darken($blue03, 20)
 
 .query__item__header
+  @extends .m-flex--center
   font-size 13px
-  display flex
-  justify-content space-between
   margin-bottom 7px
 
 .qmery__item__header__detial
@@ -252,15 +242,12 @@ a
   padding 0
   width 30%
   > i
-    height auto
+    size(24%, auto)
     margin-left 5px
     margin-right 0
-    width 24%
 
 .query__item__footer
-  align-items center
-  display flex
-  justify-content space-between
+  @extends .m-flex--between
   margin-top 6px
   padding-top 5px
 
@@ -279,22 +266,19 @@ a
       top 1px
 
 .query__item__btn
+  @extends .m-flex--center
+  size(45%, 64px)
   appearance none
-  align-items center
   background-color transparent
   border 2px solid $blue03
   border-radius 10px
   box-sizing border-box
   cursor pointer
-  display flex
   font-size 18px
-  justify-content center
-  height 64px
   line-height 1
   letter-spacing .04em
   padding-right .08em
   transition all 0.2s ease-out
-  width 45%
   &:hover
     background-color $blue02
 
@@ -346,8 +330,7 @@ a
   margin-bottom 8px
   > i
     @extends .m-card
-    height auto
-    width 42px
+    size(42px, auto)
 
 .single__title
   font-size 18px
@@ -410,9 +393,8 @@ a
   margin-bottom 8px
   > i
     @extends .m-card
-    height auto
+    size(42px, auto)
     margin-right 5px
-    width 42px
   > span
     font-size 20px
     font-weight bold
@@ -422,22 +404,18 @@ a
 */
 
 .profile
-  align-items center
-  display flex
-  justify-content center
+  @extends .m-flex--center
   margin-bottom 25px
 
 .profile__icon
+  size(120px)
   border 2px solid $blue02
   border-radius 50%
-  height 120px
   margin-right 20px
   transition all 0.2s
   overflow hidden
-  width 120px
   img
-    height 100%
-    width 100%
+    size(100%)
   &:hover
     border-color $blue03
 
@@ -453,10 +431,9 @@ a
 
 .commentForm__switch
   @extends .m-iconBtn
+  size(60px)
   font-size 26px
-  height 60px
   margin 10px 0
-  width 60px
   &:hover
     border-color #fff
   &.active
@@ -475,19 +452,14 @@ a
   margin-bottom 20px
 
 .commentForm__score__select
-  align-items center
-  display flex
-  flex-wrap wrap
+  @extends .m-flex--center
   font-weight bold
-  justify-content center
   > li
-    align-items center
+    @extends .m-flex--center
     background-color $white
     border 1px solid $blue01
     border-radius 50%
     cursor pointer
-    display flex
-    justify-content center
     text-align center
     transition all 0.2s ease-out
     width 16%
@@ -499,21 +471,19 @@ a
       background-color $blue02
 
 .commentForm__button
-  align-items center
+  @extends .m-flex
+  size(230px, 50px)
   appearance none
   background-color lighten($blue01, 8)
   border 2px solid $blue03
   border-radius 6px
   cursor pointer
-  display flex
   font-size 16px
-  height 50px
   letter-spacing 0.04em
   outline none
   padding 1px 0 0 50px
   position relative
   transition all 0.2s ease-out
-  width 230px
   &:hover
     background-color $blue02
   i
@@ -569,39 +539,33 @@ a
     position relative
     top 1px
   footer
-    display flex
-    justify-content space-between
+    @extends .m-flex--between
 
 .comment__count
+  size(2.5em)
   background-color $white
   border 2px solid $blue02
   border-radius 50%
   font-size 13px
   font-weight bold
-  height 2.5em
   left -44px
   line-height 2.5em
   position absolute
   text-align center
   top 2px
-  width 2.5em
 
 .comment__status
-  align-items center
-  display flex
-  justify-content space-between
+  @extends .m-flex--between
   margin 5px 0
 
 .comment__icon
+  size(60px)
   border 2px solid $blue02
   border-radius 50%
-  height 60px
   transition all 0.2s
   overflow hidden
-  width 60px
   img
-    height 100%
-    width 100%
+    size(100%)
   &:hover
     border-color $blue03
 
@@ -625,12 +589,13 @@ a
 .account__btn,
 .account__display
   @extends .m-iconBtn
+  size(100px)
   box-shadow -1px 1px 5px darken($blue01, 20)
   font-size 40px
-  height 100px
-  width 100px
   &:hover
     border-color darken($blue02, 50)
+  +sp()
+    size(80px)
 
 .account__display
   overflow hidden
@@ -639,6 +604,34 @@ a
     max-width 100%
     &:hover
       opacity 0.9
+
+/*
+  pagination
+*/
+.pagination
+  font-size 16px
+  margin 20px 0
+  text-align center
+
+.pagination__btns
+  @extends .m-flex--center
+  & > li
+    size(20%, 42px)
+    margin 1%
+    & > i
+      @extends .m-flex--center
+      size(100%)
+      background-color lighten($blue01, 4)
+      border-radius 6px
+      color darken($blue03, 5)
+      cursor pointer
+      font-size 20px
+      &:hover
+        background-color $blue02
+      &.disable
+        background-color $glay
+        color $white
+        cursor default
 
 /*
   footer
@@ -675,39 +668,33 @@ a
 
 .footer__menuBtn
   @extends .m-iconBtn
+  size(55px)
   bottom 10px
   font-size 40px
-  height 55px
   right 10px
   position fixed
   transition all 0.2s ease
-  width 55px
   z-index $indexLevel2
   &:hover
     border-color #fff
   > i
-    align-items center
-    display flex
-    height 100%
-    justify-content center
-    width 100%
+    @extends .m-flex--center
+    size(100%)
   &.active
+    size(104px)
     font-size 60px
-    height 104px
-    width 104px
 
 .footer__inquiry
+  size(80px)
   border 2px solid #769fcd
   border-radius 50%
   box-shadow -1px 1px 5px darken($blue01, 20)
   font-size 40px
-  height 80px
   left 10px
   overflow hidden
   position fixed
   top 10px
   transition all 0.2s ease-out
-  width 80px
   z-index $indexLevel4
   a
     display block

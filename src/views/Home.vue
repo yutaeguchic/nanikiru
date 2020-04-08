@@ -5,31 +5,52 @@
 
     <h2 class="m-ttl--page">NANIKIRU 新着</h2>
 
-    <div class="query">
-      <Cassette
-        v-for="(key, i) of postKeys.slice(0, postCount)"
-        :key="i"
-        :post="posts[key]"
-        :postId="key"
-        :users="users"
-        :uid="uid"
-        :answers="answers"
+    <div class="pagination">
+      <div class="pagination__label">{{$_currentPage}}/{{$_maxPage}} page</div>
+      <pagination
+        :currentPage="$_currentPage"
+        :maxPage="$_maxPage"
       />
     </div>
+
+    <div class="query">
+      <transition-group name="fadeInArchve">
+        <template v-for="i of $_postsPerPage">
+          <template v-if="$_postKeys[$_start + (i-1)]">
+            <Cassette
+              :key="$_postKeys[$_start + (i-1)]"
+              :post="posts[$_postKeys[$_start + (i-1)]]"
+              :postId="$_postKeys[$_start + (i-1)]"
+              :users="users"
+              :uid="uid"
+              :answers="answers"
+            />
+          </template>
+        </template>
+      </transition-group>
+    </div>
+
+    <div class="pagination">
+      <pagination
+        :currentPage="$_currentPage"
+        :maxPage="$_maxPage"
+      />
+    </div>
+
   </div>
 </template>
 
 <script>
-
-const POST_COUNT = 20
-
+import Query from '@/components/mixin/HomeQuery.js'
 import Cassette from '@/components/cassette/Archive.vue'
+import Pagination from '@/components/Pagination.vue'
 import Breadcrumb from '@/components/Breadcrumb.vue'
 
 export default {
   name: 'Home',
   components: {
     Cassette,
+    Pagination,
     Breadcrumb
   },
   props: [
@@ -38,18 +59,6 @@ export default {
     'posts',
     'answers'
   ],
-  computed: {
-    postCount() {
-      return POST_COUNT
-    },
-    postKeys() {
-      return Object.keys(this.posts).sort((a, b)=> {
-        const _a = this.posts[a].c
-        const _b = this.posts[b].c
-        if (_a === _b) return 0
-        return (_a > _b) ? -1 : 1
-      })
-    }
-  }
+  mixins: [Query]
 }
 </script>

@@ -51,6 +51,13 @@
 .fadeInMenu-leave-active {
   animation: fadeIn 0.2s reverse;
 }
+.fadeInArchve-enter-active {
+  -webkit-animation: fadeIn 1s;
+  animation: fadeIn 1s;
+}
+.fadeInArchve-leave-active {
+  display: none;
+}
 /*
   keyforames
 */

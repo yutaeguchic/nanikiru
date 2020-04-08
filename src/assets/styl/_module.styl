@@ -1,4 +1,15 @@
 /*
+  media-query display
+*/
+.m-pc
+  +sp()
+    display none !important
+
+.m-sp
+  +pc()
+    display none !important
+
+/*
   text
 */
 strong
@@ -7,6 +18,22 @@ strong
 
 .m-tac
   text-align center
+
+/*
+  flex
+*/
+.m-flex
+  align-items center
+  display flex
+  flex-wrap wrap
+
+.m-flex--between
+  @extends .m-flex
+  justify-content space-between
+
+.m-flex--center
+  @extends .m-flex
+  justify-content center
 
 /*
   icomoon
@@ -134,7 +161,6 @@ strong
   & + label
     font-size 20px
     font-weight bold
-    display block
 
 /*
   form select
