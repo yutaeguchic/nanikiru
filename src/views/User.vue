@@ -4,6 +4,14 @@
       :text="myPage?'マイページ':'ユーザーページ'"
     />
 
+    <div class="m-section">
+      <h2 class="m-ttl--page">ユーザー情報</h2>
+      <plofile
+        :user="pageUser"
+        :uid="pageId"
+      />
+    </div>
+
     <template v-if="myPage">
       <h2 class="m-ttl--page">マイページ</h2>
     </template>
@@ -63,14 +71,6 @@
         />
 
       </div>
-    </div>
-
-    <div class="m-section">
-      <h2 class="m-ttl--page">ユーザー情報</h2>
-      <plofile
-        :user="pageUser"
-        :uid="pageId"
-      />
     </div>
 
     <div class="content__footer">

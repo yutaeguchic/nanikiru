@@ -38,19 +38,9 @@ export default {
       return POST_COUNT
     },
     postKeys() {
-      const posted = Object.keys(this.posts).filter(id => this.posts[id].a === this.pageId)
-      if(posted.length) {
-          return posted.sort((a, b)=> {
-            const _a = this.posts[a].c
-            const _b = this.posts[b].c
-            if (_a === _b) return 0
-            return (_a > _b) ? -1 : 1
-          })
-        }else {
-          return false
-        }
-      }
-
+      if(!this.posts) return false
+      return this.$_(this.posts).keys().filter((key)=> this.posts[key].a === this.pageId).orderBy([(key)=> this.posts[key].c], ['desc']).value()
+    }
   }
 }
 </script>

@@ -81,8 +81,6 @@ export default {
       await this.getLabel()
       if(this.score.val) await this.PostScore()
       await this.postComment()
-      await this.reset()
-      await this.showModal('submit')
     },
     getLabel() {
       this.score.before = this.postScores && this.postScores[this.uid] ? this.postScores[this.uid] : null
@@ -118,6 +116,8 @@ export default {
       }
       firebase.firestore().collection('comments').add(data).then(()=> {
         EventBus.$emit('setDb', 'comments')
+        this.reset()
+        this.showModal('submit')
       })
     },
     reset() {

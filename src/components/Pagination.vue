@@ -18,9 +18,7 @@ export default {
   ],
   methods: {
     goto($event, i) {
-      console.log($event.target)
       if($event.target.classList.contains('disable')) {
-        console.log('false')
         return false
       }
       this.$SmoothScroll(document.body, 400)

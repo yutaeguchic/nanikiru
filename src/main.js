@@ -12,7 +12,7 @@ import './assets/css/transition.css'
 Vue.config.productionTip = false
 Vue.use(smoothScroll)
 Vue.use(firestorePlugin)
-Vue.use(_)
+Object.defineProperty(Vue.prototype, '$_', { value: _ })
 
 const firebaseConfig = {
   apiKey: process.env.VUE_APP_FB_API_KEY,

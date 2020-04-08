@@ -5,7 +5,7 @@
 
     <h2 class="m-ttl--page">NANIKIRU 新着</h2>
 
-    <div class="pagination">
+    <div v-if="$_maxPage" class="pagination">
       <div class="pagination__label">{{$_currentPage}}/{{$_maxPage}} page</div>
       <pagination
         :currentPage="$_currentPage"

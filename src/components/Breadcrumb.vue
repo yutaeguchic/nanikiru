@@ -11,9 +11,7 @@ export default {
   props: ['text'],
   methods: {
     goHome() {
-      if(this.$route.path != '/') {
-        this.$router.push('/')
-      }
+      this.$router.push('/').catch(()=> {})
     }
   }
 }

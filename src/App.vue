@@ -35,9 +35,7 @@
       @logout="$_logout()"
     />
 
-    <modal
-      @login="$_login()"
-    />
+    <modal/>
 
     <transition name="fadeInDown">
       <div v-show="loader.show" class="m-overlay">
@@ -87,6 +85,7 @@ export default {
     }
   },
   mounted() {
+    EventBus.$on('login', ()=> this.$_login())
     EventBus.$on('loading', (boolean)=> this.loading(boolean))
     EventBus.$on('toNotfound', (url)=> this.toNotfound(url))
     EventBus.$on('resetNotfound', (url)=> this.resetNotfound(url))

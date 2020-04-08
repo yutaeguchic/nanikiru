@@ -85,7 +85,7 @@ export default {
   },
   computed: {
     time() {
-      return (this.postAnswers[this.uid].timestamp.seconds) ? this.$_getDateLabel(this.postAnswers[this.uid].timestamp) : '反映中'
+      return (this.postAnswers[this.uid].timestamp) ? this.$_getDateLabel(this.postAnswers[this.uid].timestamp) : new Date().toLocaleString()
     },
     total() {
       return Object.keys(this.postAnswers).length
@@ -94,8 +94,8 @@ export default {
   methods: {
     getAnswerCards() {
       const data = []
-      const cards = Object.keys(this.postAnswers).map(id => this.postAnswers[id].card)
-      const uniqueCards = Array.from(new Set(cards))
+      const cards = this.$_(this.postAnswers).values().map('card').value()
+      const uniqueCards = this.$_.uniq(cards)
       for(let i=0; i < uniqueCards.length; i++) {
         const count = cards.filter(e => e===uniqueCards[i]).length
         const probability = ((count/this.total)*100).toFixed(6)

@@ -38,17 +38,11 @@ export default {
       return POST_COUNT
     },
     postKeys() {
-      const answered = Object.keys(this.answers).filter((id)=>{
-        return this.answers[id][this.pageId]
-      })
+      if(this.$_.size(this.answers) < 1) return false
+      const answered = this.$_(this.answers).mapValues((a)=> a[this.pageId]).pickBy(this.$_.identity).keys().value()
       if(answered.length) {
-        return answered.sort((a, b)=> {
-          const _a = this.posts[a].c
-          const _b = this.posts[b].c
-          if (_a === _b) return 0
-          return (_a > _b) ? -1 : 1
-        })
-      }else  {
+        return this.$_.orderBy(answered, [(a)=> this.$_.values(a).timestamp, ['desc']])
+      }else {
         return false
       }
     }

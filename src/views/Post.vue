@@ -212,7 +212,7 @@ export default {
         c: false,
         d: '',
         e: true,
-        f: new Array(14).fill(null),
+        f: this.$_.fill(Array(14), null),
         g: '',
         h: '',
         i: '',

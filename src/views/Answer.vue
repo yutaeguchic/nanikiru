@@ -148,12 +148,7 @@ export default {
       if(!this.posts[this.pageId]) EventBus.$emit('toNotfound', this.$route.fullPath)
     },
     setPostComments() {
-      this.postComments = Object.keys(this.comments).filter(id=>(this.comments[id].postId===this.pageId)).sort((a, b)=> {
-        const _a = this.comments[a].timestamp
-        const _b = this.comments[b].timestamp
-        if (_a === _b) return 0
-        return (_a > _b) ? -1 : 1
-      })
+      this.postComments = this.$_(this.comments).keys().filter((key)=> this.comments[key].postId === this.pageId).orderBy([(key)=> this.comments[key].timestamp], ['desc']).value()
     },
     changeTab(event) {
       this.tabMode = event

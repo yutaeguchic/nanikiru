@@ -57,7 +57,7 @@ export default {
       this.funcName = null
     },
     submit(funcName) {
-      this.$emit(funcName)
+      EventBus.$emit(funcName)
     }
   }
 }
