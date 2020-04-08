@@ -4,6 +4,7 @@ import router from './router'
 import {firestorePlugin} from 'vuefire'
 import smoothScroll from 'vue-smoothscroll'
 import firebase from 'firebase'
+import _ from 'lodash'
 
 import './assets/css/style.css'
 import './assets/css/transition.css'
@@ -11,6 +12,7 @@ import './assets/css/transition.css'
 Vue.config.productionTip = false
 Vue.use(smoothScroll)
 Vue.use(firestorePlugin)
+Vue.use(_)
 
 const firebaseConfig = {
   apiKey: process.env.VUE_APP_FB_API_KEY,

@@ -65,7 +65,7 @@
         <h3 class="m-ttl--section">戦況・コメント等を入力してください(空白可)</h3>
         <div class="m-box">
           <div class="m-box__note">※上限1000文字</div>
-          <textarea class="postSet--textarea" :maxlength="maxlength.condition" v-model="post.m"></textarea>
+          <textarea class="postSet--textarea" :maxlength="maxlength.condition" v-model.trim="post.m"></textarea>
         </div>
       </div><!-- /.state2 -->
 
@@ -88,7 +88,7 @@
             <div class="m-box">
               <div class=m-box__note><strong>※「正解あり」の場合、記入は必須となります</strong></div>
               <div class=m-box__note>※上限1000文字</div>
-              <textarea class="postSet--textarea" :maxlength="maxlength.commentary" v-model="post.o"></textarea>
+              <textarea class="postSet--textarea" :maxlength="maxlength.commentary" v-model.trim="post.o"></textarea>
             </div>
           </div>
         </transition>
@@ -97,7 +97,7 @@
         <div class="m-box">
           <div class="m-box__note">※無記入の場合は『無題』となります</div>
           <div class="m-box__note">※最大{{maxlength.title}}文字です</div>
-          <input class="postSet--text" type="text" maxlength="32" v-model="post.d">
+          <input class="postSet--text" type="text" maxlength="32" v-model.trim="post.d">
         </div>
       </div>
 
@@ -105,7 +105,7 @@
         <h3 class="m-ttl--section">以下の内容で<strong>NANIKIRU</strong>を投稿してよろしいですか？</h3>
         <div class="postConfirm">
           <h4 class="m-box__strong">タイトル</h4>
-          <div v-text="post.d.trim()?post.d:'無題'"></div>
+          <div v-text="post.d?post.d:'無題'"></div>
           <h4 class="m-box__strong">投稿者</h4>
           <div>{{user.displayName}}(@{{user.username}})</div>
           <h4 class="m-box__strong">手牌</h4>
@@ -120,7 +120,7 @@
             <div class="m-box__cards"><i v-for="i of 14" :key="i" :class="[{active: post.n===post.f[i-1]}, post.f[i-1]]"></i></div>
           </div>
           <h4 class="m-box__strong">戦況・コメント</h4>
-          <div v-text="post.m.trim()?post.m:'なし'"></div>
+          <div v-text="post.m?post.m:'なし'"></div>
           <template v-if="post.e">
             <h4 class="m-box__strong">解説</h4>
             <div>{{post.o}}</div>
@@ -129,9 +129,9 @@
       </div>
 
       <div>
-        <button type="button" :class="isPrev()?'m-btn--able':'m-btn--disabled'" :disabled="!isPrev()" @click="move(-1)">Prev</button>
-        <button v-if="this.state!=4" type="button" :class="isNext()?'m-btn--able':'m-btn--disabled'" :disabled="!isNext()" @click="move(1)">Next</button>
-        <button v-else type="button" :class="isNext()?'m-btn--able':'m-btn--disabled'" :disabled="!isNext()" @click="submit()">Post</button>
+        <button type="button" :class="isPrev?'m-btn--able':'m-btn--disabled'" :disabled="!isPrev" @click="move(-1)">Prev</button>
+        <button v-if="this.state!=4" type="button" :class="isNext?'m-btn--able':'m-btn--disabled'" :disabled="!isNext" @click="move(1)">Next</button>
+        <button v-else type="button" :class="isNext?'m-btn--able':'m-btn--disabled'" :disabled="!isNext" @click="submit()">Post</button>
       </div>
 
     </form>
@@ -173,6 +173,7 @@ import firebase from 'firebase'
 import {EventBus} from '@/components/libs/EventBus.js'
 import Breadcrumb from '@/components/Breadcrumb.vue'
 import Card from '@/components/card/Hand.vue'
+import Validate from '@/components/post/Validate.js'
 import Mahjong from '@/assets/data/Mahjong.json'
 import FullWidthNumbers from '@/assets/data/FullWidthNumbers.json'
 
@@ -185,6 +186,9 @@ export default {
   props: [
     'user',
     'uid'
+  ],
+  mixins: [
+    Validate
   ],
   data() {
     return {
@@ -202,7 +206,6 @@ export default {
         condition: 1000,
         commentary: 1000
       },
-      cardFull: false,
       post: {
         a: '',
         b: false,
@@ -219,6 +222,25 @@ export default {
         m: '',
         n: '',
         o: ''
+      }
+    }
+  },
+  computed: {
+    cardFull() {
+      return this.post.f[13] != null
+    },
+    isPrev() {
+      return this.state != 1
+    },
+    isNext() {
+      if(this.state === 1) {
+        return this.$_isExistData(['g', 'h', 'i', 'j','k'])
+      }else if(this.state === 2) {
+        return this.$_isExistData(['l']) && this.cardFull
+      }else if(this.state === 3) {
+        return this.$_isExistData(['e', 'n', 'o']) || (!this.post.e)
+      }else {
+        return (this.state === 4)
       }
     }
   },
@@ -241,9 +263,8 @@ export default {
     },
     addCard(event) {
       const val = event.target.attributes['data-value'].value
-      if(!this.cardValidate(val) && !this.cardFull) {
-        this.$set(this.post.f, this.post.f.indexOf(null), val)
-        this.cardFull = (!this.post.f.some(e => e === null))
+      if(!this.$_isExceedCard(val) && !this.cardFull) {
+        this.post.f[this.post.f.indexOf(null)] = val
         this.sortCard()
       }
     },
@@ -251,7 +272,6 @@ export default {
       let index = $event.target.dataset.index
       this.post.f[index] = null
       this.sortCard()
-      this.cardFull = false
     },
     setAnswerCard(event) {
       this.post.n = event.target.attributes['data-value'].value
@@ -261,32 +281,12 @@ export default {
         return this.cardItems.indexOf(x) - this.cardItems.indexOf(y)
       })
     },
-    textValidate(s, max) { //trueにて弾く
-      return s.length > max
-    },
-    cardValidate(val) { //trueにて弾く
-      return ((val === 'm5r' || val === 'p5r' || val === 's5r') && (this.post.f.some(e => e === val)) || this.post.f.filter((e)=> {return e === val || e === val.replace('r', '')}).length >= 4) || (this.post.f.filter((e)=> {return e === val || e === val+'r'}).length >= 4)
-    },
-    isPrev() {
-      return this.state != 1
-    },
-    isNext() {
-      if(this.state === 1 || this.state === 4) {
-        return this.post.g && this.post.h && this.post.i && this.post.j && this.post.k
-      }else if(this.state === 2 || this.state === 4) {
-        return this.post.l && this.cardFull
-      }else if(this.state === 3 || this.state === 4) {
-        return (this.post.e && this.post.n && this.post.o.trim()) || (!this.post.e)
-      }else {
-        return (this.state === 4)
-      }
-    },
     move(count) {
-      if(this.post.l && this.cardValidate(this.post.l)) {
+      if(this.post.l && this.$_isExceedCard(this.post.l)) {
         this.showModal('errorDora')
-      }else if(this.post.m && this.textValidate(this.post.m, this.maxlength.condition)) {
+      }else if(this.post.m && this.$_isExceedText(this.post.m, this.maxlength.condition)) {
         this.showModal('errorCountCondition')
-      }else if(this.post.n && this.textValidate(this.post.o, this.maxlength.commentary)) {
+      }else if(this.post.n && this.$_isExceedText(this.post.o, this.maxlength.commentary)) {
         this.showModal('errorCountCommentary')
       }else {
         this.state = this.state + count
@@ -299,9 +299,7 @@ export default {
       const time = firebase.firestore.FieldValue.serverTimestamp()
       this.post.a = this.uid
       this.post.c = time
-      this.post.d = this.post.d.trim()
-      this.post.m = this.post.m.trim()
-      this.post.o = this.post.e?this.post.o.trim():''
+      this.post.o = this.post.e?this.post.o:''
       const self = this
       firebase.firestore().collection('posts').add(self.post).then(() => {
         this.$emit('setDb', 'posts')
