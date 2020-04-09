@@ -18,9 +18,10 @@
       <div class="query__item__dora">ドラ表示牌 <i class="m-card" :class="post.l"></i></div>
     </header>
 
-    <card
+    <small-card
       :className = "'m-box__cards'"
       :items = "post.f"
+      :select="false"
     />
 
     <footer class="query__item__footer">
@@ -34,12 +35,12 @@
 </template>
 
 <script>
-import Card from '@/components/card/Hand.vue'
+import SmallCard from '@/components/card/Small.vue'
 
 export default {
   name: 'Post',
   components: {
-    Card
+    SmallCard
   },
   props: [
     'users',

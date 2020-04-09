@@ -17,12 +17,14 @@
       <form class="m-box">
         <div class="m-box__title">解答を選択してください</div>
         <div class="m-box__note">※正解の牌が複数枚含まれている際、すべて正解となります、ただし赤ドラは別種として扱われます<br>(例えば正解を<i class="m-card m5"></i>とした際<i class="m-card m5r"></i>は不正解となります)</div>
-        <div v-if="answered" class="m-box__cards">
-          <i v-for="(card, i) of post.f" :key="i" class="large" :class="[card, {active: answerCard === card}]"></i>
-        </div>
-        <div v-else class="m-box__cards">
-          <i v-for="(card, i) of post.f" :key="i" class="large select" :class="[card, {active: answerCard === card}]" :data-val="card" @click="selectAnswer($event)"></i>
-        </div>
+
+        <LargeCard
+          :cards="post.f"
+          :select="!answered"
+          :answerCard="answerCard"
+          @event="selectAnswer($event)"
+        />
+
         <div v-if="answered" class="single__submit">
           <router-link tag="button" class="m-btn--able" :to="'/answer/'+pageId" title="解答ページへ">解答を見る</router-link>
           <div class="single__submit__note">※回答済みです</div>
@@ -57,6 +59,7 @@ import {EventBus} from '@/components/libs/EventBus.js'
 import modalText from '@/assets/data/modalText.json'
 import Breadcrumb from '@/components/Breadcrumb.vue'
 import Cassette from '@/components/cassette/Single.vue'
+import LargeCard from '@/components/card/Large.vue'
 import Plofile from '@/components/user/Plofile.vue'
 import ReturnHome from '@/components/btns/ReturnHome.vue'
 export default {
@@ -64,6 +67,7 @@ export default {
   components: {
     Breadcrumb,
     Cassette,
+    LargeCard,
     Plofile,
     ReturnHome
   },

@@ -1,6 +1,6 @@
 <template>
   <div class="query">
-    <template v-if="postKeys">
+    <template v-if="postKeys.length">
       <Cassette
         v-for="(key, i) of postKeys.slice(0, postCount)"
         :key="i"

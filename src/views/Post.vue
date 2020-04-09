@@ -47,9 +47,14 @@
           <div class="m-box__note">※ドラが<i class="m-card m1"></i>の場合は<i class="m-card m9"></i>を、ドラが<i class="m-card dw"></i>の場合は<i class="m-card dr"></i>を選択</div>
           <div class="m-box__note">※手牌と合わせ同種の牌は最大４枚、赤ドラは最大１枚です<br>(ページ遷移時に判定されます)</div>
           <div class="postSet--cardWrap">
-            <div class="m-box__cards">
-              <i v-for="i of 37" :key="i" class="large select" :class="[cardItems[i-1], {active: post.l === cardItems[i-1]}]" :data-value="cardItems[i-1]" @click="setDora($event)"></i>
-            </div>
+
+            <large-card
+              :cards="$_.dropRight(cardItems)"
+              :select="true"
+              :answerCard="false"
+              @event="setDora($event)"
+            />
+
           </div>
         </div>
 
@@ -57,9 +62,14 @@
         <div class="m-box">
           <div class=m-box__note>※同種の牌はドラ表示牌を含めて最大４枚、赤ドラは最大１枚です</div>
           <div class=m-box__note><strong>※下記の牌クリックで追加、画面下部の手牌クリックで削除</strong></div>
-          <div class="m-box__cards">
-            <i v-for="i of 37" :key="i" class="large select" :class="cardItems[i-1]" :data-value="cardItems[i-1]" @click="addCard($event)"></i>
-          </div>
+
+          <large-card
+            :cards="$_.dropRight(cardItems)"
+            :select="true"
+            :answerCard="false"
+            @event="addCard($event)"
+          />
+
         </div>
 
         <h3 class="m-ttl--section">戦況・コメント等を入力してください(空白可)</h3>
@@ -75,11 +85,17 @@
           <div class="m-box__note">※「正解なし」を選択した場合NANIKIRUは「相談」モードとなります</div>
           <div class="m-box__note">※正解に選択された牌と同種の牌が手牌に入っている際、すべて正解として扱われます、ただし赤ドラは別種として扱われます<br>(例えば正解を<i class="m-card m5"></i>とした際<i class="m-card m5r"></i>は不正解となります)</div>
           <input id="g" class="postSet--switch" type="checkbox" value="null" v-model="post.e"><label for="g" data-on="正解あり" data-off="正解なし" checked></label>
+
           <transition name="fadeInDown">
-            <div v-show="post.e" class="m-box__cards">
-              <i v-for="i of 14" :key="i" v-show="post.f[i-1]" class="large select" :class="[post.f[i-1], {active: post.n === post.f[i-1]}]" :data-value="post.f[i-1]" @click="setAnswerCard($event)"></i>
-            </div>
+            <large-card
+              v-show="post.e"
+              :cards="post.f"
+              :select="true"
+              :answerCard="false"
+              @event="setAnswerCard($event)"
+            />
           </transition>
+
         </div>
 
         <transition name="fadeInDown">
@@ -147,21 +163,13 @@
           <li class="m-box__card" v-show="post.n && post.e">正答 <i :class="post.n"></i></li>
         </ul>
 
-        <template v-if="state===2">
-          <card
-            :className = "'m-box__cards--removable'"
-            :items = "post.f"
-            :dataIndex = "true"
-            :clickEvent = "true"
-            @event = "removeCard($event)"
+          <small-card
+            :className="state===2?'m-box__cards--removable':'m-box__cards'"
+            :items="post.f"
+            :dataIndex="true"
+            :select="state===2"
+            @event="removeCard($event)"
           />
-        </template>
-        <template v-else>
-          <card
-            :className = "'m-box__cards'"
-            :items = "post.f"
-          />
-        </template>
 
       </div>
     </div>
@@ -172,7 +180,8 @@
 import firebase from 'firebase'
 import {EventBus} from '@/components/libs/EventBus.js'
 import Breadcrumb from '@/components/Breadcrumb.vue'
-import Card from '@/components/card/Hand.vue'
+import SmallCard from '@/components/card/Small.vue'
+import LargeCard from '@/components/card/Large.vue'
 import Validate from '@/components/post/Validate.js'
 import Mahjong from '@/assets/data/Mahjong.json'
 import FullWidthNumbers from '@/assets/data/FullWidthNumbers.json'
@@ -181,7 +190,8 @@ export default {
   name: 'post',
   components: {
     Breadcrumb,
-    Card
+    SmallCard,
+    LargeCard
   },
   props: [
     'user',
@@ -259,10 +269,10 @@ export default {
       this.post.k = this.numLabel[this.numTour.val]
     },
     setDora(event) {
-      this.post.l = event.target.attributes['data-value'].value
+      this.post.l = event.target.dataset.val
     },
     addCard(event) {
-      const val = event.target.attributes['data-value'].value
+      const val = event.target.dataset.val
       if(!this.$_isExceedCard(val) && !this.cardFull) {
         this.post.f[this.post.f.indexOf(null)] = val
         this.sortCard()
@@ -274,7 +284,7 @@ export default {
       this.sortCard()
     },
     setAnswerCard(event) {
-      this.post.n = event.target.attributes['data-value'].value
+      this.post.n = event.target.dataset.val
     },
     sortCard() {
       this.post.f.sort((x, y) => {
