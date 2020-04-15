@@ -62,8 +62,14 @@ import Cassette from '@/components/cassette/Single.vue'
 import LargeCard from '@/components/card/Large.vue'
 import Plofile from '@/components/user/Plofile.vue'
 import ReturnHome from '@/components/btns/ReturnHome.vue'
+
+//import OgpImg from '@/components/libs/OgpImg.js'
+
 export default {
   name: 'Single',
+  mixins: [
+    //OgpImg
+  ],
   components: {
     Breadcrumb,
     Cassette,

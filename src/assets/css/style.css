@@ -501,7 +501,7 @@ strong {
 .query__item__status .m-box__card > i,
 .single__card > i,
 .result__probability__card > i {
-  background-image: url("../img/cards.png");
+  background-image: url("/img/cards.png");
   background-size: 1000% 400%;
   display: inline-block;
   font-size: 0;
@@ -1496,7 +1496,7 @@ a:hover {
   background-color: #575757;
 }
 .query__item {
-  background: #e5eff7 url("../img/dragon.png");
+  background: #e5eff7 url("/img/dragon.png");
   background-repeat: no-repeat;
   background-position: top 16% left 60%;
   padding-top: 12px;
